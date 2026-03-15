@@ -1,0 +1,15 @@
+/* ============================================
+   Main Stylesheet — imports all partials
+   ============================================ */
+
+/* Cal Sans — display heading font */
+@import url('https://cdn.jsdelivr.net/npm/cal-sans@1.0.1/index.css');
+
+/* Satoshi — body & UI font */
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400,300&display=swap');
+
+@import './variables.css';
+@import './reset.css';
+@import './typography.css';
+@import './layout.css';
+@import './home.css';
