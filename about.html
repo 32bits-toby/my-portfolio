@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="About Toby – product designer, builder, and curious problem solver." />
+    <title>About – Toby</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  </head>
+  <body class="page--about">
+    <header class="header">
+      <nav class="nav" id="nav">
+        <div class="nav__left-pill">
+          <div class="nav__brand">
+            <div class="nav__avatar">
+              <div class="grey-block grey-block--nav-avatar"></div>
+            </div>
+            <a href="./index.html" class="nav__logo">toby.</a>
+          </div>
+          <ul class="nav__links">
+            <li><a href="./gallery.html">Gallery</a></li>
+            <li><a href="./ai.html">AI Experiments</a></li>
+            <li><a href="./about.html" aria-current="page">About</a></li>
+          </ul>
+          <a href="#contact" class="nav__cta">Resume</a>
+        </div>
+        <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
+          <span class="nav__hamburger-bar"></span>
+          <span class="nav__hamburger-bar"></span>
+          <span class="nav__hamburger-bar"></span>
+        </button>
+      </nav>
+      <div class="nav__drawer" id="nav-drawer" aria-hidden="true">
+        <div class="nav__drawer-content">
+          <div class="nav__drawer-header">
+            <p class="nav__drawer-kicker">Navigation</p>
+            <p class="nav__drawer-caption">Choose a page and keep exploring.</p>
+          </div>
+          <ul class="nav__drawer-links">
+            <li class="nav__drawer-item">
+              <a href="./gallery.html" class="nav__drawer-link">
+                <span class="nav__drawer-link-inner">
+                  <svg class="nav__drawer-icon"><use href="./icons.svg#nav-gallery" /></svg>
+                  <span class="nav__drawer-link-copy">
+                    <span class="nav__drawer-link-title">Gallery</span>
+                    <span class="nav__drawer-link-subtitle">Interface studies and visual explorations</span>
+                  </span>
+                </span>
+              </a>
+            </li>
+            <li class="nav__drawer-item">
+              <a href="./ai.html" class="nav__drawer-link">
+                <span class="nav__drawer-link-inner">
+                  <svg class="nav__drawer-icon"><use href="./icons.svg#nav-ai" /></svg>
+                  <span class="nav__drawer-link-copy">
+                    <span class="nav__drawer-link-title">AI Experiments</span>
+                    <span class="nav__drawer-link-subtitle">Things I build with AI, usually late</span>
+                  </span>
+                </span>
+              </a>
+            </li>
+            <li class="nav__drawer-item">
+              <a href="./about.html" class="nav__drawer-link" aria-current="page">
+                <span class="nav__drawer-link-inner">
+                  <svg class="nav__drawer-icon"><use href="./icons.svg#nav-about" /></svg>
+                  <span class="nav__drawer-link-copy">
+                    <span class="nav__drawer-link-title">About</span>
+                    <span class="nav__drawer-link-subtitle">Background, process, and experience</span>
+                  </span>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <div class="nav__drawer-footer">
+            <a href="#contact" class="nav__drawer-action nav__drawer-action--primary">Contact</a>
+            <a href="mailto:nameistobi@gmail.com" class="nav__drawer-action nav__drawer-action--secondary">Email</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="about-page">
+      <section class="about-page__intro">
+        <div class="about-page__inner">
+          <div class="about-page__hero">
+            <h1 class="about-page__title">Designer, builder, and curious problem solver.</h1>
+
+            <div class="about-page__hero-layout">
+              <div class="about-page__profile">
+                <div class="about-page__portrait" aria-hidden="true">
+                  <div class="about-page__portrait-glow about-page__portrait-glow--one"></div>
+                  <div class="about-page__portrait-glow about-page__portrait-glow--two"></div>
+                  <div class="about-page__portrait-grid"></div>
+                  <div class="about-page__portrait-badge">toby.</div>
+                  <div class="about-page__portrait-panel">
+                    <span>UI/UX Design</span>
+                    <span>Product Design</span>
+                    <span>Interaction Design</span>
+                    <span>Design Systems</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="about-page__story">
+                <article class="about-page__story-block">
+                  <p class="about-page__story-label">About me</p>
+                  <div class="about-page__story-copy">
+                    <p>Hi, I’m Toby. I’m a product designer with a background in software engineering and more than five years of experience working across startups, SaaS, and Web3 products.</p>
+                    <p>My work usually lives where product thinking, interface craft, and implementation reality meet. I like turning messy ideas into systems and flows that feel clear to users and practical for teams to build.</p>
+                  </div>
+                </article>
+
+                <article class="about-page__story-block">
+                  <p class="about-page__story-label">Design philosophy</p>
+                  <div class="about-page__story-copy">
+                    <p>Most of the problems I’m drawn to involve some kind of complexity: operational workflows, financial behavior, emerging technology, or products still trying to find their shape.</p>
+                    <p>My approach is to reduce friction without flattening the nuance. Good design should guide decisions, create trust, and make complicated systems feel intuitive enough that people can move with confidence.</p>
+                  </div>
+                </article>
+
+                <div class="about-page__actions">
+                  <a href="#contact" class="about-page__action about-page__action--primary">
+                    <span>Read my resume</span>
+                    <span class="about-page__action-icon" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </a>
+
+                  <a href="mailto:nameistobi@gmail.com" class="about-page__action about-page__action--secondary">
+                    <span class="about-page__action-icon" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    </span>
+                    <span>nameistobi@gmail.com</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-marquee" aria-label="Disciplines and ways of working">
+        <div class="about-marquee__surface">
+          <div class="about-marquee__track">
+            <div class="about-marquee__list">
+              <article class="about-marquee__card about-marquee__card--teal" aria-hidden="true">
+                <div class="about-marquee__card-shell">
+                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
+                  <div class="about-marquee__card-image about-marquee__card-image--dashboard"></div>
+                </div>
+              </article>
+              <article class="about-marquee__card about-marquee__card--blush" aria-hidden="true">
+                <div class="about-marquee__card-shell">
+                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
+                  <div class="about-marquee__card-image about-marquee__card-image--table"></div>
+                </div>
+              </article>
+              <article class="about-marquee__card about-marquee__card--sand" aria-hidden="true">
+                <div class="about-marquee__card-shell">
+                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
+                  <div class="about-marquee__card-image about-marquee__card-image--feature"></div>
+                </div>
+              </article>
+              <article class="about-marquee__card about-marquee__card--paper" aria-hidden="true">
+                <div class="about-marquee__card-shell">
+                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
+                  <div class="about-marquee__card-image about-marquee__card-image--browser"></div>
+                </div>
+              </article>
+              <article class="about-marquee__card about-marquee__card--ink" aria-hidden="true">
+                <div class="about-marquee__card-shell">
+                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
+                  <div class="about-marquee__card-image about-marquee__card-image--dark-ui"></div>
+                </div>
+              </article>
+              <article class="about-marquee__card about-marquee__card--mist" aria-hidden="true">
+                <div class="about-marquee__card-shell">
+                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
+                  <div class="about-marquee__card-image about-marquee__card-image--split"></div>
+                </div>
+              </article>
+            </div>
+
+            <div class="about-marquee__list" aria-hidden="true">
+              <article class="about-marquee__card about-marquee__card--teal" aria-hidden="true">
+                <div class="about-marquee__card-shell">
+                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
+                  <div class="about-marquee__card-image about-marquee__card-image--dashboard"></div>
+                </div>
+              </article>
+              <article class="about-marquee__card about-marquee__card--blush" aria-hidden="true">
+                <div class="about-marquee__card-shell">
+                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
+                  <div class="about-marquee__card-image about-marquee__card-image--table"></div>
+                </div>
+              </article>
+              <article class="about-marquee__card about-marquee__card--sand" aria-hidden="true">
+                <div class="about-marquee__card-shell">
+                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
+                  <div class="about-marquee__card-image about-marquee__card-image--feature"></div>
+                </div>
+              </article>
+              <article class="about-marquee__card about-marquee__card--paper" aria-hidden="true">
+                <div class="about-marquee__card-shell">
+                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
+                  <div class="about-marquee__card-image about-marquee__card-image--browser"></div>
+                </div>
+              </article>
+              <article class="about-marquee__card about-marquee__card--ink" aria-hidden="true">
+                <div class="about-marquee__card-shell">
+                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
+                  <div class="about-marquee__card-image about-marquee__card-image--dark-ui"></div>
+                </div>
+              </article>
+              <article class="about-marquee__card about-marquee__card--mist" aria-hidden="true">
+                <div class="about-marquee__card-shell">
+                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
+                  <div class="about-marquee__card-image about-marquee__card-image--split"></div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-experience">
+        <div class="about-page__inner">
+          <div class="about-experience__layout">
+            <div class="about-experience__intro">
+              <p class="about-experience__label">Work Experience</p>
+              <h2 class="about-experience__title">Teams and products I’ve worked with.</h2>
+            </div>
+
+            <div class="about-experience__list">
+              <details class="experience-card" open>
+                <summary class="experience-card__toggle">
+                  <div class="experience-card__meta">
+                    <p class="experience-card__period">May 2024 - Present</p>
+                    <div class="experience-card__role-line">
+                      <p class="experience-card__role">Lead Product Designer</p>
+                      <span class="experience-card__dot" aria-hidden="true"></span>
+                      <p class="experience-card__company">Rethinkable</p>
+                    </div>
+                  </div>
+                  <span class="experience-card__plus" aria-hidden="true"></span>
+                </summary>
+                <div class="experience-card__body">
+                  <p class="experience-card__description">Led the product design direction for a planning and money-management concept, shaping information architecture, calmer interaction patterns, and a visual system that made long-term financial decisions feel less intimidating. Worked closely with product and engineering constraints so the experience stayed emotionally reassuring without losing operational clarity or momentum.</p>
+                </div>
+              </details>
+
+              <details class="experience-card">
+                <summary class="experience-card__toggle">
+                  <div class="experience-card__meta">
+                    <p class="experience-card__period">January 2024 - April 2024</p>
+                    <div class="experience-card__role-line">
+                      <p class="experience-card__role">Product Design Consultant</p>
+                      <span class="experience-card__dot" aria-hidden="true"></span>
+                      <p class="experience-card__company">Storyvault</p>
+                    </div>
+                  </div>
+                  <span class="experience-card__plus" aria-hidden="true"></span>
+                </summary>
+                <div class="experience-card__body">
+                  <p class="experience-card__description">Helped define the structure of a creator-facing platform that needed to balance storytelling, commerce, and content management in one flow. I mapped contributor journeys, refined the key publishing moments, and built interface patterns that kept the product feeling guided and lightweight even when the underlying system was doing a lot of work.</p>
+                </div>
+              </details>
+
+              <details class="experience-card">
+                <summary class="experience-card__toggle">
+                  <div class="experience-card__meta">
+                    <p class="experience-card__period">August 2023 - December 2023</p>
+                    <div class="experience-card__role-line">
+                      <p class="experience-card__role">Lead Product Designer</p>
+                      <span class="experience-card__dot" aria-hidden="true"></span>
+                      <p class="experience-card__company">QuickSave</p>
+                    </div>
+                  </div>
+                  <span class="experience-card__plus" aria-hidden="true"></span>
+                </summary>
+                <div class="experience-card__body">
+                  <p class="experience-card__description">Designed service and dashboard flows for a savings product focused on habit building, progress visibility, and day-to-day confidence. The work covered onboarding, goal creation, and account states, with a strong emphasis on copy, pacing, and hierarchy so each action felt obvious rather than financially loaded or stressful.</p>
+                </div>
+              </details>
+
+              <details class="experience-card">
+                <summary class="experience-card__toggle">
+                  <div class="experience-card__meta">
+                    <p class="experience-card__period">March 2023 - November 2023</p>
+                    <div class="experience-card__role-line">
+                      <p class="experience-card__role">Product Designer</p>
+                      <span class="experience-card__dot" aria-hidden="true"></span>
+                      <p class="experience-card__company">Cro.Art</p>
+                    </div>
+                  </div>
+                  <span class="experience-card__plus" aria-hidden="true"></span>
+                </summary>
+                <div class="experience-card__body">
+                  <p class="experience-card__description">Worked on a digital art marketplace experience where discovery, trust, and transaction clarity had to live together. I explored browsing systems, artist presentation, and purchase flows that gave collectors more confidence while still keeping the product expressive, editorial, and easy to move through from first glance to checkout.</p>
+                </div>
+              </details>
+
+              <details class="experience-card">
+                <summary class="experience-card__toggle">
+                  <div class="experience-card__meta">
+                    <p class="experience-card__period">June 2022 - December 2022</p>
+                    <div class="experience-card__role-line">
+                      <p class="experience-card__role">Lead Designer</p>
+                      <span class="experience-card__dot" aria-hidden="true"></span>
+                      <p class="experience-card__company">Aardvark Messenger</p>
+                    </div>
+                  </div>
+                  <span class="experience-card__plus" aria-hidden="true"></span>
+                </summary>
+                <div class="experience-card__body">
+                  <p class="experience-card__description">Designed a Web3 messaging concept that combined conversation, identity, and wallet-based actions inside one coherent interface. The project focused on reducing the unfamiliarity of blockchain mechanics, using familiar chat patterns and clearer decision states so advanced behaviors felt approachable, trustworthy, and usable in everyday moments.</p>
+                </div>
+              </details>
+
+              <details class="experience-card">
+                <summary class="experience-card__toggle">
+                  <div class="experience-card__meta">
+                    <p class="experience-card__period">January 2022 - May 2022</p>
+                    <div class="experience-card__role-line">
+                      <p class="experience-card__role">Product Designer</p>
+                      <span class="experience-card__dot" aria-hidden="true"></span>
+                      <p class="experience-card__company">ClinicFlow</p>
+                    </div>
+                  </div>
+                  <span class="experience-card__plus" aria-hidden="true"></span>
+                </summary>
+                <div class="experience-card__body">
+                  <p class="experience-card__description">Worked on an operations concept for healthcare teams that needed quicker visibility into appointments, patient context, and staff handoffs. I focused on calmer task flows, clearer status communication, and interfaces that reduced the cognitive load of high-frequency admin work throughout the day.</p>
+                </div>
+              </details>
+
+              <details class="experience-card">
+                <summary class="experience-card__toggle">
+                  <div class="experience-card__meta">
+                    <p class="experience-card__period">July 2021 - December 2021</p>
+                    <div class="experience-card__role-line">
+                      <p class="experience-card__role">UX Consultant</p>
+                      <span class="experience-card__dot" aria-hidden="true"></span>
+                      <p class="experience-card__company">Independent Client Work</p>
+                    </div>
+                  </div>
+                  <span class="experience-card__plus" aria-hidden="true"></span>
+                </summary>
+                <div class="experience-card__body">
+                  <p class="experience-card__description">Partnered with early-stage founders across product strategy, interface design, and lightweight design systems, usually stepping in when ideas were still rough and the product needed shape. My work translated messy requirements into usable flows, core screens, and implementation-ready directions that small teams could ship without losing momentum.</p>
+                </div>
+              </details>
+
+              <details class="experience-card">
+                <summary class="experience-card__toggle">
+                  <div class="experience-card__meta">
+                    <p class="experience-card__period">February 2021 - June 2021</p>
+                    <div class="experience-card__role-line">
+                      <p class="experience-card__role">Product Designer</p>
+                      <span class="experience-card__dot" aria-hidden="true"></span>
+                      <p class="experience-card__company">Parcel Loop</p>
+                    </div>
+                  </div>
+                  <span class="experience-card__plus" aria-hidden="true"></span>
+                </summary>
+                <div class="experience-card__body">
+                  <p class="experience-card__description">Designed delivery and logistics workflows for a service product that had to coordinate customer expectations, driver actions, and internal operations in real time. I focused on clearer state changes, better exception handling, and handoff patterns that made the product feel dependable even when the system was under pressure.</p>
+                </div>
+              </details>
+
+              <details class="experience-card">
+                <summary class="experience-card__toggle">
+                  <div class="experience-card__meta">
+                    <p class="experience-card__period">January 2020 - July 2020</p>
+                    <div class="experience-card__role-line">
+                      <p class="experience-card__role">Product Designer</p>
+                      <span class="experience-card__dot" aria-hidden="true"></span>
+                      <p class="experience-card__company">Beacon Finance</p>
+                    </div>
+                  </div>
+                  <span class="experience-card__plus" aria-hidden="true"></span>
+                </summary>
+                <div class="experience-card__body">
+                  <p class="experience-card__description">Worked on a consumer finance direction that needed to feel trustworthy, clear, and emotionally steady from the first screen. I refined onboarding structure, account views, and guidance states so users could understand where they were, what to do next, and why the product was asking for their attention.</p>
+                </div>
+              </details>
+
+              <details class="experience-card">
+                <summary class="experience-card__toggle">
+                  <div class="experience-card__meta">
+                    <p class="experience-card__period">June 2019 - December 2019</p>
+                    <div class="experience-card__role-line">
+                      <p class="experience-card__role">Product Design Intern</p>
+                      <span class="experience-card__dot" aria-hidden="true"></span>
+                      <p class="experience-card__company">Commonplace Labs</p>
+                    </div>
+                  </div>
+                  <span class="experience-card__plus" aria-hidden="true"></span>
+                </summary>
+                <div class="experience-card__body">
+                  <p class="experience-card__description">Supported early product exploration across research synthesis, interface detailing, and design system cleanup, learning how small interaction decisions add up to a more coherent product. It was a strong foundation in turning ambiguous feedback into patterns, structure, and more thoughtful screen-level decisions.</p>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact-section" id="contact">
+        <div class="contact-header">
+          <div class="contact-header__status">
+            <div class="contact-header__badge">
+              <div class="contact-header__dot"></div>
+              <div class="contact-header__badge-text">Available for work</div>
+            </div>
+            <div class="contact-header__location">
+              <div class="contact-header__loc-text">Manchester, UK</div>
+              <p class="contact-header__time">6:18 PM Sat, Mar 7</p>
+            </div>
+          </div>
+          <a href="mailto:nameistobi@gmail.com" class="contact-btn">
+            <span class="contact-btn__text">Contact me</span>
+            <div class="contact-btn__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <footer class="footer" id="footer">
+        <div class="footer__top">
+          <div class="footer__headline-block">
+            <p class="footer__eyebrow">Have a project in mind?</p>
+            <p class="footer__headline">LET'S TALK</p>
+          </div>
+
+          <a href="#nav" class="footer__back-to-top" aria-label="Back to top">
+            <span class="footer__back-to-top-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 18V6M12 6L6.5 11.5M12 6L17.5 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <div class="footer__bottom">
+          <div class="footer__actions">
+            <a href="#contact" class="footer__action footer__action--primary">Read my resume</a>
+            <a href="mailto:nameistobi@gmail.com" class="footer__action footer__action--secondary">nameistobi@gmail.com</a>
+
+            <div class="footer__socials" aria-label="Social links">
+              <a href="#footer" class="footer__social-btn footer__social-btn--icon" aria-label="X">
+                <span class="footer__social-icon"><svg viewBox="0 0 19 19"><use href="./icons.svg#x-icon" /></svg></span>
+              </a>
+              <a href="#footer" class="footer__social-btn footer__social-btn--icon" aria-label="LinkedIn">
+                <span class="footer__social-icon"><svg viewBox="0 0 24 24"><use href="./icons.svg#linkedin-icon" /></svg></span>
+              </a>
+              <a href="#footer" class="footer__social-btn footer__social-btn--icon" aria-label="Bluesky">
+                <span class="footer__social-icon"><svg viewBox="0 0 16 17"><use href="./icons.svg#bluesky-icon" /></svg></span>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer__credits">
+            <p class="footer__credit"><span class="footer__credit-label">Design by</span> <span class="footer__credit-name">Toby</span></p>
+            <p class="footer__credit"><span class="footer__credit-label">Development by</span> <span class="footer__credit-name">Toby</span></p>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

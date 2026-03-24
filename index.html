@@ -5,27 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Toby – Product designer crafting intuitive digital experiences for Web3 and modern startups." />
     <title>Toby – Product Designer</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
   </head>
-  <body>
+  <body class="page--home">
 
     <!-- ===================== NAV ===================== -->
     <header class="header">
       <nav class="nav" id="nav">
-        <div class="nav__brand">
-          <div class="nav__avatar">
-            <div class="grey-block grey-block--nav-avatar"></div>
+        <!-- Left pill: on desktop = display:contents (transparent), on mobile = frosted glass pill -->
+        <div class="nav__left-pill">
+          <div class="nav__brand">
+            <div class="nav__avatar">
+              <div class="grey-block grey-block--nav-avatar"></div>
+            </div>
+            <a href="./index.html" class="nav__logo">toby.</a>
           </div>
-          <a href="/" class="nav__logo">toby.</a>
+          <!-- Desktop nav links — hidden on mobile -->
+          <ul class="nav__links">
+            <li><a href="./gallery.html">Gallery</a></li>
+            <li><a href="./ai.html">AI Experiments</a></li>
+            <li><a href="./about.html">About</a></li>
+          </ul>
+          <a href="#contact" class="nav__cta">Resume</a>
         </div>
-        <ul class="nav__links">
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#gallery">Gallery</a></li>
-          <li><a href="#ai">AI Experiments</a></li>
-          <li><a href="#about">About</a></li>
-        </ul>
-        <a href="#contact" class="nav__cta">Resume</a>
+        <!-- Hamburger pill — hidden on desktop, shown on mobile as its own right pill -->
+        <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
+          <span class="nav__hamburger-bar"></span>
+          <span class="nav__hamburger-bar"></span>
+          <span class="nav__hamburger-bar"></span>
+        </button>
       </nav>
+      <!-- Floating drawer: absolutely positioned over page content -->
+      <div class="nav__drawer" id="nav-drawer" aria-hidden="true">
+        <div class="nav__drawer-content">
+          <div class="nav__drawer-header">
+            <p class="nav__drawer-kicker">Navigation</p>
+            <p class="nav__drawer-caption">Choose a page and keep exploring.</p>
+          </div>
+          <ul class="nav__drawer-links">
+            <li class="nav__drawer-item">
+              <a href="./gallery.html" class="nav__drawer-link">
+                <span class="nav__drawer-link-inner">
+                  <svg class="nav__drawer-icon"><use href="./icons.svg#nav-gallery" /></svg>
+                  <span class="nav__drawer-link-copy">
+                    <span class="nav__drawer-link-title">Gallery</span>
+                    <span class="nav__drawer-link-subtitle">Interface studies and visual explorations</span>
+                  </span>
+                </span>
+              </a>
+            </li>
+            <li class="nav__drawer-item">
+              <a href="./ai.html" class="nav__drawer-link">
+                <span class="nav__drawer-link-inner">
+                  <svg class="nav__drawer-icon"><use href="./icons.svg#nav-ai" /></svg>
+                  <span class="nav__drawer-link-copy">
+                    <span class="nav__drawer-link-title">AI Experiments</span>
+                    <span class="nav__drawer-link-subtitle">Things I build with AI, usually late</span>
+                  </span>
+                </span>
+              </a>
+            </li>
+            <li class="nav__drawer-item">
+              <a href="./about.html" class="nav__drawer-link">
+                <span class="nav__drawer-link-inner">
+                  <svg class="nav__drawer-icon"><use href="./icons.svg#nav-about" /></svg>
+                  <span class="nav__drawer-link-copy">
+                    <span class="nav__drawer-link-title">About</span>
+                    <span class="nav__drawer-link-subtitle">Background, process, and experience</span>
+                  </span>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <div class="nav__drawer-footer">
+            <a href="#contact" class="nav__drawer-action nav__drawer-action--primary">Contact</a>
+            <a href="mailto:nameistobi@gmail.com" class="nav__drawer-action nav__drawer-action--secondary">Email</a>
+          </div>
+        </div>
+      </div>
     </header>
 
     <!-- ===================== HERO ===================== -->
@@ -131,7 +188,7 @@
             <p class="about__bio-text">
               Because I understand how products get built, I don't just design for aesthetics. I design for flow, feasibility, and adoption. The goal is always the same: make the product more intuitive, and easier to trust.
             </p>
-            <a href="#" class="btn btn--white">About me</a>
+            <a href="./about.html" class="btn btn--white">About me</a>
           </div>
         </div>
         <div class="about__stats">
@@ -172,9 +229,9 @@
     <section class="projects" id="projects">
       <div class="projects__inner container">
         <div class="projects__header">
-          <div class="projects__header-text">
-            <div class="projects__label">Featured Projects</div>
-            <p class="projects__title">Designing products that feel clear, useful, and built to last.</p>
+          <div class="projects__header-text section-heading">
+            <div class="projects__label section-heading__label">Featured Projects</div>
+            <p class="projects__title section-heading__title">Designing products that feel clear, useful, and built to last.</p>
           </div>
           <a href="#" class="projects__all-link">
             All projects 
@@ -207,7 +264,7 @@
                   <div class="tag--bold">BRANDING</div>
                 </div>
               </div>
-              <a href="#" class="btn--project-view">View Project</a>
+              <a href="./project.html?project=rethinkable" class="btn--project-view">View Project</a>
             </div>
             <div class="project-card__visual">
               <div class="grey-block--project-visual"></div>
@@ -233,7 +290,7 @@
                   <div class="tag--bold">BRANDING</div>
                 </div>
               </div>
-              <a href="#" class="btn--project-view">View Project</a>
+              <a href="./project.html?project=quicksave" class="btn--project-view">View Project</a>
             </div>
             <div class="project-card__visual">
               <div class="grey-block--project-visual"></div>
@@ -259,7 +316,7 @@
                   <div class="tag--bold">BRANDING</div>
                 </div>
               </div>
-              <a href="#" class="btn--project-view">View Project</a>
+              <a href="./project.html?project=croart" class="btn--project-view">View Project</a>
             </div>
             <div class="project-card__visual">
               <div class="grey-block--project-visual"></div>
@@ -285,7 +342,7 @@
                   <div class="tag--bold">BRANDING</div>
                 </div>
               </div>
-              <a href="#" class="btn--project-view">View Project</a>
+              <a href="./project.html?project=aardvark" class="btn--project-view">View Project</a>
             </div>
             <div class="project-card__visual">
               <div class="grey-block--project-visual"></div>
@@ -380,7 +437,7 @@
     </section>
 
     <!-- ===================== CONTACT / AVAILABILITY ===================== -->
-    <section class="contact-section">
+    <section class="contact-section" id="contact">
       <div class="contact-header">
         <div class="contact-header__status">
           <div class="contact-header__badge">
@@ -392,7 +449,7 @@
             <p class="contact-header__time">6:18 PM Sat, Mar 7</p>
           </div>
         </div>
-        <a href="#contact-form" class="contact-btn">
+        <a href="mailto:nameistobi@gmail.com" class="contact-btn">
           <span class="contact-btn__text">Contact me</span>
           <div class="contact-btn__icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -405,43 +462,46 @@
 
     <!-- ===================== FOOTER ===================== -->
     <footer class="footer" id="footer">
-      <div class="footer__content">
-        <div class="footer__title-wrap">
-          <div class="footer__cursor footer__cursor--toby">
-            <span class="footer__cursor-label footer__cursor-label--toby">toby.</span>
-            <img src="/Arrow.svg" class="footer__cursor-arrow footer__cursor-arrow--toby" alt="" aria-hidden="true"/>
-          </div>
-          <p class="footer__title">Let’s build something people<br>enjoy using.</p>
-          <div class="footer__cursor footer__cursor--you">
-            <img src="/Arrow.svg" class="footer__cursor-arrow footer__cursor-arrow--you" alt="" aria-hidden="true"/>
-            <span class="footer__cursor-label footer__cursor-label--you">you.</span>
+      <div class="footer__top">
+        <div class="footer__headline-block">
+          <p class="footer__eyebrow">Have a project in mind?</p>
+          <p class="footer__headline">LET'S TALK</p>
+        </div>
+
+        <a href="#nav" class="footer__back-to-top" aria-label="Back to top">
+          <span class="footer__back-to-top-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 18V6M12 6L6.5 11.5M12 6L17.5 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <div class="footer__bottom">
+        <div class="footer__actions">
+          <a href="#contact" class="footer__action footer__action--primary">Read my resume</a>
+          <a href="mailto:nameistobi@gmail.com" class="footer__action footer__action--secondary">nameistobi@gmail.com</a>
+
+          <div class="footer__socials" aria-label="Social links">
+            <a href="#footer" class="footer__social-btn footer__social-btn--icon" aria-label="X">
+              <span class="footer__social-icon"><svg viewBox="0 0 19 19"><use href="./icons.svg#x-icon" /></svg></span>
+            </a>
+            <a href="#footer" class="footer__social-btn footer__social-btn--icon" aria-label="LinkedIn">
+              <span class="footer__social-icon"><svg viewBox="0 0 24 24"><use href="./icons.svg#linkedin-icon" /></svg></span>
+            </a>
+            <a href="#footer" class="footer__social-btn footer__social-btn--icon" aria-label="Bluesky">
+              <span class="footer__social-icon"><svg viewBox="0 0 16 17"><use href="./icons.svg#bluesky-icon" /></svg></span>
+            </a>
           </div>
         </div>
-        <div class="footer__socials">
-          <a href="mailto:nameistobi@gmail.com" class="footer__social-btn footer__social-btn--email">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <rect x="3" y="5" width="18" height="14" rx="2" stroke="black" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <span class="footer__social-text">nameistobi@gmail.com</span>
-          </a>
-          <a href="#" class="footer__social-btn footer__social-btn--icon" aria-label="X">
-            <span class="footer__social-icon"><svg viewBox="0 0 20 20"><use href="/icons.svg#x-icon" /></svg></span>
-          </a>
-          <a href="#" class="footer__social-btn footer__social-btn--icon" aria-label="Bluesky">
-            <span class="footer__social-icon"><svg viewBox="0 0 16 17"><use href="/icons.svg#bluesky-icon" /></svg></span>
-          </a>
-          <a href="#" class="footer__social-btn footer__social-btn--icon" aria-label="Discord">
-            <span class="footer__social-icon"><svg viewBox="0 0 20 19"><use href="/icons.svg#discord-icon" /></svg></span>
-          </a>
+
+        <div class="footer__credits">
+          <p class="footer__credit"><span class="footer__credit-label">Design by</span> <span class="footer__credit-name">Toby</span></p>
+          <p class="footer__credit"><span class="footer__credit-label">Development by</span> <span class="footer__credit-name">Toby</span></p>
         </div>
       </div>
-      <a href="#" class="footer__resume-card">
-        <div class="footer__resume-text">View my<br>Resume</div>
-        <div class="footer__resume-bg"></div>
-      </a>
     </footer>
 
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="./src/main.js"></script>
   </body>
 </html>

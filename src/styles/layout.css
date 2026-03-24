@@ -7,7 +7,7 @@
   width: 100%;
   max-width: var(--container-max);
   margin-inline: auto;
-  padding-inline: var(--container-gutter);
+  padding-inline: var(--page-padding-inline);
 }
 
 /* Flex helpers */
@@ -36,7 +36,7 @@
 
 /* Section spacing */
 .section {
-  padding-block: var(--space-24);
+  padding-block: var(--section-gap);
 }
 
 /* Full width */
@@ -67,14 +67,6 @@
   }
 }
 
-/* md: 768px */
-@media (max-width: 768px) {
-  :root {
-    --text-4xl: 2.5rem;
-    --text-5xl: 3rem;
-  }
-}
-
 /* lg: 1024px */
 @media (max-width: 1024px) {
   .grid-4 {
@@ -83,5 +75,32 @@
 
   .grid-3 {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1200px) {
+  :root {
+    --page-padding-inline: var(--page-padding-inline-tablet);
+    --page-top-offset: var(--page-top-offset-tablet);
+  }
+}
+
+@media (max-width: 960px) {
+  :root {
+    --page-top-offset: var(--page-top-offset-md);
+  }
+}
+
+/* md: 768px */
+@media (max-width: 768px) {
+  :root {
+    --page-padding-inline: var(--page-padding-inline-mobile);
+    --page-top-offset: var(--page-top-offset-mobile);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --page-padding-inline: var(--page-padding-inline-mobile-sm);
   }
 }

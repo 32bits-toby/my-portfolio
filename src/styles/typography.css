@@ -3,22 +3,29 @@
    ============================================ */
 
 body {
-  font-family: var(--font-primary); /* Satoshi */
-  font-size: var(--text-base);
+  font-family: var(--font-primary);
+  font-size: var(--text-body);
   font-weight: var(--font-regular);
   color: var(--color-text-primary);
   background-color: var(--color-bg);
+  line-height: var(--leading-body);
+  text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display); /* Cal Sans */
-  font-weight: var(--font-bold);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-weight: var(--font-regular);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  text-wrap: balance;
 }
 
 p {
-  line-height: 1.65;
+  line-height: var(--leading-body);
+}
+
+small {
+  font-size: var(--text-sm);
 }
 
 /* Utility classes */
@@ -50,3 +57,7 @@ p {
 .uppercase { text-transform: uppercase; }
 .tracking-wide { letter-spacing: 0.08em; }
 .tracking-tight { letter-spacing: -0.02em; }
+.leading-flat { line-height: var(--leading-flat); }
+.leading-tight { line-height: var(--leading-tight); }
+.leading-body { line-height: var(--leading-body); }
+.leading-loose { line-height: var(--leading-body-loose); }

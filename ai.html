@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Toby – AI Experiments and explorations." />
+    <title>AI Experiments – Toby</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  </head>
+  <body class="page--gallery">
+    <header class="header">
+      <nav class="nav" id="nav">
+        <div class="nav__left-pill">
+          <div class="nav__brand">
+            <div class="nav__avatar">
+              <div class="grey-block grey-block--nav-avatar"></div>
+            </div>
+            <a href="./index.html" class="nav__logo">toby.</a>
+          </div>
+          <ul class="nav__links">
+            <li><a href="./gallery.html">Gallery</a></li>
+            <li><a href="./ai.html" aria-current="page">AI Experiments</a></li>
+            <li><a href="./about.html">About</a></li>
+          </ul>
+          <a href="#contact" class="nav__cta">Resume</a>
+        </div>
+        <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
+          <span class="nav__hamburger-bar"></span>
+          <span class="nav__hamburger-bar"></span>
+          <span class="nav__hamburger-bar"></span>
+        </button>
+      </nav>
+      <div class="nav__drawer" id="nav-drawer" aria-hidden="true">
+        <div class="nav__drawer-content">
+          <div class="nav__drawer-header">
+            <p class="nav__drawer-kicker">Navigation</p>
+            <p class="nav__drawer-caption">Choose a page and keep exploring.</p>
+          </div>
+          <ul class="nav__drawer-links">
+            <li class="nav__drawer-item">
+              <a href="./gallery.html" class="nav__drawer-link">
+                <span class="nav__drawer-link-inner">
+                  <svg class="nav__drawer-icon"><use href="./icons.svg#nav-gallery" /></svg>
+                  <span class="nav__drawer-link-copy">
+                    <span class="nav__drawer-link-title">Gallery</span>
+                    <span class="nav__drawer-link-subtitle">Interface studies and visual explorations</span>
+                  </span>
+                </span>
+              </a>
+            </li>
+            <li class="nav__drawer-item">
+              <a href="./ai.html" class="nav__drawer-link" aria-current="page">
+                <span class="nav__drawer-link-inner">
+                  <svg class="nav__drawer-icon"><use href="./icons.svg#nav-ai" /></svg>
+                  <span class="nav__drawer-link-copy">
+                    <span class="nav__drawer-link-title">AI Experiments</span>
+                    <span class="nav__drawer-link-subtitle">Things I build with AI, usually late</span>
+                  </span>
+                </span>
+              </a>
+            </li>
+            <li class="nav__drawer-item">
+              <a href="./about.html" class="nav__drawer-link">
+                <span class="nav__drawer-link-inner">
+                  <svg class="nav__drawer-icon"><use href="./icons.svg#nav-about" /></svg>
+                  <span class="nav__drawer-link-copy">
+                    <span class="nav__drawer-link-title">About</span>
+                    <span class="nav__drawer-link-subtitle">Background, process, and experience</span>
+                  </span>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <div class="nav__drawer-footer">
+            <a href="#contact" class="nav__drawer-action nav__drawer-action--primary">Contact</a>
+            <a href="mailto:nameistobi@gmail.com" class="nav__drawer-action nav__drawer-action--secondary">Email</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="gallery-page">
+      <section class="gallery-page__intro">
+        <div class="gallery-page__inner">
+          <div class="section-heading gallery-page__heading gallery-page__heading--wide">
+            <p class="section-heading__label">AI Experiments</p>
+            <h1 class="section-heading__title">A playground for things I build with AI.<br class="section-heading__forced-break" /> Created at odd hours.</h1>
+          </div>
+        </div>
+      </section>
+
+      <section class="projects" style="padding-top: 0;">
+        <div class="projects__inner container">
+          <div class="projects__list">
+            <!-- Project 1: Rethinkable -->
+            <article class="project-card" id="rethinkable">
+              <div class="project-card__info">
+                <div class="project-card__info-inner">
+                  <div class="project-card__icon-wrapper">
+                    <div class="grey-block--project-icon"></div>
+                  </div>
+                  <div class="project-card__text">
+                    <div class="project-card__name">Rethinkable</div>
+                    <p class="project-card__desc">
+                      A finance app designed to bring clarity, control, and calm, helping users track spending, plan better, and feel confident with every money decision.
+                    </p>
+                  </div>
+                  <div class="project-card__tags">
+                    <div class="tag--bold">PRODUCT DESIGN</div>
+                    <div class="tag-line"></div>
+                    <div class="tag--bold">BRANDING</div>
+                  </div>
+                </div>
+                <a href="./project.html?project=rethinkable" class="btn--project-view">View Project</a>
+              </div>
+              <div class="project-card__visual">
+                <div class="grey-block--project-visual"></div>
+              </div>
+            </article>
+
+            <!-- Project 2: QuickSave -->
+            <article class="project-card" id="quicksave">
+              <div class="project-card__info">
+                <div class="project-card__info-inner">
+                  <div class="project-card__icon-wrapper">
+                    <div class="grey-block--project-icon"></div>
+                  </div>
+                  <div class="project-card__text">
+                    <div class="project-card__name">QuickSave</div>
+                    <p class="project-card__desc">
+                      A smart apartment platform that connects residents, managers, and vendors—making everyday services easy to book, manage, and track, all from one app.
+                    </p>
+                  </div>
+                  <div class="project-card__tags">
+                    <div class="tag--bold">PRODUCT DESIGN</div>
+                    <div class="tag-line"></div>
+                    <div class="tag--bold">BRANDING</div>
+                  </div>
+                </div>
+                <a href="./project.html?project=quicksave" class="btn--project-view">View Project</a>
+              </div>
+              <div class="project-card__visual">
+                <div class="grey-block--project-visual"></div>
+              </div>
+            </article>
+
+            <!-- Project 3: Cro.Art -->
+            <article class="project-card" id="croart">
+              <div class="project-card__info">
+                <div class="project-card__info-inner">
+                  <div class="project-card__icon-wrapper">
+                    <div class="grey-block--project-icon"></div>
+                  </div>
+                  <div class="project-card__text">
+                    <div class="project-card__name">Cro.Art</div>
+                    <p class="project-card__desc">
+                      A clinic management system that simplifies appointments, records, and workflows—giving doctors and staff more time for what matters: caring for patients.
+                    </p>
+                  </div>
+                  <div class="project-card__tags">
+                    <div class="tag--bold">PRODUCT DESIGN</div>
+                    <div class="tag-line"></div>
+                    <div class="tag--bold">BRANDING</div>
+                  </div>
+                </div>
+                <a href="./project.html?project=croart" class="btn--project-view">View Project</a>
+              </div>
+              <div class="project-card__visual">
+                <div class="grey-block--project-visual"></div>
+              </div>
+            </article>
+
+            <!-- Project 4: Aardvark -->
+            <article class="project-card" id="aardvark">
+              <div class="project-card__info">
+                <div class="project-card__info-inner">
+                  <div class="project-card__icon-wrapper">
+                    <div class="grey-block--project-icon"></div>
+                  </div>
+                  <div class="project-card__text">
+                    <div class="project-card__name">Aardvark</div>
+                    <p class="project-card__desc">
+                      A clinic management system that simplifies appointments, records, and workflows—giving doctors and staff more time for what matters: caring for patients.
+                    </p>
+                  </div>
+                  <div class="project-card__tags">
+                    <div class="tag--bold">PRODUCT DESIGN</div>
+                    <div class="tag-line"></div>
+                    <div class="tag--bold">BRANDING</div>
+                  </div>
+                </div>
+                <a href="./project.html?project=aardvark" class="btn--project-view">View Project</a>
+              </div>
+              <div class="project-card__visual">
+                <div class="grey-block--project-visual"></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact-section" id="contact">
+        <div class="contact-header">
+          <div class="contact-header__status">
+            <div class="contact-header__badge">
+              <div class="contact-header__dot"></div>
+              <div class="contact-header__badge-text">Available for work</div>
+            </div>
+            <div class="contact-header__location">
+              <div class="contact-header__loc-text">Manchester, UK</div>
+              <p class="contact-header__time">6:18 PM Sat, Mar 7</p>
+            </div>
+          </div>
+          <a href="mailto:nameistobi@gmail.com" class="contact-btn">
+            <span class="contact-btn__text">Contact me</span>
+            <div class="contact-btn__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" id="footer">
+      <div class="footer__top">
+        <div class="footer__headline-block">
+          <p class="footer__eyebrow">Have a project in mind?</p>
+          <p class="footer__headline">LET'S TALK</p>
+        </div>
+
+        <a href="#nav" class="footer__back-to-top" aria-label="Back to top">
+          <span class="footer__back-to-top-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 18V6M12 6L6.5 11.5M12 6L17.5 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+
+      <div class="footer__bottom">
+        <div class="footer__actions">
+          <a href="#contact" class="footer__action footer__action--primary">Read my resume</a>
+          <a href="mailto:nameistobi@gmail.com" class="footer__action footer__action--secondary">nameistobi@gmail.com</a>
+
+          <div class="footer__socials" aria-label="Social links">
+            <a href="#footer" class="footer__social-btn footer__social-btn--icon" aria-label="X">
+              <span class="footer__social-icon"><svg viewBox="0 0 19 19"><use href="./icons.svg#x-icon" /></svg></span>
+            </a>
+            <a href="#footer" class="footer__social-btn footer__social-btn--icon" aria-label="LinkedIn">
+              <span class="footer__social-icon"><svg viewBox="0 0 24 24"><use href="./icons.svg#linkedin-icon" /></svg></span>
+            </a>
+            <a href="#footer" class="footer__social-btn footer__social-btn--icon" aria-label="Bluesky">
+              <span class="footer__social-icon"><svg viewBox="0 0 16 17"><use href="./icons.svg#bluesky-icon" /></svg></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer__credits">
+          <p class="footer__credit"><span class="footer__credit-label">Design by</span> <span class="footer__credit-name">Toby</span></p>
+          <p class="footer__credit"><span class="footer__credit-label">Development by</span> <span class="footer__credit-name">Toby</span></p>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
