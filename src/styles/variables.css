@@ -70,8 +70,8 @@
   --leading-body: 1.58;
   --leading-body-loose: 1.68;
 
-  --tracking-display: -0.04em;
-  --tracking-heading: -0.03em;
+  --tracking-display: -0.025em;
+  --tracking-heading: -0.012em;
   --tracking-tight: -0.02em;
   --tracking-base: -0.01em;
   --tracking-loose: 0.02em;
@@ -138,15 +138,25 @@
   --button-gap: 8px;
 
   /* --- Elevation --- */
-  --shadow-xs: 0 2px 12px rgba(17, 17, 17, 0.04);
-  --shadow-sm: 0 8px 24px rgba(17, 17, 17, 0.06);
-  --shadow-md: 0 16px 40px rgba(17, 17, 17, 0.08);
-  --shadow-lg: 0 24px 60px rgba(17, 17, 17, 0.12);
+  --shadow-xs: 0 1px 4px rgba(17, 17, 17, 0.02), 0 6px 14px rgba(17, 17, 17, 0.03);
+  --shadow-sm: 0 2px 6px rgba(17, 17, 17, 0.024), 0 10px 22px rgba(17, 17, 17, 0.042);
+  --shadow-md: 0 4px 10px rgba(17, 17, 17, 0.028), 0 14px 30px rgba(17, 17, 17, 0.05);
+  --shadow-lg: 0 8px 18px rgba(17, 17, 17, 0.034), 0 20px 44px rgba(17, 17, 17, 0.07);
+  --shadow-interactive-rest: 0 1px 4px rgba(17, 17, 17, 0), 0 8px 18px rgba(17, 17, 17, 0);
+  --shadow-interactive-hover: 0 2px 6px rgba(17, 17, 17, 0.02), 0 10px 22px rgba(17, 17, 17, 0.04);
+  --shadow-card-rest: 0 2px 6px rgba(17, 17, 17, 0.018), 0 10px 22px rgba(17, 17, 17, 0.03);
+  --shadow-card-hover: 0 4px 10px rgba(17, 17, 17, 0.022), 0 14px 28px rgba(17, 17, 17, 0.042);
 
   /* --- Transitions --- */
   --ease-out:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-smooth: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
   --transition-base: 250ms var(--ease-out);
   --transition-fast: 180ms var(--ease-out);
+  --transition-slow: 420ms var(--ease-smooth);
+  --transition-shadow: 720ms var(--ease-emphasized);
+  --transition-slower: 720ms var(--ease-spring);
 
   /* --- Z-index --- */
   --z-nav:     100;

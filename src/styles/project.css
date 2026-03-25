@@ -48,7 +48,7 @@
   color: #111111;
   font-family: var(--font-display);
   font-size: clamp(2.25rem, 1.9rem + 1.45vw, 3.25rem);
-  font-weight: 400;
+  font-weight: var(--font-bold);
   letter-spacing: var(--tracking-display);
   line-height: var(--leading-display);
 }
@@ -60,9 +60,9 @@
 
 .project-detail__summary p {
   color: var(--color-text-secondary);
-  font-size: var(--text-body);
+  font-size: var(--text-body-sm);
   font-weight: 500;
-  line-height: var(--leading-body-loose);
+  line-height: var(--leading-body);
 }
 
 .project-detail__meta-grid {
@@ -133,6 +133,7 @@
   gap: 16px;
   padding: 24px 0;
   cursor: pointer;
+  transition: opacity var(--transition-base);
 }
 
 .project-detail__accordion-summary::-webkit-details-marker {
@@ -185,7 +186,7 @@
   color: var(--color-text-secondary);
   font-size: var(--text-body-sm);
   font-weight: 500;
-  line-height: var(--leading-body-loose);
+  line-height: var(--leading-body);
 }
 
 .project-detail__visual-stack {
@@ -203,6 +204,8 @@
   min-height: 360px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.25));
   border: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-card-rest);
+  transition: transform var(--transition-slow), box-shadow var(--transition-shadow), border-color var(--transition-base);
 }
 
 .project-detail__visual-card--ink {
@@ -257,7 +260,7 @@
   color: #111111;
   font-family: var(--font-display);
   font-size: clamp(1.625rem, 1.3rem + 1vw, 2.25rem);
-  font-weight: 400;
+  font-weight: var(--font-bold);
   letter-spacing: var(--tracking-heading);
   line-height: var(--leading-heading);
 }
@@ -294,11 +297,10 @@
   min-height: 200px;
   border-radius: var(--surface-radius);
   padding: 18px;
-  background: rgba(255, 255, 255, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.44);
-  box-shadow: var(--shadow-lg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  box-shadow: var(--shadow-card-rest);
+  transition: transform var(--transition-slow), box-shadow var(--transition-shadow), border-color var(--transition-base);
 }
 
 .project-detail__visual-ui {
@@ -337,6 +339,23 @@
   height: 14px;
   border-radius: 999px;
   background: rgba(17, 17, 17, 0.09);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-detail__accordion-summary:hover {
+    opacity: 0.74;
+  }
+
+  .project-detail__visual-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+    border-color: var(--color-border);
+  }
+
+  .project-detail__visual-card:hover .project-detail__visual-frame {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card-hover);
+  }
 }
 
 @media (min-width: 961px) {

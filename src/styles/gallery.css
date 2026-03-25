@@ -38,9 +38,61 @@
 }
 
 .gallery-grid__item {
+  --gallery-item-pan-x: 0px;
+  --gallery-item-pan-y: 0px;
+  position: relative;
   height: calc((100cqi - var(--gallery-gap)) / 2);
   border-radius: var(--surface-radius);
-  background-color: var(--color-grey-placeholder);
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 48%),
+    linear-gradient(135deg, #d8d8d8, #c8ccd1 54%, #bdc4cb);
+  background-size: 178% 178%;
+  background-position:
+    calc(50% + var(--gallery-item-pan-x)) calc(50% + var(--gallery-item-pan-y)),
+    calc(50% + var(--gallery-item-pan-x)) calc(50% + var(--gallery-item-pan-y));
+  box-shadow: var(--shadow-card-rest);
+  transition: box-shadow var(--transition-shadow), background-position 220ms var(--ease-smooth), filter 220ms var(--ease-smooth);
+}
+
+.gallery-grid__item::before {
+  content: '';
+  position: absolute;
+  inset: auto 10% 12% 10%;
+  height: 18%;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.28);
+  transform: translate3d(calc(var(--gallery-item-pan-x) * 0.18), calc(var(--gallery-item-pan-y) * 0.18), 0);
+  transition: transform 220ms var(--ease-smooth), opacity 220ms var(--ease-smooth);
+}
+
+.gallery-grid__item:nth-child(3n + 1) {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 50%),
+    linear-gradient(135deg, #d7d2cc, #c6d1db 54%, #b1c0cd);
+}
+
+.gallery-grid__item:nth-child(3n + 2) {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 50%),
+    linear-gradient(135deg, #d7dde7, #c9d0d9 52%, #bcc3cc);
+}
+
+.gallery-grid__item:nth-child(3n) {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 50%),
+    linear-gradient(135deg, #ddd5cf, #d2cac2 48%, #c3bab1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gallery-grid__item.is-parallax-active {
+    box-shadow: var(--shadow-card-hover);
+    filter: saturate(1.03);
+  }
+
+  .gallery-grid__item.is-parallax-active::before {
+    opacity: 0.94;
+  }
 }
 
 .gallery-grid__item--full {

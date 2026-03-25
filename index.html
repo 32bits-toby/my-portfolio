@@ -11,29 +11,37 @@
 
     <!-- ===================== NAV ===================== -->
     <header class="header">
-      <nav class="nav" id="nav">
-        <!-- Left pill: on desktop = display:contents (transparent), on mobile = frosted glass pill -->
-        <div class="nav__left-pill">
-          <div class="nav__brand">
-            <div class="nav__avatar">
-              <div class="grey-block grey-block--nav-avatar"></div>
+      <nav class="nav nav--hanging" id="nav">
+        <span class="nav__string nav__string--left" aria-hidden="true"></span>
+        <span class="nav__string nav__string--right" aria-hidden="true"></span>
+        <div class="nav__frame">
+          <span class="nav__string-tail" aria-hidden="true"></span>
+          <button class="nav__repair-handle" type="button" aria-label="Reconnect navigation">
+            <span class="nav__repair-knot" aria-hidden="true"></span>
+          </button>
+          <!-- Left pill: on desktop = display:contents (transparent), on mobile = frosted glass pill -->
+          <div class="nav__left-pill">
+            <div class="nav__brand">
+              <div class="nav__avatar">
+                <div class="grey-block grey-block--nav-avatar"></div>
+              </div>
+              <a href="./index.html" class="nav__logo">toby.</a>
             </div>
-            <a href="./index.html" class="nav__logo">toby.</a>
+            <!-- Desktop nav links — hidden on mobile -->
+            <ul class="nav__links">
+              <li><a href="./gallery.html">Gallery</a></li>
+              <li><a href="./ai.html">AI Experiments</a></li>
+              <li><a href="./about.html">About</a></li>
+            </ul>
+            <a href="#contact" class="nav__cta">Resume</a>
           </div>
-          <!-- Desktop nav links — hidden on mobile -->
-          <ul class="nav__links">
-            <li><a href="./gallery.html">Gallery</a></li>
-            <li><a href="./ai.html">AI Experiments</a></li>
-            <li><a href="./about.html">About</a></li>
-          </ul>
-          <a href="#contact" class="nav__cta">Resume</a>
+          <!-- Hamburger pill — hidden on desktop, shown on mobile as its own right pill -->
+          <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
+            <span class="nav__hamburger-bar"></span>
+            <span class="nav__hamburger-bar"></span>
+            <span class="nav__hamburger-bar"></span>
+          </button>
         </div>
-        <!-- Hamburger pill — hidden on desktop, shown on mobile as its own right pill -->
-        <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
-          <span class="nav__hamburger-bar"></span>
-          <span class="nav__hamburger-bar"></span>
-          <span class="nav__hamburger-bar"></span>
-        </button>
       </nav>
       <!-- Floating drawer: absolutely positioned over page content -->
       <div class="nav__drawer" id="nav-drawer" aria-hidden="true">
@@ -169,8 +177,18 @@
 
       <!-- Gallery peek — visible at bottom of hero, not full width -->
       <div class="hero__gallery-peek">
-        <div class="gallery-peek__inner">
-          <!-- grey placeholder for gallery content -->
+        <div class="gallery-peek__inner" aria-label="Selected work preview carousel">
+          <div class="gallery-peek__slide gallery-peek__slide--finance is-active" data-gallery-slide aria-hidden="false"></div>
+          <div class="gallery-peek__slide gallery-peek__slide--ops" data-gallery-slide aria-hidden="true"></div>
+          <div class="gallery-peek__slide gallery-peek__slide--health" data-gallery-slide aria-hidden="true"></div>
+          <div class="gallery-peek__slide gallery-peek__slide--wallet" data-gallery-slide aria-hidden="true"></div>
+
+          <div class="gallery-peek__indicators" aria-label="Hero gallery navigation">
+            <button type="button" class="gallery-peek__indicator is-active" data-gallery-indicator aria-label="Show preview 1 of 4" aria-pressed="true"></button>
+            <button type="button" class="gallery-peek__indicator" data-gallery-indicator aria-label="Show preview 2 of 4" aria-pressed="false"></button>
+            <button type="button" class="gallery-peek__indicator" data-gallery-indicator aria-label="Show preview 3 of 4" aria-pressed="false"></button>
+            <button type="button" class="gallery-peek__indicator" data-gallery-indicator aria-label="Show preview 4 of 4" aria-pressed="false"></button>
+          </div>
         </div>
       </div>
     </section>
@@ -233,15 +251,6 @@
             <div class="projects__label section-heading__label">Featured Projects</div>
             <p class="projects__title section-heading__title">Designing products that feel clear, useful, and built to last.</p>
           </div>
-          <a href="#" class="projects__all-link">
-            All projects 
-            <div class="projects__all-icon">
-              <!-- Inline SVG for arrow left (rotated for right) matched from user's vector -->
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform: rotate(180deg);">
-                <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </a>
         </div>
 
         <div class="projects__list">
