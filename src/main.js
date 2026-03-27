@@ -681,6 +681,12 @@ function initGalleryGridParallax() {
   }
 
   items.forEach((item) => {
+    const media = item.querySelector('.gallery-grid__image');
+
+    if (!media) {
+      return;
+    }
+
     let frameId = null;
     let pointerRatioX = 0.5;
     let pointerRatioY = 0.5;
@@ -717,10 +723,6 @@ function initGalleryGridParallax() {
     };
 
     item.addEventListener('pointerenter', (event) => {
-      if (!item.classList.contains('is-revealed')) {
-        return;
-      }
-
       const rect = item.getBoundingClientRect();
       pointerRatioX = Math.min(Math.max((event.clientX - rect.left) / rect.width, 0), 1);
       pointerRatioY = Math.min(Math.max((event.clientY - rect.top) / rect.height, 0), 1);
@@ -729,10 +731,6 @@ function initGalleryGridParallax() {
     });
 
     item.addEventListener('pointermove', (event) => {
-      if (!item.classList.contains('is-revealed')) {
-        return;
-      }
-
       const rect = item.getBoundingClientRect();
       pointerRatioX = Math.min(Math.max((event.clientX - rect.left) / rect.width, 0), 1);
       pointerRatioY = Math.min(Math.max((event.clientY - rect.top) / rect.height, 0), 1);
@@ -1379,12 +1377,41 @@ const hamburger = document.getElementById('nav-hamburger');
 const drawer = document.getElementById('nav-drawer');
 
 if (hamburger && drawer) {
+  const mobileNavQuery = window.matchMedia('(max-width: 768px)');
+  let lockedScrollY = 0;
+
+  const lockMobileNavScroll = () => {
+    if (!mobileNavQuery.matches || document.body.dataset.navScrollLocked === 'true') {
+      return;
+    }
+
+    lockedScrollY = window.scrollY;
+    document.body.dataset.navScrollLocked = 'true';
+    document.body.style.setProperty('--nav-scroll-lock-top', `-${lockedScrollY}px`);
+  };
+
+  const unlockMobileNavScroll = () => {
+    if (document.body.dataset.navScrollLocked !== 'true') {
+      return;
+    }
+
+    document.body.removeAttribute('data-nav-scroll-locked');
+    document.body.style.removeProperty('--nav-scroll-lock-top');
+    window.scrollTo(0, lockedScrollY);
+  };
+
   const setNavState = (isOpen) => {
     drawer.classList.toggle('is-open', isOpen);
     hamburger.setAttribute('aria-expanded', String(isOpen));
     hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
     drawer.setAttribute('aria-hidden', String(!isOpen));
     document.body.classList.toggle('has-nav-open', isOpen);
+
+    if (isOpen) {
+      lockMobileNavScroll();
+    } else {
+      unlockMobileNavScroll();
+    }
   };
 
   setNavState(false);
@@ -1412,12 +1439,13 @@ if (hamburger && drawer) {
     }
   });
 
-  const desktopNavQuery = window.matchMedia('(min-width: 769px)');
   const handleDesktopNavChange = (event) => {
     if (event.matches) {
       setNavState(false);
     }
   };
+
+  const desktopNavQuery = window.matchMedia('(min-width: 769px)');
 
   if (typeof desktopNavQuery.addEventListener === 'function') {
     desktopNavQuery.addEventListener('change', handleDesktopNavChange);

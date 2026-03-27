@@ -57,6 +57,7 @@
   object-position: center;
   transform: translate3d(var(--gallery-item-pan-x), var(--gallery-item-pan-y), 0) scale(1.12);
   transition: transform 220ms var(--ease-smooth), filter 220ms var(--ease-smooth);
+  will-change: transform;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -66,6 +67,7 @@
   }
 
   .gallery-grid__item.is-parallax-active .gallery-grid__image {
+    transform: translate3d(var(--gallery-item-pan-x), var(--gallery-item-pan-y), 0) scale(1.16);
     filter: saturate(1.02);
   }
 }
