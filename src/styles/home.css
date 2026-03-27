@@ -2487,9 +2487,10 @@ body {
   /* Left pill: frosted glass, contains brand + Resume */
   .nav__left-pill {
     display: flex;
-    flex: 1 1 auto;
+    flex: 0 1 auto;
+    width: auto;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     min-width: 0;
     max-width: calc(100% - 54px);
     background-color: rgba(255, 255, 255, 0.75);
@@ -2499,7 +2500,7 @@ body {
     -webkit-backdrop-filter: blur(12px);
     box-shadow: var(--shadow-xs);
     padding: 6px 8px 6px 6px;
-    gap: clamp(10px, 3vw, 18px);
+    gap: 40px;
   }
 
   .nav__brand {
@@ -2929,7 +2930,7 @@ body {
   }
 
   .nav__left-pill {
-    gap: 10px;
+    gap: 40px;
   }
 
   .nav__drawer {
