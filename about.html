@@ -6,29 +6,71 @@
     <meta name="description" content="About Toby – product designer, builder, and curious problem solver." />
     <title>About – Toby</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <style>
+      html.is-app-loading body {
+        background: #f7f7f7;
+      }
+
+      html.is-app-loading body.page--about {
+        background: #0f0f0f;
+      }
+
+      html.is-app-loading body > * {
+        opacity: 0 !important;
+      }
+    </style>
+    <script>
+      (() => {
+        const root = document.documentElement;
+        try {
+          const rawState = window.sessionStorage.getItem('theme-page-transition');
+          if (!rawState) return;
+          const transitionState = JSON.parse(rawState);
+          const pathname = window.location.pathname;
+          const theme = pathname.endsWith('/about.html') || pathname === '/about.html' ? 'dark' : 'light';
+          if (!transitionState || transitionState.theme !== theme || (Date.now() - transitionState.timestamp) > 1800) return;
+          root.classList.add('is-app-loading');
+          root.classList.add('is-theme-transition-enter');
+          root.style.setProperty('--page-transition-overlay', theme === 'dark' ? '#0f0f0f' : '#f7f7f7');
+          window.setTimeout(() => {
+            root.classList.remove('is-app-loading');
+          }, 2400);
+        } catch {
+          // Ignore storage access errors.
+        }
+      })();
+    </script>
   </head>
   <body class="page--about">
     <header class="header">
-      <nav class="nav" id="nav">
-        <div class="nav__left-pill">
-          <div class="nav__brand">
-            <div class="nav__avatar">
-              <div class="grey-block grey-block--nav-avatar"></div>
+      <nav class="nav nav--hanging" id="nav">
+        <span class="nav__string nav__string--left" aria-hidden="true"></span>
+        <span class="nav__string nav__string--right" aria-hidden="true"></span>
+        <div class="nav__frame">
+          <span class="nav__string-tail" aria-hidden="true"></span>
+          <button class="nav__repair-handle" type="button" aria-label="Reconnect navigation">
+            <span class="nav__repair-knot" aria-hidden="true"></span>
+          </button>
+          <div class="nav__left-pill">
+            <div class="nav__brand">
+              <div class="nav__avatar">
+                <img class="nav__avatar-image" src="./images/Nav_profile_image.png" alt="" decoding="async" />
+              </div>
+              <a href="./index.html" class="nav__logo">toby.</a>
             </div>
-            <a href="./index.html" class="nav__logo">toby.</a>
+            <ul class="nav__links">
+              <li><a href="./gallery.html">Gallery</a></li>
+              <li><a href="./ai.html">AI Experiments</a></li>
+              <li><a href="./about.html" aria-current="page">About</a></li>
+            </ul>
+            <a href="#contact" class="nav__cta">Resume</a>
           </div>
-          <ul class="nav__links">
-            <li><a href="./gallery.html">Gallery</a></li>
-            <li><a href="./ai.html">AI Experiments</a></li>
-            <li><a href="./about.html" aria-current="page">About</a></li>
-          </ul>
-          <a href="#contact" class="nav__cta">Resume</a>
+          <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
+            <span class="nav__hamburger-bar"></span>
+            <span class="nav__hamburger-bar"></span>
+            <span class="nav__hamburger-bar"></span>
+          </button>
         </div>
-        <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
-          <span class="nav__hamburger-bar"></span>
-          <span class="nav__hamburger-bar"></span>
-          <span class="nav__hamburger-bar"></span>
-        </button>
       </nav>
       <div class="nav__drawer" id="nav-drawer" aria-hidden="true">
         <div class="nav__drawer-content">
@@ -148,81 +190,19 @@
         <div class="about-marquee__surface">
           <div class="about-marquee__track">
             <div class="about-marquee__list">
-              <article class="about-marquee__card about-marquee__card--teal" aria-hidden="true">
-                <div class="about-marquee__card-shell">
-                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
-                  <div class="about-marquee__card-image about-marquee__card-image--dashboard"></div>
-                </div>
-              </article>
-              <article class="about-marquee__card about-marquee__card--blush" aria-hidden="true">
-                <div class="about-marquee__card-shell">
-                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
-                  <div class="about-marquee__card-image about-marquee__card-image--table"></div>
-                </div>
-              </article>
-              <article class="about-marquee__card about-marquee__card--sand" aria-hidden="true">
-                <div class="about-marquee__card-shell">
-                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
-                  <div class="about-marquee__card-image about-marquee__card-image--feature"></div>
-                </div>
-              </article>
-              <article class="about-marquee__card about-marquee__card--paper" aria-hidden="true">
-                <div class="about-marquee__card-shell">
-                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
-                  <div class="about-marquee__card-image about-marquee__card-image--browser"></div>
-                </div>
-              </article>
-              <article class="about-marquee__card about-marquee__card--ink" aria-hidden="true">
-                <div class="about-marquee__card-shell">
-                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
-                  <div class="about-marquee__card-image about-marquee__card-image--dark-ui"></div>
-                </div>
-              </article>
-              <article class="about-marquee__card about-marquee__card--mist" aria-hidden="true">
-                <div class="about-marquee__card-shell">
-                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
-                  <div class="about-marquee__card-image about-marquee__card-image--split"></div>
-                </div>
-              </article>
-            </div>
-
-            <div class="about-marquee__list" aria-hidden="true">
-              <article class="about-marquee__card about-marquee__card--teal" aria-hidden="true">
-                <div class="about-marquee__card-shell">
-                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
-                  <div class="about-marquee__card-image about-marquee__card-image--dashboard"></div>
-                </div>
-              </article>
-              <article class="about-marquee__card about-marquee__card--blush" aria-hidden="true">
-                <div class="about-marquee__card-shell">
-                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
-                  <div class="about-marquee__card-image about-marquee__card-image--table"></div>
-                </div>
-              </article>
-              <article class="about-marquee__card about-marquee__card--sand" aria-hidden="true">
-                <div class="about-marquee__card-shell">
-                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
-                  <div class="about-marquee__card-image about-marquee__card-image--feature"></div>
-                </div>
-              </article>
-              <article class="about-marquee__card about-marquee__card--paper" aria-hidden="true">
-                <div class="about-marquee__card-shell">
-                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
-                  <div class="about-marquee__card-image about-marquee__card-image--browser"></div>
-                </div>
-              </article>
-              <article class="about-marquee__card about-marquee__card--ink" aria-hidden="true">
-                <div class="about-marquee__card-shell">
-                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
-                  <div class="about-marquee__card-image about-marquee__card-image--dark-ui"></div>
-                </div>
-              </article>
-              <article class="about-marquee__card about-marquee__card--mist" aria-hidden="true">
-                <div class="about-marquee__card-shell">
-                  <div class="about-marquee__card-chrome"><span></span><span></span><span></span></div>
-                  <div class="about-marquee__card-image about-marquee__card-image--split"></div>
-                </div>
-              </article>
+              <article class="about-marquee__card" aria-hidden="true"><img class="about-marquee__card-media" src="./images/About_marquee_visual_01.png" alt="" loading="lazy" decoding="async" /></article>
+              <article class="about-marquee__card" aria-hidden="true"><img class="about-marquee__card-media" src="./images/About_marquee_visual_02.png" alt="" loading="lazy" decoding="async" /></article>
+              <article class="about-marquee__card" aria-hidden="true"><img class="about-marquee__card-media" src="./images/About_marquee_visual_03.png" alt="" loading="lazy" decoding="async" /></article>
+              <article class="about-marquee__card" aria-hidden="true"><img class="about-marquee__card-media" src="./images/About_marquee_visual_04.png" alt="" loading="lazy" decoding="async" /></article>
+              <article class="about-marquee__card" aria-hidden="true"><img class="about-marquee__card-media" src="./images/About_marquee_visual_05.png" alt="" loading="lazy" decoding="async" /></article>
+              <article class="about-marquee__card" aria-hidden="true"><img class="about-marquee__card-media" src="./images/About_marquee_visual_06.png" alt="" loading="lazy" decoding="async" /></article>
+              <article class="about-marquee__card" aria-hidden="true"><img class="about-marquee__card-media" src="./images/About_marquee_visual_07.png" alt="" loading="lazy" decoding="async" /></article>
+              <article class="about-marquee__card" aria-hidden="true"><img class="about-marquee__card-media" src="./images/About_marquee_visual_08.png" alt="" loading="lazy" decoding="async" /></article>
+              <article class="about-marquee__card" aria-hidden="true"><img class="about-marquee__card-media" src="./images/About_marquee_visual_09.png" alt="" loading="lazy" decoding="async" /></article>
+              <article class="about-marquee__card" aria-hidden="true"><img class="about-marquee__card-media" src="./images/About_marquee_visual_10.png" alt="" loading="lazy" decoding="async" /></article>
+              <article class="about-marquee__card" aria-hidden="true"><img class="about-marquee__card-media" src="./images/About_marquee_visual_11.png" alt="" loading="lazy" decoding="async" /></article>
+              <article class="about-marquee__card" aria-hidden="true"><img class="about-marquee__card-media" src="./images/About_marquee_visual_12.png" alt="" loading="lazy" decoding="async" /></article>
+              <article class="about-marquee__card" aria-hidden="true"><img class="about-marquee__card-media" src="./images/About_marquee_visual_13.png" alt="" loading="lazy" decoding="async" /></article>
             </div>
           </div>
         </div>

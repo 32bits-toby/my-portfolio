@@ -2,6 +2,7 @@ const PROJECTS = {
   rethinkable: {
     title: 'Rethinkable',
     kicker: 'Product Design / Branding',
+    exactVisuals: true,
     summary: [
       'Rethinkable is a finance app shaped around emotional clarity, not just charts and balances. The core idea was to help people understand what their money is doing without making every screen feel like homework.',
       'The design direction focuses on calm guidance, gentler language, and small planning rituals that make the product feel supportive instead of corrective.'
@@ -22,28 +23,39 @@ const PROJECTS = {
     ],
     visuals: [
       {
-        tone: 'mint',
-        kicker: 'Overview',
-        title: 'A calmer dashboard',
-        caption: 'A first screen designed to reduce noise and surface only the decisions worth making right now.'
+        imageSrc: './images/Project_image_rethinkable_01.png',
+        imageAlt: 'Rethinkable project visual 01'
       },
       {
-        tone: 'sand',
-        kicker: 'Planning',
-        title: 'Weekly money rituals',
-        caption: 'Simple planning states that help users build consistency without feeling judged by the interface.'
+        imageSrc: './images/Project_image_rethinkable_02.png',
+        imageAlt: 'Rethinkable project visual 02'
       },
       {
-        tone: 'slate',
-        kicker: 'System',
-        title: 'Flexible card patterns',
-        caption: 'Reusable surfaces for trends, goals, reminders, and contextual spending insights.'
+        imageSrc: './images/Project_image_rethinkable_03.png',
+        imageAlt: 'Rethinkable project visual 03'
+      },
+      {
+        imageSrc: './images/Project_image_rethinkable_04.png',
+        imageAlt: 'Rethinkable project visual 04'
+      },
+      {
+        imageSrc: './images/Project_image_rethinkable_05.png',
+        imageAlt: 'Rethinkable project visual 05'
+      },
+      {
+        imageSrc: './images/Project_image_rethinkable_06.png',
+        imageAlt: 'Rethinkable project visual 06'
+      },
+      {
+        imageSrc: './images/Project_image_rethinkable_07.png',
+        imageAlt: 'Rethinkable project visual 07'
       }
     ]
   },
   quicksave: {
     title: 'QuickSave',
     kicker: 'Product Design / Service Platform',
+    exactVisuals: true,
     summary: [
       'QuickSave is a smart apartment services platform connecting residents, managers, and vendors through one shared flow. The challenge was making a many-sided system feel simple from each participant’s point of view.',
       'The design work focused on bookings, updates, approvals, and trust signals so everyday requests could move quickly without losing accountability.'
@@ -64,28 +76,59 @@ const PROJECTS = {
     ],
     visuals: [
       {
-        tone: 'cobalt',
-        kicker: 'Bookings',
-        title: 'Resident request flow',
-        caption: 'A booking sequence tuned for speed, confidence, and clear next steps after submission.'
+        imageSrc: './images/Project_image_quicksave_01.png',
+        imageAlt: 'QuickSave project visual 01'
       },
       {
-        tone: 'coral',
-        kicker: 'Operations',
-        title: 'Manager handoff states',
-        caption: 'Service requests are grouped into clear queues so priorities and blockers stay visible.'
+        imageSrc: './images/Project_image_quicksave_02.png',
+        imageAlt: 'QuickSave project visual 02'
       },
       {
-        tone: 'olive',
-        kicker: 'Network',
-        title: 'Vendor coordination',
-        caption: 'A set of patterns for aligning the resident experience with the back-of-house workflow.'
+        imageSrc: './images/Project_image_quicksave_03.png',
+        imageAlt: 'QuickSave project visual 03'
+      },
+      {
+        imageSrc: './images/Project_image_quicksave_04.png',
+        imageAlt: 'QuickSave project visual 04'
+      },
+      {
+        imageSrc: './images/Project_image_quicksave_05.png',
+        imageAlt: 'QuickSave project visual 05'
+      },
+      {
+        imageSrc: './images/Project_image_quicksave_06.png',
+        imageAlt: 'QuickSave project visual 06'
+      },
+      {
+        imageSrc: './images/Project_image_quicksave_07.png',
+        imageAlt: 'QuickSave project visual 07'
+      },
+      {
+        imageSrc: './images/Project_image_quicksave_08.png',
+        imageAlt: 'QuickSave project visual 08'
+      },
+      {
+        imageSrc: './images/Project_image_quicksave_09.png',
+        imageAlt: 'QuickSave project visual 09'
+      },
+      {
+        imageSrc: './images/Project_image_quicksave_10.png',
+        imageAlt: 'QuickSave project visual 10'
+      },
+      {
+        imageSrc: './images/Project_image_quicksave_11.png',
+        imageAlt: 'QuickSave project visual 11'
+      },
+      {
+        imageSrc: './images/Project_image_quicksave_12.png',
+        imageAlt: 'QuickSave project visual 12'
       }
     ]
   },
   croart: {
     title: 'Cro.Art',
     kicker: 'Product Design / Operations',
+    exactVisuals: true,
     summary: [
       'Cro.Art is a clinic management system designed to reduce operational drag for doctors, staff, and patients. The opportunity was to make scheduling, records, and day-to-day workflows feel coordinated instead of fragmented.',
       'The experience is built around calm throughput: fewer dead ends, cleaner handoffs, and layouts that help busy teams understand what needs attention immediately.'
@@ -106,28 +149,35 @@ const PROJECTS = {
     ],
     visuals: [
       {
-        tone: 'rose',
-        kicker: 'Scheduling',
-        title: 'A clearer appointment board',
-        caption: 'A schedule view built for rapid scanning, fewer mistakes, and smoother team coordination.'
+        imageSrc: './images/Project_image_croArt_01.png',
+        imageAlt: 'Cro.Art project visual 01'
       },
       {
-        tone: 'sand',
-        kicker: 'Records',
-        title: 'Patient context surfaces',
-        caption: 'Key information is pulled into focused panels so practitioners can orient quickly.'
+        imageSrc: './images/Project_image_croArt_02.png',
+        imageAlt: 'Cro.Art project visual 02'
       },
       {
-        tone: 'ink',
-        kicker: 'Workflow',
-        title: 'Operational handoff design',
-        caption: 'Reception, treatment, and follow-up states stay aligned through shared patterns.'
+        imageSrc: './images/Project_image_croArt_03.png',
+        imageAlt: 'Cro.Art project visual 03'
+      },
+      {
+        imageSrc: './images/Project_image_croArt_04.png',
+        imageAlt: 'Cro.Art project visual 04'
+      },
+      {
+        imageSrc: './images/Project_image_croArt_05.png',
+        imageAlt: 'Cro.Art project visual 05'
+      },
+      {
+        imageSrc: './images/Project_image_croArt_06.png',
+        imageAlt: 'Cro.Art project visual 06'
       }
     ]
   },
   aardvark: {
     title: 'Aardvark Messenger',
     kicker: 'Product Design / Web3 Messaging',
+    exactVisuals: true,
     summary: [
       'Aardvark is a Web3 messaging app that lets people communicate and transact directly through wallet addresses. No phone numbers, no email logins, just your wallet and the people you want to connect with.',
       'The design challenge was to bring together the familiarity of modern messaging with blockchain-native behaviors, without making the experience feel experimental or intimidating.'
@@ -148,28 +198,24 @@ const PROJECTS = {
     ],
     visuals: [
       {
-        tone: 'ink',
-        kicker: 'Messaging',
-        title: 'Wallet-first conversations',
-        caption: 'A chat experience that keeps the familiarity of messaging while making crypto actions feel native to the thread.'
+        imageSrc: './images/Project_image_aardvark_01.png',
+        imageAlt: 'Aardvark Messenger project visual 01'
       },
       {
-        tone: 'cobalt',
-        kicker: 'Transactions',
-        title: 'In-thread transfer states',
-        caption: 'Users can send value inside the conversation without breaking flow or losing clarity.'
+        imageSrc: './images/Project_image_aardvark_02.png',
+        imageAlt: 'Aardvark Messenger project visual 02'
       },
       {
-        tone: 'rose',
-        kicker: 'Identity',
-        title: 'Expressive profile layers',
-        caption: 'Wallet-linked identity, NFTs, and personalization cues give the product a distinct social presence.'
+        imageSrc: './images/Project_image_aardvark_03.png',
+        imageAlt: 'Aardvark Messenger project visual 03'
       },
       {
-        tone: 'slate',
-        kicker: 'System',
-        title: 'Trust and customization',
-        caption: 'Clear blockchain feedback and flexible theming help the product feel secure and personal at the same time.'
+        imageSrc: './images/Project_image_aardvark_04.png',
+        imageAlt: 'Aardvark Messenger project visual 04'
+      },
+      {
+        imageSrc: './images/Project_image_aardvark_05.png',
+        imageAlt: 'Aardvark Messenger project visual 05'
       }
     ]
   }
@@ -233,6 +279,16 @@ function renderAccordionItem(label, paragraphs) {
 }
 
 function renderVisualCard(visual) {
+  if (visual.imageSrc) {
+    return `
+      <article class="project-detail__visual-card project-detail__visual-card--media">
+        <div class="project-detail__visual-frame project-detail__visual-frame--media">
+          <img class="project-detail__visual-media" src="${visual.imageSrc}" alt="${visual.imageAlt ?? ''}" loading="lazy" decoding="async" />
+        </div>
+      </article>
+    `;
+  }
+
   return `
     <article class="project-detail__visual-card project-detail__visual-card--${visual.tone}">
       <div class="project-detail__visual-card-header">
@@ -291,7 +347,8 @@ export function initProjectPage() {
     renderAccordionItem('Solution', project.solution),
     renderAccordionItem('Results', project.results)
   ].join('');
-  visuals.innerHTML = expandProjectVisuals(project.visuals).map(renderVisualCard).join('');
+  const projectVisuals = project.exactVisuals ? project.visuals : expandProjectVisuals(project.visuals);
+  visuals.innerHTML = projectVisuals.map(renderVisualCard).join('');
 
   document.title = `${project.title} – Toby`;
 

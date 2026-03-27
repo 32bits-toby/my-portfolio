@@ -208,6 +208,17 @@
   transition: transform var(--transition-slow), box-shadow var(--transition-shadow), border-color var(--transition-base);
 }
 
+.project-detail__visual-card--media {
+  display: block;
+  padding: 0;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
+  box-shadow: none;
+}
+
 .project-detail__visual-card--ink {
   background: linear-gradient(180deg, #354f61 0%, #253442 100%);
 }
@@ -303,6 +314,29 @@
   transition: transform var(--transition-slow), box-shadow var(--transition-shadow), border-color var(--transition-base);
 }
 
+.project-detail__visual-frame--media {
+  --project-detail-visual-pan-x: 0px;
+  --project-detail-visual-pan-y: 0px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--surface-radius);
+  overflow: hidden;
+  background: transparent;
+  box-shadow: none;
+}
+
+.project-detail__visual-media {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: inherit;
+  transform: translate3d(var(--project-detail-visual-pan-x), var(--project-detail-visual-pan-y), 0) scale(1.08);
+  transform-origin: center;
+  transition: transform 260ms var(--ease-smooth);
+  will-change: transform;
+}
+
 .project-detail__visual-ui {
   display: grid;
   gap: 14px;
@@ -352,9 +386,20 @@
     border-color: var(--color-border);
   }
 
+  .project-detail__visual-card--media:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: transparent;
+  }
+
   .project-detail__visual-card:hover .project-detail__visual-frame {
     transform: translateY(-2px);
     box-shadow: var(--shadow-card-hover);
+  }
+
+  .project-detail__visual-card--media:hover .project-detail__visual-frame--media {
+    transform: none;
+    box-shadow: none;
   }
 }
 
@@ -383,6 +428,10 @@
   .project-detail__visual-card {
     min-height: 320px;
   }
+
+  .project-detail__visual-card--media {
+    min-height: 0;
+  }
 }
 
 @media (max-width: 768px) {
@@ -400,6 +449,11 @@
     padding: 20px;
     border-radius: var(--surface-radius);
   }
+
+  .project-detail__visual-card--media {
+    padding: 0;
+    border-radius: 0;
+  }
 }
 
 @media (max-width: 480px) {
@@ -415,5 +469,13 @@
   .project-detail__visual-frame {
     border-radius: var(--radius-lg);
     padding: 16px;
+  }
+
+  .project-detail__visual-card--media {
+    border-radius: 0;
+  }
+
+  .project-detail__visual-frame--media {
+    border-radius: var(--radius-lg);
   }
 }

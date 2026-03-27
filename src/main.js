@@ -8,6 +8,129 @@ import { initProjectPage } from './project-page.js';
 
 const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 const isReducedMotion = () => motionQuery.matches;
+const THEME_TRANSITION_KEY = 'theme-page-transition';
+const THEME_TRANSITION_MAX_AGE = 1800;
+const THEME_TRANSITION_NAVIGATE_DELAY = 380;
+const THEME_TRANSITION_SETTLE_DURATION = 820;
+
+const getPageTheme = (pathname = window.location.pathname) => (
+  pathname.endsWith('/about.html') || pathname === '/about.html' ? 'dark' : 'light'
+);
+
+const getThemeTransitionColor = (theme) => (
+  theme === 'dark' ? '#0f0f0f' : '#f7f7f7'
+);
+
+function releaseInitialPaintHold() {
+  const root = document.documentElement;
+
+  if (!root.classList.contains('is-app-loading')) {
+    return;
+  }
+
+  const release = () => {
+    root.classList.remove('is-app-loading');
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      window.requestAnimationFrame(release);
+    }, { once: true });
+    return;
+  }
+
+  window.requestAnimationFrame(release);
+}
+
+function readThemeTransitionState({ consume = false } = {}) {
+  let rawState = null;
+
+  try {
+    rawState = window.sessionStorage.getItem(THEME_TRANSITION_KEY);
+  } catch {
+    return null;
+  }
+
+  if (!rawState) {
+    return null;
+  }
+
+  let transitionState = null;
+
+  try {
+    transitionState = JSON.parse(rawState);
+  } catch {
+    if (consume) {
+      try {
+        window.sessionStorage.removeItem(THEME_TRANSITION_KEY);
+      } catch {
+        // Ignore storage access errors.
+      }
+    }
+    return null;
+  }
+
+  const isValid = (
+    transitionState &&
+    transitionState.theme === getPageTheme() &&
+    (Date.now() - transitionState.timestamp) <= THEME_TRANSITION_MAX_AGE
+  );
+
+  if (consume) {
+    try {
+      window.sessionStorage.removeItem(THEME_TRANSITION_KEY);
+    } catch {
+      // Ignore storage access errors.
+    }
+  }
+
+  return isValid ? transitionState : null;
+}
+
+function primeThemePageTransition() {
+  if (isReducedMotion()) {
+    try {
+      window.sessionStorage.removeItem(THEME_TRANSITION_KEY);
+    } catch {
+      // Ignore storage access errors.
+    }
+    return;
+  }
+
+  const transitionState = readThemeTransitionState({ consume: true });
+
+  if (!transitionState) {
+    return;
+  }
+
+  const root = document.documentElement;
+
+  root.style.setProperty('--page-transition-overlay', getThemeTransitionColor(transitionState.theme));
+  root.classList.add('is-theme-transition-enter');
+  root.classList.remove('is-theme-transitioning');
+  root.classList.remove('is-theme-transition-settle');
+
+  const releaseTransition = () => {
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        root.classList.add('is-theme-transition-settle');
+
+        window.setTimeout(() => {
+          root.classList.remove('is-theme-transition-enter');
+          root.classList.remove('is-theme-transition-settle');
+          root.style.removeProperty('--page-transition-overlay');
+        }, THEME_TRANSITION_SETTLE_DURATION);
+      });
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', releaseTransition, { once: true });
+    return;
+  }
+
+  releaseTransition();
+}
 
 function initMotionMode() {
   const root = document.documentElement;
@@ -23,6 +146,70 @@ function initMotionMode() {
   window.requestAnimationFrame(() => {
     window.requestAnimationFrame(() => {
       root.classList.add('is-motion-ready');
+    });
+  });
+}
+
+function initThemePageTransitions() {
+  if (isReducedMotion()) {
+    return;
+  }
+
+  const currentTheme = getPageTheme();
+  const root = document.documentElement;
+  let isTransitioning = false;
+
+  document.querySelectorAll('a[href]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      if (
+        isTransitioning ||
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey ||
+        link.target === '_blank' ||
+        link.hasAttribute('download')
+      ) {
+        return;
+      }
+
+      const href = link.getAttribute('href');
+
+      if (!href || href.startsWith('#')) {
+        return;
+      }
+
+      const destination = new URL(link.href, window.location.href);
+
+      if (
+        destination.origin !== window.location.origin ||
+        (destination.pathname === window.location.pathname && destination.search === window.location.search)
+      ) {
+        return;
+      }
+
+      const destinationTheme = getPageTheme(destination.pathname);
+
+      event.preventDefault();
+      isTransitioning = true;
+
+      try {
+        window.sessionStorage.setItem(THEME_TRANSITION_KEY, JSON.stringify({
+          theme: destinationTheme,
+          timestamp: Date.now(),
+        }));
+      } catch {
+        // Ignore storage access errors; transition will still work on the outgoing page.
+      }
+
+      root.style.setProperty('--page-transition-overlay', getThemeTransitionColor(destinationTheme));
+      root.classList.add('is-theme-transitioning');
+
+      window.setTimeout(() => {
+        window.location.href = destination.href;
+      }, THEME_TRANSITION_NAVIGATE_DELAY);
     });
   });
 }
@@ -248,19 +435,56 @@ function initHeroGalleryPeek() {
   const prefersReducedMotion = isReducedMotion();
   let activeIndex = slides.findIndex((slide) => slide.classList.contains('is-active'));
   let autoplayId = null;
+  let slideTransitionId = 0;
+  let outgoingTimeoutId = null;
+  const slideTransitionDuration = 860;
 
   if (activeIndex < 0) {
     activeIndex = 0;
   }
 
   const setActiveSlide = (nextIndex) => {
+    const previousIndex = activeIndex;
     activeIndex = nextIndex;
+    slideTransitionId += 1;
+    const currentTransitionId = slideTransitionId;
+
+    if (outgoingTimeoutId !== null) {
+      window.clearTimeout(outgoingTimeoutId);
+      outgoingTimeoutId = null;
+    }
 
     slides.forEach((slide, index) => {
       const isActive = index === activeIndex;
-      slide.classList.toggle('is-active', isActive);
-      slide.setAttribute('aria-hidden', String(!isActive));
+
+      if (isActive) {
+        slide.classList.add('is-active');
+        slide.classList.remove('is-outgoing');
+        slide.setAttribute('aria-hidden', 'false');
+        return;
+      }
+
+      if (index !== previousIndex) {
+        slide.classList.remove('is-active', 'is-outgoing');
+        slide.setAttribute('aria-hidden', 'true');
+      }
     });
+
+    if (previousIndex >= 0 && previousIndex !== activeIndex) {
+      const previousSlide = slides[previousIndex];
+      previousSlide.classList.remove('is-active');
+      previousSlide.classList.add('is-outgoing');
+      previousSlide.setAttribute('aria-hidden', 'true');
+
+      outgoingTimeoutId = window.setTimeout(() => {
+        if (currentTransitionId !== slideTransitionId) {
+          return;
+        }
+
+        previousSlide.classList.remove('is-outgoing');
+        outgoingTimeoutId = null;
+      }, slideTransitionDuration);
+    }
 
     indicators.forEach((indicator, index) => {
       const isActive = index === activeIndex;
@@ -400,8 +624,8 @@ function initProjectCardParallax() {
     const applyParallax = () => {
       frameId = null;
 
-      const panX = (pointerRatioX - 0.5) * 16;
-      const panY = (pointerRatioY - 0.5) * 12;
+      const panX = (pointerRatioX - 0.5) * 8;
+      const panY = (pointerRatioY - 0.5) * 6;
 
       visual.style.setProperty('--project-visual-pan-x', `${panX.toFixed(2)}px`);
       visual.style.setProperty('--project-visual-pan-y', `${panY.toFixed(2)}px`);
@@ -522,6 +746,76 @@ function initGalleryGridParallax() {
   });
 }
 
+function initProjectDetailVisualParallax() {
+  const hoverQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const frames = Array.from(document.querySelectorAll('.project-detail__visual-frame--media'));
+
+  if (!frames.length || isReducedMotion() || !hoverQuery.matches) {
+    return;
+  }
+
+  frames.forEach((frame) => {
+    const media = frame.querySelector('.project-detail__visual-media');
+
+    if (!media) {
+      return;
+    }
+
+    let frameId = null;
+    let pointerRatioX = 0.5;
+    let pointerRatioY = 0.5;
+
+    const applyParallax = () => {
+      frameId = null;
+
+      const panX = (pointerRatioX - 0.5) * 16;
+      const panY = (pointerRatioY - 0.5) * 12;
+
+      frame.style.setProperty('--project-detail-visual-pan-x', `${panX.toFixed(2)}px`);
+      frame.style.setProperty('--project-detail-visual-pan-y', `${panY.toFixed(2)}px`);
+    };
+
+    const scheduleParallax = () => {
+      if (frameId !== null) {
+        return;
+      }
+
+      frameId = window.requestAnimationFrame(applyParallax);
+    };
+
+    const resetParallax = () => {
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+        frameId = null;
+      }
+
+      pointerRatioX = 0.5;
+      pointerRatioY = 0.5;
+      frame.style.setProperty('--project-detail-visual-pan-x', '0px');
+      frame.style.setProperty('--project-detail-visual-pan-y', '0px');
+    };
+
+    frame.addEventListener('pointerenter', (event) => {
+      const rect = frame.getBoundingClientRect();
+      pointerRatioX = Math.min(Math.max((event.clientX - rect.left) / rect.width, 0), 1);
+      pointerRatioY = Math.min(Math.max((event.clientY - rect.top) / rect.height, 0), 1);
+      scheduleParallax();
+    });
+
+    frame.addEventListener('pointermove', (event) => {
+      const rect = frame.getBoundingClientRect();
+      pointerRatioX = Math.min(Math.max((event.clientX - rect.left) / rect.width, 0), 1);
+      pointerRatioY = Math.min(Math.max((event.clientY - rect.top) / rect.height, 0), 1);
+      scheduleParallax();
+    });
+
+    frame.addEventListener('pointerleave', resetParallax);
+    frame.addEventListener('pointercancel', resetParallax);
+
+    resetParallax();
+  });
+}
+
 function initHomeHangingNav() {
   const nav = document.querySelector('.page--home .nav--hanging');
   const frame = nav?.querySelector('.nav__frame');
@@ -551,9 +845,131 @@ function initHomeHangingNav() {
   let breakDistanceTarget = 120 + (Math.random() * 220);
   let hasBroken = false;
   let hasRepaired = false;
+  let lastRepairFeedbackStep = 0;
+  let navAudioContext = null;
+  let navNoiseBuffer = null;
   const initTimestamp = performance.now();
+  const canVibrate = typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function';
 
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+  const getNavAudioContext = () => {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
+    const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContextCtor) {
+      return null;
+    }
+
+    if (!navAudioContext) {
+      navAudioContext = new AudioContextCtor();
+    }
+
+    return navAudioContext;
+  };
+
+  const primeNavAudio = () => {
+    const context = getNavAudioContext();
+
+    if (!context || context.state === 'running') {
+      return;
+    }
+
+    context.resume().catch(() => {
+      // Ignore audio resume failures; sound is optional polish.
+    });
+  };
+
+  const getNavNoiseBuffer = (context) => {
+    if (!context) {
+      return null;
+    }
+
+    if (navNoiseBuffer && navNoiseBuffer.sampleRate === context.sampleRate) {
+      return navNoiseBuffer;
+    }
+
+    const bufferLength = Math.max(1, Math.floor(context.sampleRate * 0.08));
+    const buffer = context.createBuffer(1, bufferLength, context.sampleRate);
+    const channel = buffer.getChannelData(0);
+
+    for (let index = 0; index < bufferLength; index += 1) {
+      const decay = 1 - (index / bufferLength);
+      channel[index] = ((Math.random() * 2) - 1) * decay;
+    }
+
+    navNoiseBuffer = buffer;
+    return navNoiseBuffer;
+  };
+
+  const vibrateNav = (pattern) => {
+    if (!canVibrate) {
+      return;
+    }
+
+    navigator.vibrate(pattern);
+  };
+
+  const playNavSnapSound = () => {
+    const context = getNavAudioContext();
+
+    if (!context || context.state !== 'running') {
+      return;
+    }
+
+    const now = context.currentTime + 0.004;
+    const output = context.createGain();
+    output.gain.setValueAtTime(0.0001, now);
+    output.gain.exponentialRampToValueAtTime(0.065, now + 0.006);
+    output.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+    output.connect(context.destination);
+
+    const tone = context.createOscillator();
+    tone.type = 'triangle';
+    tone.frequency.setValueAtTime(1580, now);
+    tone.frequency.exponentialRampToValueAtTime(260, now + 0.09);
+
+    const toneGain = context.createGain();
+    toneGain.gain.setValueAtTime(0.9, now);
+    toneGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+    tone.connect(toneGain);
+    toneGain.connect(output);
+
+    const noise = context.createBufferSource();
+    noise.buffer = getNavNoiseBuffer(context);
+
+    const filter = context.createBiquadFilter();
+    filter.type = 'highpass';
+    filter.frequency.setValueAtTime(1450, now);
+
+    const noiseGain = context.createGain();
+    noiseGain.gain.setValueAtTime(0.26, now);
+    noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+
+    noise.connect(filter);
+    filter.connect(noiseGain);
+    noiseGain.connect(output);
+
+    tone.start(now);
+    tone.stop(now + 0.11);
+    noise.start(now);
+    noise.stop(now + 0.07);
+  };
+
+  const emitRepairFeedback = (progress) => {
+    const normalizedProgress = clamp(progress, 0, 1);
+    const feedbackStep = Math.min(4, Math.floor(normalizedProgress * 4));
+
+    if (feedbackStep <= lastRepairFeedbackStep) {
+      return;
+    }
+
+    lastRepairFeedbackStep = feedbackStep;
+    vibrateNav(feedbackStep >= 4 ? 12 : 7);
+  };
 
   const setRepairProgress = (value) => {
     repairProgress = clamp(value, 0, 1);
@@ -584,6 +1000,7 @@ function initHomeHangingNav() {
     repairStartPoint = null;
     repairTargetPoint = null;
     repairVector = null;
+    lastRepairFeedbackStep = 0;
     hasBroken = false;
     hasRepaired = false;
     resetBreakTriggerState();
@@ -597,6 +1014,8 @@ function initHomeHangingNav() {
     hasBroken = true;
     nav.classList.add('is-nav-breaking', 'is-nav-broken');
     setRepairProgress(0);
+    playNavSnapSound();
+    vibrateNav(12);
 
     window.setTimeout(() => {
       nav.classList.remove('is-nav-breaking');
@@ -618,6 +1037,8 @@ function initHomeHangingNav() {
     nav.classList.remove('is-nav-breaking', 'is-nav-broken', 'is-nav-dragging');
     nav.classList.add('is-nav-repairing');
     setRepairProgress(1);
+    lastRepairFeedbackStep = 4;
+    vibrateNav([10, 22, 14]);
 
     window.setTimeout(() => {
       nav.classList.remove('is-nav-repairing');
@@ -650,6 +1071,7 @@ function initHomeHangingNav() {
     const nextProgress = Math.max(projectedProgress, proximityProgress);
 
     setRepairProgress(nextProgress);
+    emitRepairFeedback(nextProgress);
 
     if (distanceToTarget <= repairSnapDistance || repairProgress >= repairProgressThreshold) {
       reconnectNav();
@@ -707,6 +1129,7 @@ function initHomeHangingNav() {
     event.stopPropagation();
 
     draggingPointerId = event.pointerId;
+    lastRepairFeedbackStep = 0;
     nav.classList.add('is-nav-dragging');
     handle.setPointerCapture(draggingPointerId);
 
@@ -795,6 +1218,9 @@ function initHomeHangingNav() {
     resetVisualState();
   });
 
+  window.addEventListener('pointerdown', primeNavAudio, { passive: true });
+  window.addEventListener('keydown', primeNavAudio, { passive: true });
+  window.addEventListener('wheel', primeNavAudio, { passive: true });
   window.addEventListener('scroll', scheduleScrollCheck, { passive: true });
   scheduleScrollCheck();
 }
@@ -817,14 +1243,130 @@ function initBackToTopLinks() {
   });
 }
 
+function initAboutMarquee() {
+  const surface = document.querySelector('.about-marquee__surface');
+  const list = surface?.querySelector('.about-marquee__list');
+
+  if (!surface || !list || list.children.length < 2 || isReducedMotion()) {
+    return;
+  }
+
+  let lastTimestamp = 0;
+  let offset = 0;
+  let itemAdvance = 0;
+  let isPaused = false;
+  let resizeFrameId = 0;
+
+  const getSpeed = () => {
+    if (window.innerWidth <= 480) {
+      return 24;
+    }
+
+    if (window.innerWidth <= 768) {
+      return 28;
+    }
+
+    return 34;
+  };
+
+  const updateMetrics = () => {
+    const firstCard = list.firstElementChild;
+
+    if (!firstCard) {
+      itemAdvance = 0;
+      return;
+    }
+
+    const listStyles = window.getComputedStyle(list);
+    const gap = parseFloat(listStyles.columnGap || listStyles.gap || '0');
+    itemAdvance = firstCard.getBoundingClientRect().width + gap;
+  };
+
+  const syncTransform = () => {
+    list.style.transform = `translate3d(${-offset}px, 0, 0)`;
+  };
+
+  const queueMetricsRefresh = () => {
+    if (resizeFrameId) {
+      window.cancelAnimationFrame(resizeFrameId);
+    }
+
+    resizeFrameId = window.requestAnimationFrame(() => {
+      const previousAdvance = itemAdvance;
+      updateMetrics();
+
+      if (previousAdvance > 0 && itemAdvance > 0) {
+        offset = (offset / previousAdvance) * itemAdvance;
+      } else {
+        offset = 0;
+      }
+
+      syncTransform();
+    });
+  };
+
+  const tick = (timestamp) => {
+    if (!lastTimestamp) {
+      lastTimestamp = timestamp;
+    }
+
+    const deltaSeconds = Math.min((timestamp - lastTimestamp) / 1000, 0.05);
+    lastTimestamp = timestamp;
+
+    if (!isPaused && !document.hidden && itemAdvance > 0) {
+      offset += getSpeed() * deltaSeconds;
+
+      while (offset >= itemAdvance) {
+        offset -= itemAdvance;
+        list.append(list.firstElementChild);
+      }
+
+      syncTransform();
+    }
+
+    window.requestAnimationFrame(tick);
+  };
+
+  surface.addEventListener('pointerenter', () => {
+    isPaused = true;
+  });
+
+  surface.addEventListener('pointerleave', () => {
+    isPaused = false;
+    lastTimestamp = 0;
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      lastTimestamp = 0;
+    }
+  });
+
+  window.addEventListener('resize', queueMetricsRefresh, { passive: true });
+
+  if (typeof ResizeObserver === 'function') {
+    const resizeObserver = new ResizeObserver(queueMetricsRefresh);
+    resizeObserver.observe(surface);
+  }
+
+  updateMetrics();
+  syncTransform();
+  window.requestAnimationFrame(tick);
+}
+
+primeThemePageTransition();
+releaseInitialPaintHold();
 initProjectPage();
 initMotionMode();
+initThemePageTransitions();
 initScrollReveal();
 initHeroGalleryPeek();
 initProjectCardParallax();
 initGalleryGridParallax();
+initProjectDetailVisualParallax();
 initHomeHangingNav();
 initStatCounters();
+initAboutMarquee();
 initBackToTopLinks();
 
 // Only initialize the dock on pages that render the dock markup.

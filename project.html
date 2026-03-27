@@ -6,29 +6,71 @@
     <meta name="description" content="Selected project case study by Toby." />
     <title>Project – Toby</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <style>
+      html.is-app-loading body {
+        background: #f7f7f7;
+      }
+
+      html.is-app-loading body.page--about {
+        background: #0f0f0f;
+      }
+
+      html.is-app-loading body > * {
+        opacity: 0 !important;
+      }
+    </style>
+    <script>
+      (() => {
+        const root = document.documentElement;
+        try {
+          const rawState = window.sessionStorage.getItem('theme-page-transition');
+          if (!rawState) return;
+          const transitionState = JSON.parse(rawState);
+          const pathname = window.location.pathname;
+          const theme = pathname.endsWith('/about.html') || pathname === '/about.html' ? 'dark' : 'light';
+          if (!transitionState || transitionState.theme !== theme || (Date.now() - transitionState.timestamp) > 1800) return;
+          root.classList.add('is-app-loading');
+          root.classList.add('is-theme-transition-enter');
+          root.style.setProperty('--page-transition-overlay', theme === 'dark' ? '#0f0f0f' : '#f7f7f7');
+          window.setTimeout(() => {
+            root.classList.remove('is-app-loading');
+          }, 2400);
+        } catch {
+          // Ignore storage access errors.
+        }
+      })();
+    </script>
   </head>
   <body class="page--project">
     <header class="header">
-      <nav class="nav" id="nav">
-        <div class="nav__left-pill">
-          <div class="nav__brand">
-            <div class="nav__avatar">
-              <div class="grey-block grey-block--nav-avatar"></div>
+      <nav class="nav nav--hanging" id="nav">
+        <span class="nav__string nav__string--left" aria-hidden="true"></span>
+        <span class="nav__string nav__string--right" aria-hidden="true"></span>
+        <div class="nav__frame">
+          <span class="nav__string-tail" aria-hidden="true"></span>
+          <button class="nav__repair-handle" type="button" aria-label="Reconnect navigation">
+            <span class="nav__repair-knot" aria-hidden="true"></span>
+          </button>
+          <div class="nav__left-pill">
+            <div class="nav__brand">
+              <div class="nav__avatar">
+                <img class="nav__avatar-image" src="./images/Nav_profile_image.png" alt="" decoding="async" />
+              </div>
+              <a href="./index.html" class="nav__logo">toby.</a>
             </div>
-            <a href="./index.html" class="nav__logo">toby.</a>
+            <ul class="nav__links">
+              <li><a href="./gallery.html">Gallery</a></li>
+              <li><a href="./ai.html">AI Experiments</a></li>
+              <li><a href="./about.html">About</a></li>
+            </ul>
+            <a href="#contact" class="nav__cta">Resume</a>
           </div>
-          <ul class="nav__links">
-            <li><a href="./gallery.html">Gallery</a></li>
-            <li><a href="./ai.html">AI Experiments</a></li>
-            <li><a href="./about.html">About</a></li>
-          </ul>
-          <a href="#contact" class="nav__cta">Resume</a>
+          <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
+            <span class="nav__hamburger-bar"></span>
+            <span class="nav__hamburger-bar"></span>
+            <span class="nav__hamburger-bar"></span>
+          </button>
         </div>
-        <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
-          <span class="nav__hamburger-bar"></span>
-          <span class="nav__hamburger-bar"></span>
-          <span class="nav__hamburger-bar"></span>
-        </button>
       </nav>
       <div class="nav__drawer" id="nav-drawer" aria-hidden="true">
         <div class="nav__drawer-content">
