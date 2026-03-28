@@ -185,11 +185,15 @@
   display: inline-flex;
   align-items: center;
   gap: 32px;
-  background: rgba(255, 255, 255, 0.75);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.64)),
+    rgba(255, 255, 255, 0.72);
   padding: 6px;
   border-radius: var(--radius-full);
   border: 1px solid var(--color-border-subtle);
-  box-shadow: var(--shadow-xs);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.58),
+    var(--shadow-xs);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transform-origin: 14% 0;
@@ -198,6 +202,20 @@
     box-shadow var(--transition-slow),
     border-color var(--transition-base),
     background-color var(--transition-base);
+}
+
+@media (min-width: 769px) {
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .nav--hanging .nav__frame {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(248, 248, 248, 0.88)),
+        rgba(255, 255, 255, 0.92);
+      border-color: rgba(17, 17, 17, 0.1);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.84),
+        0 16px 36px rgba(17, 17, 17, 0.08);
+    }
+  }
 }
 
 .nav__string {
@@ -1600,7 +1618,7 @@ html.is-motion-ready .hero__gallery-peek {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 20px;
+  gap: 24px;
   box-sizing: border-box;
   transition: transform var(--transition-slow), box-shadow var(--transition-slow);
 }
@@ -1608,7 +1626,7 @@ html.is-motion-ready .hero__gallery-peek {
 .project-card__info-inner {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
 }
 
 .project-card__icon-wrapper {
@@ -1640,7 +1658,7 @@ html.is-motion-ready .hero__gallery-peek {
 .project-card__text {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .project-card__name {
@@ -1660,7 +1678,7 @@ html.is-motion-ready .hero__gallery-peek {
 .project-card__tags {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   width: 100%;
   flex-wrap: wrap;
 }
@@ -1683,15 +1701,15 @@ html.is-motion-ready .hero__gallery-peek {
 
 .project-card__meta {
   display: grid;
-  gap: 10px;
-  padding-top: 16px;
+  gap: 12px;
+  padding-top: 20px;
   border-top: 1px solid rgba(17, 17, 17, 0.08);
 }
 
 .project-card__meta-row {
   display: grid;
   grid-template-columns: 72px minmax(0, 1fr);
-  gap: 10px;
+  gap: 12px;
   align-items: start;
 }
 
@@ -1910,7 +1928,7 @@ html.is-motion-ready .hero__gallery-peek {
 
 /* ---- SKILLS BANNER ---- */
 .skills-banner {
-  --skills-banner-bg-image: url('/images/skillsbanner_background.png');
+  --skills-banner-bg-image: url('/images/skillsbanner_background.webp');
   --skills-banner-edge-width: clamp(120px, 14vw, 240px);
   height: 352px;
   background-color: var(--color-bg-dark);

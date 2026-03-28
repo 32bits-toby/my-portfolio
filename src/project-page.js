@@ -23,31 +23,31 @@ const PROJECTS = {
     ],
     visuals: [
       {
-        imageSrc: './images/Project_image_rethinkable_01.png',
+        imageSrc: './images/Project_image_rethinkable_01.webp',
         imageAlt: 'Rethinkable project visual 01'
       },
       {
-        imageSrc: './images/Project_image_rethinkable_02.png',
+        imageSrc: './images/Project_image_rethinkable_02.webp',
         imageAlt: 'Rethinkable project visual 02'
       },
       {
-        imageSrc: './images/Project_image_rethinkable_03.png',
+        imageSrc: './images/Project_image_rethinkable_03.webp',
         imageAlt: 'Rethinkable project visual 03'
       },
       {
-        imageSrc: './images/Project_image_rethinkable_04.png',
+        imageSrc: './images/Project_image_rethinkable_04.webp',
         imageAlt: 'Rethinkable project visual 04'
       },
       {
-        imageSrc: './images/Project_image_rethinkable_05.png',
+        imageSrc: './images/Project_image_rethinkable_05.webp',
         imageAlt: 'Rethinkable project visual 05'
       },
       {
-        imageSrc: './images/Project_image_rethinkable_06.png',
+        imageSrc: './images/Project_image_rethinkable_06.webp',
         imageAlt: 'Rethinkable project visual 06'
       },
       {
-        imageSrc: './images/Project_image_rethinkable_07.png',
+        imageSrc: './images/Project_image_rethinkable_07.webp',
         imageAlt: 'Rethinkable project visual 07'
       }
     ]
@@ -76,51 +76,51 @@ const PROJECTS = {
     ],
     visuals: [
       {
-        imageSrc: './images/Project_image_quicksave_01.png',
+        imageSrc: './images/Project_image_quicksave_01.webp',
         imageAlt: 'QuickSave project visual 01'
       },
       {
-        imageSrc: './images/Project_image_quicksave_02.png',
+        imageSrc: './images/Project_image_quicksave_02.webp',
         imageAlt: 'QuickSave project visual 02'
       },
       {
-        imageSrc: './images/Project_image_quicksave_03.png',
+        imageSrc: './images/Project_image_quicksave_03.webp',
         imageAlt: 'QuickSave project visual 03'
       },
       {
-        imageSrc: './images/Project_image_quicksave_04.png',
+        imageSrc: './images/Project_image_quicksave_04.webp',
         imageAlt: 'QuickSave project visual 04'
       },
       {
-        imageSrc: './images/Project_image_quicksave_05.png',
+        imageSrc: './images/Project_image_quicksave_05.webp',
         imageAlt: 'QuickSave project visual 05'
       },
       {
-        imageSrc: './images/Project_image_quicksave_06.png',
+        imageSrc: './images/Project_image_quicksave_06.webp',
         imageAlt: 'QuickSave project visual 06'
       },
       {
-        imageSrc: './images/Project_image_quicksave_07.png',
+        imageSrc: './images/Project_image_quicksave_07.webp',
         imageAlt: 'QuickSave project visual 07'
       },
       {
-        imageSrc: './images/Project_image_quicksave_08.png',
+        imageSrc: './images/Project_image_quicksave_08.webp',
         imageAlt: 'QuickSave project visual 08'
       },
       {
-        imageSrc: './images/Project_image_quicksave_09.png',
+        imageSrc: './images/Project_image_quicksave_09.webp',
         imageAlt: 'QuickSave project visual 09'
       },
       {
-        imageSrc: './images/Project_image_quicksave_10.png',
+        imageSrc: './images/Project_image_quicksave_10.webp',
         imageAlt: 'QuickSave project visual 10'
       },
       {
-        imageSrc: './images/Project_image_quicksave_11.png',
+        imageSrc: './images/Project_image_quicksave_11.webp',
         imageAlt: 'QuickSave project visual 11'
       },
       {
-        imageSrc: './images/Project_image_quicksave_12.png',
+        imageSrc: './images/Project_image_quicksave_12.webp',
         imageAlt: 'QuickSave project visual 12'
       }
     ]
@@ -148,27 +148,27 @@ const PROJECTS = {
     ],
     visuals: [
       {
-        imageSrc: './images/Project_image_croArt_01.png',
+        imageSrc: './images/Project_image_croArt_01.webp',
         imageAlt: 'Cro.Art project visual 01'
       },
       {
-        imageSrc: './images/Project_image_croArt_02.png',
+        imageSrc: './images/Project_image_croArt_02.webp',
         imageAlt: 'Cro.Art project visual 02'
       },
       {
-        imageSrc: './images/Project_image_croArt_03.png',
+        imageSrc: './images/Project_image_croArt_03.webp',
         imageAlt: 'Cro.Art project visual 03'
       },
       {
-        imageSrc: './images/Project_image_croArt_04.png',
+        imageSrc: './images/Project_image_croArt_04.webp',
         imageAlt: 'Cro.Art project visual 04'
       },
       {
-        imageSrc: './images/Project_image_croArt_05.png',
+        imageSrc: './images/Project_image_croArt_05.webp',
         imageAlt: 'Cro.Art project visual 05'
       },
       {
-        imageSrc: './images/Project_image_croArt_06.png',
+        imageSrc: './images/Project_image_croArt_06.webp',
         imageAlt: 'Cro.Art project visual 06'
       }
     ]
@@ -197,23 +197,23 @@ const PROJECTS = {
     ],
     visuals: [
       {
-        imageSrc: './images/Project_image_aardvark_01.png',
+        imageSrc: './images/Project_image_aardvark_01.webp',
         imageAlt: 'Aardvark Messenger project visual 01'
       },
       {
-        imageSrc: './images/Project_image_aardvark_02.png',
+        imageSrc: './images/Project_image_aardvark_02.webp',
         imageAlt: 'Aardvark Messenger project visual 02'
       },
       {
-        imageSrc: './images/Project_image_aardvark_03.png',
+        imageSrc: './images/Project_image_aardvark_03.webp',
         imageAlt: 'Aardvark Messenger project visual 03'
       },
       {
-        imageSrc: './images/Project_image_aardvark_04.png',
+        imageSrc: './images/Project_image_aardvark_04.webp',
         imageAlt: 'Aardvark Messenger project visual 04'
       },
       {
-        imageSrc: './images/Project_image_aardvark_05.png',
+        imageSrc: './images/Project_image_aardvark_05.webp',
         imageAlt: 'Aardvark Messenger project visual 05'
       }
     ]
