@@ -10,8 +10,8 @@ const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 const isReducedMotion = () => motionQuery.matches;
 const THEME_TRANSITION_KEY = 'theme-page-transition';
 const THEME_TRANSITION_MAX_AGE = 1800;
-const THEME_TRANSITION_NAVIGATE_DELAY = 380;
-const THEME_TRANSITION_SETTLE_DURATION = 820;
+const THEME_TRANSITION_NAVIGATE_DELAY = 480;
+const THEME_TRANSITION_SETTLE_DURATION = 900;
 
 const getPageTheme = (pathname = window.location.pathname) => (
   pathname.endsWith('/about.html') || pathname === '/about.html' ? 'dark' : 'light'
@@ -146,6 +146,90 @@ function initMotionMode() {
   window.requestAnimationFrame(() => {
     window.requestAnimationFrame(() => {
       root.classList.add('is-motion-ready');
+    });
+  });
+}
+
+/**
+ * Adds a subtle, synthesised pop/tick sound on hover for each tool-dock item.
+ *
+ * Each item is assigned a slightly different pitch so that scrubbing across
+ * the dock creates a pleasant, xylophone-like sweep.
+ *
+ * Uses the Web Audio API — no external sound files required.
+ * Respects `prefers-reduced-motion` (skips entirely).
+ */
+function initDockHoverSounds() {
+  const items = document.querySelectorAll('.tool-dock__item');
+
+  if (!items.length || isReducedMotion()) {
+    return;
+  }
+
+  // Lazily create a shared AudioContext (created on first hover to
+  // comply with browser autoplay policies — user gesture required).
+  let audioCtx = null;
+
+  const ensureAudioCtx = () => {
+    if (audioCtx) {
+      // Resume if the browser suspended it.
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch {
+      return null;
+    }
+
+    return audioCtx;
+  };
+
+  // Base frequency and per-item step so each icon has its own pitch.
+  // Range: 1 000 Hz → ~1 420 Hz across 7 items — subtle but perceptible.
+  const BASE_FREQ = 1000;
+  const FREQ_STEP = 60;
+
+  /**
+   * Synthesise and play a single pop at a given frequency:
+   *  – Very short sine-wave burst (~55 ms)
+   *  – Quick frequency dip gives a satisfying "tick" feel
+   *  – Fast exponential gain decay → clean, non-ringy tail
+   *  – Low master volume (0.09) so it's an unobtrusive UI cue
+   */
+  const playPop = (freq) => {
+    const ctx = ensureAudioCtx();
+
+    if (!ctx) {
+      return;
+    }
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, now);
+    osc.frequency.exponentialRampToValueAtTime(freq * 0.72, now + 0.055);
+
+    gain.gain.setValueAtTime(0.09, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.055);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start(now);
+    osc.stop(now + 0.065);
+  };
+
+  items.forEach((item, index) => {
+    const freq = BASE_FREQ + index * FREQ_STEP;
+
+    item.addEventListener('pointerenter', () => {
+      playPop(freq);
     });
   });
 }
@@ -1386,6 +1470,7 @@ initBackToTopLinks();
 // Only initialize the dock on pages that render the dock markup.
 if (document.querySelector('.tool-dock')) {
   initDock();
+  initDockHoverSounds();
 }
 
 // ---- Hamburger Nav ----
