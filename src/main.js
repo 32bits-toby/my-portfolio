@@ -395,12 +395,12 @@ function initHeroGalleryPeek() {
 
     hero.style.setProperty('--hero-viewport-height', `${viewportHeight}px`);
 
-    const heroRect = hero.getBoundingClientRect();
+    const heroHeight = hero.getBoundingClientRect().height;
     const galleryHeight = galleryPeekInner.getBoundingClientRect().height;
-    const visibleHeight = galleryHeight * 0.1;
-    const hiddenHeight = galleryHeight - visibleHeight;
-    const heroVisibleBottomInHero = Math.max(0, Math.min(heroRect.bottom, viewportHeight) - heroRect.top);
-    const galleryTop = heroVisibleBottomInHero - visibleHeight;
+    const preferredVisibleHeight = parseFloat(window.getComputedStyle(hero).getPropertyValue('--hero-gallery-peek-visible')) || 0;
+    const visibleHeight = Math.max(0, Math.min(galleryHeight, preferredVisibleHeight || (galleryHeight * 0.1)));
+    const hiddenHeight = Math.max(0, galleryHeight - visibleHeight);
+    const galleryTop = Math.max(0, heroHeight - visibleHeight);
 
     hero.style.setProperty('--hero-gallery-overflow', `${hiddenHeight}px`);
     hero.style.setProperty('--hero-gallery-visible-height', `${visibleHeight}px`);
@@ -513,10 +513,26 @@ function initHeroGalleryPeek() {
     }, 4500);
   };
 
+  const activateIndicator = (index) => {
+    setActiveSlide(index);
+    startAutoplay();
+  };
+
   indicators.forEach((indicator, index) => {
-    indicator.addEventListener('click', () => {
-      setActiveSlide(index);
-      startAutoplay();
+    indicator.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+      activateIndicator(index);
+    });
+
+    indicator.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      activateIndicator(index);
     });
   });
 

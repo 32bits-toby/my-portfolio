@@ -716,7 +716,9 @@ html:not(.is-motion-ready) .page--about .footer {
 }
 
 .page--about .footer__headline {
-  color: rgba(255, 255, 255, 0.09);
+  --footer-headline-fill-rgb: 255 255 255;
+  --footer-headline-base-alpha: 0.09;
+  color: rgb(var(--footer-headline-fill-rgb) / var(--footer-headline-base-alpha));
 }
 
 .page--about .footer__back-to-top {

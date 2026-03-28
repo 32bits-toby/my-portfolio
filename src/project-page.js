@@ -4,22 +4,22 @@ const PROJECTS = {
     kicker: 'Product Design / Branding',
     exactVisuals: true,
     summary: [
-      'Rethinkable is a finance app shaped around emotional clarity, not just charts and balances. The core idea was to help people understand what their money is doing without making every screen feel like homework.',
-      'The design direction focuses on calm guidance, gentler language, and small planning rituals that make the product feel supportive instead of corrective.'
+      'Rethinkable is a mobile-first Web3 professional networking and job platform that helps crypto-native talent and decentralized organizations find each other. It integrates with Discord, Telegram, Twitter, and major Web3 community channels that together reach millions of users.',
+      'I joined the team as lead designer and got to shape the product from the ground up, working across onboarding, digital identity, job discovery, and application management. It was a genuine team effort, and the goal throughout was simple: make hiring in Web3 feel as natural as the community itself.'
     ],
     meta: [
-      { label: 'Timeline', values: ['2024'] },
-      { label: 'Links', values: [{ label: 'Private concept walkthrough', href: '#contact' }] },
-      { label: 'Role', values: ['Lead Product Designer'] },
-      { label: 'Tools', values: ['Figma', 'Illustrator', 'Notion'] }
+      { label: 'Timeline', values: ['2022 - 2023'] },
+      { label: 'Links', values: [{ label: 'www.rethinkable.xyz', href: 'https://www.rethinkable.xyz' }] },
+      { label: 'Role', values: ['Lead Designer'] },
+      { label: 'Tools', values: ['Figma', 'Cross functional team', 'Illustrator'] }
     ],
     solution: [
-      'The product was structured around a lighter decision-making flow: a home dashboard that surfaces the few signals that matter most, clearer categories for understanding habits, and planning moments that feel like prompts rather than warnings.',
-      'We also designed a softer brand system around the product so budgeting, saving, and reflection all felt part of the same tone. That gave the experience more warmth while still preserving trust and legibility.'
+      'We asked ourselves what professional networking would look like if it were built from scratch for Web3, and Rethinkable is the answer.',
+      'The platform works for both companies and talent, and it was designed around how people in this space actually operate: with pseudonymous identities, multi-chain affiliations, and communities built on Discord rather than LinkedIn. We made room for PFP profiles, DAO-led organizations, and token-based pay, because that\'s the reality of modern Web3 work.'
     ],
     results: [
-      'The concept landed as a cohesive product story with a distinct point of view. Instead of competing on feature density, Rethinkable shows how a finance product can feel calmer, more personal, and more usable without sacrificing utility.',
-      'The resulting work includes a product narrative, brand direction, dashboard language system, and interface patterns that could scale into a fuller money-management platform.'
+      'Rethinkable grew into one of the largest Web3 job boards around, with listings distributed across Discord communities reaching millions of people.',
+      'The platform made pseudonymous professional profiles a real, practical thing, introduced token-based compensation for contributors, and helped set a new standard for what hiring can look like in the decentralized web.'
     ],
     visuals: [
       {
@@ -57,22 +57,22 @@ const PROJECTS = {
     kicker: 'Product Design / Service Platform',
     exactVisuals: true,
     summary: [
-      'QuickSave is a smart apartment services platform connecting residents, managers, and vendors through one shared flow. The challenge was making a many-sided system feel simple from each participant’s point of view.',
-      'The design work focused on bookings, updates, approvals, and trust signals so everyday requests could move quickly without losing accountability.'
+      'QuickSave is a lightweight cloud storage platform built around one simple idea: saving and retrieving your files should never feel like a chore. No slowdowns, no friction, just fast and reliable access to everything you need, from anywhere.',
+      'I came on as lead designer and worked on shaping an experience that feels as quick and dependable as the product promises. The focus throughout was on keeping things clean and intuitive, because when speed is the whole point, the interface has to get out of the way.'
     ],
     meta: [
-      { label: 'Timeline', values: ['2023'] },
-      { label: 'Links', values: [{ label: 'Internal prototype', href: '#contact' }] },
-      { label: 'Role', values: ['Lead Product Designer'] },
-      { label: 'Tools', values: ['Figma', 'FigJam', 'Notion'] }
+      { label: 'Timeline', values: ['2025'] },
+      { label: 'Links', values: [{ label: 'Figma preview', href: '#contact' }] },
+      { label: 'Role', values: ['Lead Designer'] },
+      { label: 'Tools', values: ['Figma', 'Illustrator'] }
     ],
     solution: [
-      'We mapped the product around the full service lifecycle, from discovery and booking through progress updates and completion. That led to a clearer structure where residents can request help fast, while managers and vendors still get the operational detail they need.',
-      'The interface uses strong status language, cleaner request cards, and decision-focused task flows so each user sees the right amount of information at the right moment.'
+      'A lot of storage platforms make you feel the weight of their complexity. QuickSave takes the opposite approach. We built a system that prioritises fast uploads, instant access, and seamless file sharing, without asking users to think too hard about any of it.',
+      'For people handling sensitive or complex files, we also built in strong security under the hood, so your data stays protected without adding friction to your day to day experience.'
     ],
     results: [
-      'The result is a concept platform that feels less like a dashboard for admins and more like a coordinated service layer for an entire building ecosystem.',
-      'It demonstrates how a single product can handle resident convenience and operational rigor together, with room to scale across requests, packages, maintenance, and premium services.'
+      'QuickSave gives users a storage experience that genuinely keeps up with them. Files are accessible anytime and from any device, sharing feels effortless, and the security layer works quietly in the background without ever getting in the way.',
+      'The platform brings together speed, simplicity, and peace of mind in a way that makes everyday file management feel almost invisible.'
     ],
     visuals: [
       {
@@ -130,22 +130,21 @@ const PROJECTS = {
     kicker: 'Product Design / Operations',
     exactVisuals: true,
     summary: [
-      'Cro.Art is a clinic management system designed to reduce operational drag for doctors, staff, and patients. The opportunity was to make scheduling, records, and day-to-day workflows feel coordinated instead of fragmented.',
-      'The experience is built around calm throughput: fewer dead ends, cleaner handoffs, and layouts that help busy teams understand what needs attention immediately.'
+      'Cro.art is an NFT marketplace concept built on the Cronos blockchain, designed to make buying, selling, and discovering NFTs within the Cronos ecosystem feel simple and enjoyable. The platform was crafted to feel welcoming to both first-time collectors and experienced traders alike.',
+      'I worked on this as lead designer, taking the product from initial concept through to a complete set of high-fidelity designs in Figma. The goal throughout was to make NFT trading feel approachable and rewarding, so that creators and collectors could focus on what they actually love about the space.'
     ],
     meta: [
       { label: 'Timeline', values: ['2023'] },
-      { label: 'Links', values: [{ label: 'Concept case study', href: '#contact' }] },
-      { label: 'Role', values: ['Product Designer'] },
-      { label: 'Tools', values: ['Figma', 'Miro', 'Notion'] }
+      { label: 'Links', values: [{ label: 'Aardvark.sh', href: '#contact' }] },
+      { label: 'Role', values: ['Lead Designer'] },
+      { label: 'Tools', values: ['Figma', 'Cross functional team', 'Illustrator', 'Spline'] }
     ],
     solution: [
-      'The design system prioritized appointment visibility, faster patient context, and interface patterns that cut across reception, practitioner, and admin workflows. That meant reducing UI noise and emphasizing sequencing over density.',
-      'We introduced shared components for schedule states, records, and handoff actions so the product could feel consistent even as different teams moved through different tasks.'
+      'We wanted Cro.art to feel like a marketplace that actually enjoys being used. That meant designing intuitive browsing and discovery features, advanced filtering so users can find exactly what they are looking for, and a listing flow that gets creators onto the market with as little friction as possible.',
+      'We also explored live auction functionality for real-time bidding, and dedicated creator spaces where artists and NFT projects could showcase their work and connect with buyers in a more meaningful way.'
     ],
     results: [
-      'Cro.Art came together as a more unified operations concept for healthcare environments where time pressure is constant. The product direction shows how the experience can stay efficient without becoming cold or difficult to scan.',
-      'The final output covers patient scheduling, treatment context, workflow coordination, and a clearer operational language system that could support a broader clinic platform.'
+      'The project reached a fully fleshed out design stage, with high-fidelity screens covering the core marketplace experience, creator tools, and auction flows. While Cro.art did not move into development, the design work laid out a strong foundation for what a creator-friendly, accessible NFT marketplace on Cronos could look like.'
     ],
     visuals: [
       {
@@ -175,26 +174,26 @@ const PROJECTS = {
     ]
   },
   aardvark: {
-    title: 'Aardvark Messenger',
+    title: 'Aardvark Messanger',
     kicker: 'Product Design / Web3 Messaging',
     exactVisuals: true,
     summary: [
-      'Aardvark is a Web3 messaging app that lets people communicate and transact directly through wallet addresses. No phone numbers, no email logins, just your wallet and the people you want to connect with.',
-      'The design challenge was to bring together the familiarity of modern messaging with blockchain-native behaviors, without making the experience feel experimental or intimidating.'
+      'Aardvark is a Web3 messaging app that lets users communicate and transact directly through their wallet addresses. No phone numbers, no emails, just your wallet and the people you want to connect with.',
+      'I came on as lead designer and worked on bringing together two things that don\'t usually sit in the same place: the comfort of a familiar messaging experience and the power of blockchain functionality. The challenge was making something that feels natural to use even when what\'s happening under the hood is genuinely new.'
     ],
     meta: [
       { label: 'Timeline', values: ['2022'] },
-      { label: 'Links', values: [{ label: 'Aardvark concept deck', href: '#contact' }] },
+      { label: 'Links', values: [{ label: 'Aardvark.sh', href: 'https://aardvark.sh' }] },
       { label: 'Role', values: ['Lead Designer'] },
       { label: 'Tools', values: ['Figma', 'Illustrator'] }
     ],
     solution: [
-      'The product was built around the idea that conversations and transactions should not live in separate places. Inside a single chat, users can message, transfer crypto, review wallet details, and complete blockchain actions without leaving the thread.',
-      'Wallet addresses replace conventional contacts, NFTs become identity markers, and the UI is customizable enough to feel expressive while still keeping key financial actions clear and trustworthy.'
+      'We built Aardvark around the idea that messaging and transactions should not live in separate apps. Within a single chat, users can send messages, transfer crypto, and complete transactions as easily as typing a sentence. Wallet addresses replace contact details, NFTs serve as profile pictures, and the whole interface can be personalised with custom colours, themes, and layouts.',
+      'End-to-end encryption keeps conversations private, and blockchain integration makes every transaction transparent and secure without adding complexity for the user.'
     ],
     results: [
-      'Aardvark evolved into a fully considered concept showing what a Web3-native messaging product could look like if it prioritized clarity first. The resulting work covers the chat experience, in-thread transfers, wallet-based contacts, and customization patterns that make the product feel personal.',
-      'More importantly, it establishes a direction where digital identity, communication, and transactions all feel at home together instead of feeling like separate tools forced into one screen.'
+      'Aardvark came together as a fully designed concept that reimagines what a messaging app can be in a Web3 world. The design work covers the core chat experience, in-chat crypto transfers, wallet-based contact management, and a customisable interface that feels as familiar as the apps people already love.',
+      'It lays out a clear and considered vision for a platform where digital identity, communication, and financial transactions all feel at home together.'
     ],
     visuals: [
       {

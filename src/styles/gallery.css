@@ -29,6 +29,12 @@
   width: min(var(--heading-width-md), 100%);
 }
 
+.page--gallery .nav__avatar {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.42);
+}
+
 .gallery-grid {
   --gallery-gap: 24px;
   display: grid;
