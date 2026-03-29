@@ -1738,6 +1738,7 @@ function initResumeViewer() {
   const viewer = document.createElement('div');
   viewer.className = 'resume-viewer';
   viewer.setAttribute('aria-hidden', 'true');
+  viewer.hidden = true;
   viewer.innerHTML = `
     <div class="resume-viewer__backdrop" data-resume-backdrop></div>
     <section class="resume-viewer__panel" role="dialog" aria-modal="true" aria-labelledby="resume-viewer-title">
@@ -1808,6 +1809,7 @@ function initResumeViewer() {
   let isPdfLoading = false;
   let resizeFrameId = 0;
   let scrollFrameId = 0;
+  let hideViewerTimeoutId = 0;
   const MIN_ZOOM = 0.85;
   const MAX_ZOOM = 2.4;
   const ZOOM_STEP = 0.15;
@@ -2005,7 +2007,12 @@ function initResumeViewer() {
 
   const openViewer = (trigger) => {
     lastTrigger = trigger;
-    viewer.classList.add('is-open');
+    if (hideViewerTimeoutId) {
+      window.clearTimeout(hideViewerTimeoutId);
+      hideViewerTimeoutId = 0;
+    }
+
+    viewer.hidden = false;
     viewer.setAttribute('aria-hidden', 'false');
     lockResumeViewer();
     ensurePdfDocument();
@@ -2017,6 +2024,7 @@ function initResumeViewer() {
     }
 
     window.requestAnimationFrame(() => {
+      viewer.classList.add('is-open');
       closeButton.focus({ preventScroll: true });
     });
   };
@@ -2029,6 +2037,13 @@ function initResumeViewer() {
     viewer.classList.remove('is-open');
     viewer.setAttribute('aria-hidden', 'true');
     unlockResumeViewer();
+
+    hideViewerTimeoutId = window.setTimeout(() => {
+      if (!viewer.classList.contains('is-open')) {
+        viewer.hidden = true;
+      }
+      hideViewerTimeoutId = 0;
+    }, 360);
 
     if (lastTrigger instanceof HTMLElement) {
       window.setTimeout(() => {
