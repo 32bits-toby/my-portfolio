@@ -67,7 +67,7 @@
               <li><a href="./ai.html">AI Experiments</a></li>
               <li><a href="./about.html">About</a></li>
             </ul>
-            <a href="#contact" class="nav__cta">Resume</a>
+            <button type="button" class="nav__cta" data-resume-trigger aria-haspopup="dialog">Resume</button>
           </div>
           <!-- Hamburger pill — hidden on desktop, shown on mobile as its own right pill -->
           <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
@@ -250,7 +250,7 @@
           <div class="about__bio-card">
             <p class="about__bio-label">About Toby.</p>
             <p class="about__bio-text">
-              I'm a product designer with a builder's mindset. Over the last 5 years, I've worked across startups, enterprise products and Web3 startups, turning complex challenges into simple, meaningful designs through user research.
+              I'm a product designer with a builder's mindset and a bachelor's degree in software engineering. Over the last 5 years, I've worked across startups, enterprise products and Web3 startups, turning complex challenges into simple, meaningful designs through user research.
             </p>
             <p class="about__bio-text">
               Because I understand how products get built, I don't just design for aesthetics. I design for flow, feasibility, and adoption. The goal is always the same: make the product more intuitive, and easier to trust.
@@ -330,7 +330,7 @@
                 <div class="project-card__meta" aria-label="Rethinkable details">
                   <div class="project-card__meta-row">
                     <span class="project-card__meta-label">Timeline</span>
-                    <span class="project-card__meta-value">2022 - 2023</span>
+                    <span class="project-card__meta-value" data-project-timeline="rethinkable">2023</span>
                   </div>
                   <div class="project-card__meta-row">
                     <span class="project-card__meta-label">Role</span>
@@ -386,7 +386,7 @@
                 <div class="project-card__meta" aria-label="QuickSave details">
                   <div class="project-card__meta-row">
                     <span class="project-card__meta-label">Timeline</span>
-                    <span class="project-card__meta-value">2025</span>
+                    <span class="project-card__meta-value" data-project-timeline="quicksave">2022</span>
                   </div>
                   <div class="project-card__meta-row">
                     <span class="project-card__meta-label">Role</span>
@@ -442,7 +442,7 @@
                 <div class="project-card__meta" aria-label="Cro.Art details">
                   <div class="project-card__meta-row">
                     <span class="project-card__meta-label">Timeline</span>
-                    <span class="project-card__meta-value">2023</span>
+                    <span class="project-card__meta-value" data-project-timeline="croart">2022</span>
                   </div>
                   <div class="project-card__meta-row">
                     <span class="project-card__meta-label">Role</span>
@@ -498,7 +498,7 @@
                 <div class="project-card__meta" aria-label="Aardvark details">
                   <div class="project-card__meta-row">
                     <span class="project-card__meta-label">Timeline</span>
-                    <span class="project-card__meta-value">2022</span>
+                    <span class="project-card__meta-value" data-project-timeline="aardvark">2023</span>
                   </div>
                   <div class="project-card__meta-row">
                     <span class="project-card__meta-label">Role</span>
@@ -676,7 +676,7 @@
 
       <div class="footer__bottom">
         <div class="footer__actions">
-          <a href="#contact" class="footer__action footer__action--primary">Read my resume</a>
+          <button type="button" class="footer__action footer__action--primary" data-resume-trigger aria-haspopup="dialog">Read my resume</button>
           <a href="mailto:nameistobi@gmail.com" class="footer__action footer__action--secondary">
             <span>nameistobi@gmail.com</span>
             <span class="footer__action-icon" aria-hidden="true">

@@ -3,8 +3,8 @@
 
 import './styles/main.css';
 import './styles/about.css';
-import { initDock } from './dock.js';
-import { initProjectPage } from './project-page.js';
+import 'lenis/dist/lenis.css';
+import { PROJECT_TIMELINES } from './project-timelines.js';
 
 const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 const isReducedMotion = () => motionQuery.matches;
@@ -12,10 +12,66 @@ const THEME_TRANSITION_KEY = 'theme-page-transition';
 const THEME_TRANSITION_MAX_AGE = 1800;
 const THEME_TRANSITION_NAVIGATE_DELAY = 480;
 const THEME_TRANSITION_SETTLE_DURATION = 900;
+const RESUME_DOCUMENT_URL = `${import.meta.env.BASE_URL}documents/Aderibigbe_Tobi.pdf`;
+const RESUME_DOWNLOAD_NAME = 'Aderibigbe_Tobi.pdf';
+const AUDIO_UNLOCK_EVENTS = ['click', 'touchstart', 'keydown', 'pointerdown'];
+const AUDIO_INTERACTION_SESSION_KEY = 'site-audio-interaction-seen';
 
 // --- Shared Global Audio Engine ---
 let sharedAudioCtx = null;
 let audioEngineUnlocked = false;
+let smoothScrollController = null;
+let pdfjsModulePromise = null;
+
+const queueNonCriticalTask = (callback, timeout = 600) => {
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(() => callback(), { timeout });
+    return;
+  }
+
+  window.setTimeout(callback, 120);
+};
+
+const addMediaQueryChangeListener = (query, handler) => {
+  if (typeof query.addEventListener === 'function') {
+    query.addEventListener('change', handler);
+    return;
+  }
+
+  if (typeof query.addListener === 'function') {
+    query.addListener(handler);
+  }
+};
+
+const hasSeenAudioPromptSession = () => {
+  try {
+    return window.sessionStorage.getItem(AUDIO_INTERACTION_SESSION_KEY) === 'true';
+  } catch {
+    return false;
+  }
+};
+
+const markAudioPromptSessionSeen = () => {
+  try {
+    window.sessionStorage.setItem(AUDIO_INTERACTION_SESSION_KEY, 'true');
+  } catch {
+    // Ignore storage access errors.
+  }
+};
+
+const loadPdfjs = async () => {
+  if (!pdfjsModulePromise) {
+    pdfjsModulePromise = Promise.all([
+      import('pdfjs-dist/build/pdf.mjs'),
+      import('pdfjs-dist/build/pdf.worker.min.mjs?url')
+    ]).then(([pdfjsModule, workerModule]) => {
+      pdfjsModule.GlobalWorkerOptions.workerSrc = workerModule.default;
+      return pdfjsModule;
+    });
+  }
+
+  return pdfjsModulePromise;
+};
 
 const getSharedAudioCtx = () => {
   if (sharedAudioCtx) return sharedAudioCtx;
@@ -27,8 +83,16 @@ const getSharedAudioCtx = () => {
 
 const unlockSharedAudioEngine = (event) => {
   if (audioEngineUnlocked) return;
+  markAudioPromptSessionSeen();
   const ctx = getSharedAudioCtx();
-  if (!ctx) return;
+  if (!ctx) {
+    const prompt = document.getElementById('audio-prompt');
+    if (prompt) {
+      prompt.classList.add('is-merging');
+      setTimeout(() => prompt.remove(), 400);
+    }
+    return;
+  }
 
   const handleUnlockSuccess = () => {
     if (audioEngineUnlocked) return;
@@ -63,7 +127,7 @@ const unlockSharedAudioEngine = (event) => {
     }
 
     // 3. Cleanup listeners
-    ['click', 'touchstart', 'keydown', 'pointerdown', 'wheel', 'scroll', 'pointerover'].forEach((evt) => {
+    AUDIO_UNLOCK_EVENTS.forEach((evt) => {
       window.removeEventListener(evt, unlockSharedAudioEngine, { capture: true });
     });
   };
@@ -89,13 +153,17 @@ if (typeof window !== 'undefined') {
   // Bind an aggressive suite of listeners. Even if 'wheel' is ignored
   // by some browsers for audio unlock, 'click'/'pointerdown' guarantees
   // the entire site logic uses a unified, single unlockable context.
-  ['click', 'touchstart', 'keydown', 'pointerdown', 'wheel', 'scroll', 'pointerover'].forEach((evt) => {
+  AUDIO_UNLOCK_EVENTS.forEach((evt) => {
     window.addEventListener(evt, unlockSharedAudioEngine, { capture: true, passive: true });
   });
 
   // Setup cursor following logic for the audio onboarding prompt
   const promptEl = document.getElementById('audio-prompt');
   const heroEl = document.querySelector('.hero');
+
+  if (promptEl && hasSeenAudioPromptSession()) {
+    promptEl.remove();
+  }
 
   if (promptEl && !audioPromptDesktopQuery.matches) {
     promptEl.remove();
@@ -125,32 +193,25 @@ if (typeof window !== 'undefined') {
       }
     };
 
-    window.addEventListener('pointermove', (e) => {
+    heroEl.addEventListener('pointermove', (e) => {
       // If audio is already working, don't bother tracking
       if (audioEngineUnlocked) return;
-      
-      // Only show when comfortably inside the bounds of the hero section
-      const heroRect = heroEl.getBoundingClientRect();
-      const inHero = e.clientY >= heroRect.top && 
-                     e.clientY <= heroRect.bottom && 
-                     e.clientX >= heroRect.left && 
-                     e.clientX <= heroRect.right;
-      
-      if (inHero) {
-        targetX = e.clientX;
-        targetY = e.clientY;
-        
-        if (!promptEl.classList.contains('is-visible')) {
-          promptEl.classList.add('is-visible');
-        }
-        
-        if (!isTracking) {
-          isTracking = true;
-          requestAnimationFrame(updateCursor);
-        }
-      } else {
-        promptEl.classList.remove('is-visible');
+
+      targetX = e.clientX;
+      targetY = e.clientY;
+
+      if (!promptEl.classList.contains('is-visible')) {
+        promptEl.classList.add('is-visible');
       }
+
+      if (!isTracking) {
+        isTracking = true;
+        requestAnimationFrame(updateCursor);
+      }
+    });
+
+    heroEl.addEventListener('pointerleave', () => {
+      promptEl.classList.remove('is-visible');
     });
   }
 }
@@ -355,62 +416,71 @@ function initThemePageTransitions() {
     return;
   }
 
-  const currentTheme = getPageTheme();
   const root = document.documentElement;
   let isTransitioning = false;
 
-  document.querySelectorAll('a[href]').forEach((link) => {
-    link.addEventListener('click', (event) => {
-      if (
-        isTransitioning ||
-        event.defaultPrevented ||
-        event.button !== 0 ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.shiftKey ||
-        event.altKey ||
-        link.target === '_blank' ||
-        link.hasAttribute('download')
-      ) {
-        return;
-      }
+  document.addEventListener('click', (event) => {
+    const target = event.target;
 
-      const href = link.getAttribute('href');
+    if (!(target instanceof Element)) {
+      return;
+    }
 
-      if (!href || href.startsWith('#')) {
-        return;
-      }
+    const link = target.closest('a[href]');
 
-      const destination = new URL(link.href, window.location.href);
+    if (!(link instanceof HTMLAnchorElement)) {
+      return;
+    }
 
-      if (
-        destination.origin !== window.location.origin ||
-        (destination.pathname === window.location.pathname && destination.search === window.location.search)
-      ) {
-        return;
-      }
+    if (
+      isTransitioning ||
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey ||
+      link.target === '_blank' ||
+      link.hasAttribute('download')
+    ) {
+      return;
+    }
 
-      const destinationTheme = getPageTheme(destination.pathname);
+    const href = link.getAttribute('href');
 
-      event.preventDefault();
-      isTransitioning = true;
+    if (!href || href.startsWith('#')) {
+      return;
+    }
 
-      try {
-        window.sessionStorage.setItem(THEME_TRANSITION_KEY, JSON.stringify({
-          theme: destinationTheme,
-          timestamp: Date.now(),
-        }));
-      } catch {
-        // Ignore storage access errors; transition will still work on the outgoing page.
-      }
+    const destination = new URL(link.href, window.location.href);
 
-      root.style.setProperty('--page-transition-overlay', getThemeTransitionColor(destinationTheme));
-      root.classList.add('is-theme-transitioning');
+    if (
+      destination.origin !== window.location.origin ||
+      (destination.pathname === window.location.pathname && destination.search === window.location.search)
+    ) {
+      return;
+    }
 
-      window.setTimeout(() => {
-        window.location.href = destination.href;
-      }, THEME_TRANSITION_NAVIGATE_DELAY);
-    });
+    const destinationTheme = getPageTheme(destination.pathname);
+
+    event.preventDefault();
+    isTransitioning = true;
+
+    try {
+      window.sessionStorage.setItem(THEME_TRANSITION_KEY, JSON.stringify({
+        theme: destinationTheme,
+        timestamp: Date.now(),
+      }));
+    } catch {
+      // Ignore storage access errors; transition will still work on the outgoing page.
+    }
+
+    root.style.setProperty('--page-transition-overlay', getThemeTransitionColor(destinationTheme));
+    root.classList.add('is-theme-transitioning');
+
+    window.setTimeout(() => {
+      window.location.href = destination.href;
+    }, THEME_TRANSITION_NAVIGATE_DELAY);
   });
 }
 
@@ -811,6 +881,15 @@ function initHeroGalleryPeek() {
     if (!galleryPeekInner.contains(event.relatedTarget)) {
       startAutoplay();
     }
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopAutoplay();
+      return;
+    }
+
+    startAutoplay();
   });
 
   resetPeekDepth();
@@ -1607,6 +1686,440 @@ function initManchesterTime() {
   window.setInterval(updateTime, 60 * 1000);
 }
 
+function initProjectTimelines() {
+  document.querySelectorAll('[data-project-timeline]').forEach((node) => {
+    if (!(node instanceof HTMLElement)) {
+      return;
+    }
+
+    const projectId = node.dataset.projectTimeline;
+
+    if (!projectId) {
+      return;
+    }
+
+    const timeline = PROJECT_TIMELINES[projectId];
+
+    if (timeline) {
+      node.textContent = timeline;
+    }
+  });
+}
+
+function initDeferredMediaHints() {
+  document.querySelectorAll('.gallery-peek__slide:not(.is-active) .gallery-peek__image').forEach((image) => {
+    if (!(image instanceof HTMLImageElement)) {
+      return;
+    }
+
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    image.fetchPriority = 'low';
+  });
+
+  document.querySelectorAll('.footer__social-icon img').forEach((image) => {
+    if (!(image instanceof HTMLImageElement)) {
+      return;
+    }
+
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    image.fetchPriority = 'low';
+  });
+}
+
+function initResumeViewer() {
+  const triggers = Array.from(document.querySelectorAll('[data-resume-trigger]'));
+
+  if (!triggers.length) {
+    return;
+  }
+
+  const viewer = document.createElement('div');
+  viewer.className = 'resume-viewer';
+  viewer.setAttribute('aria-hidden', 'true');
+  viewer.innerHTML = `
+    <div class="resume-viewer__backdrop" data-resume-backdrop></div>
+    <section class="resume-viewer__panel" role="dialog" aria-modal="true" aria-labelledby="resume-viewer-title">
+      <div class="resume-viewer__header">
+        <div class="resume-viewer__header-copy">
+          <p class="resume-viewer__eyebrow">Resume</p>
+          <h2 class="resume-viewer__title" id="resume-viewer-title">Toby Resume</h2>
+        </div>
+        <div class="resume-viewer__controls">
+          <a class="resume-viewer__action resume-viewer__action--primary" data-resume-download target="_blank" rel="noreferrer">
+            <span>Download Resume</span>
+          </a>
+          <button class="resume-viewer__action resume-viewer__action--secondary" type="button" data-resume-close>
+            <span>Close</span>
+          </button>
+        </div>
+      </div>
+      <div class="resume-viewer__stage" data-lenis-prevent>
+        <div class="resume-viewer__pages" data-resume-pages>
+        </div>
+        <div class="resume-viewer__status" data-resume-status aria-live="polite">Loading resume…</div>
+      </div>
+      <div class="resume-viewer__toolbar-group">
+        <button class="resume-viewer__tool" type="button" data-resume-zoom-out aria-label="Zoom out">-</button>
+        <p class="resume-viewer__zoom-indicator" data-resume-zoom-indicator>100%</p>
+        <button class="resume-viewer__tool" type="button" data-resume-zoom-in aria-label="Zoom in">+</button>
+      </div>
+    </section>
+  `;
+
+  document.body.appendChild(viewer);
+
+  const backdrop = viewer.querySelector('[data-resume-backdrop]');
+  const closeButton = viewer.querySelector('[data-resume-close]');
+  const downloadLink = viewer.querySelector('[data-resume-download]');
+  const zoomOutButton = viewer.querySelector('[data-resume-zoom-out]');
+  const zoomInButton = viewer.querySelector('[data-resume-zoom-in]');
+  const zoomIndicator = viewer.querySelector('[data-resume-zoom-indicator]');
+  const pages = viewer.querySelector('[data-resume-pages]');
+  const stage = viewer.querySelector('.resume-viewer__stage');
+  const status = viewer.querySelector('[data-resume-status]');
+
+  if (
+    !(backdrop instanceof HTMLElement) ||
+    !(closeButton instanceof HTMLElement) ||
+    !(downloadLink instanceof HTMLAnchorElement) ||
+    !(zoomOutButton instanceof HTMLButtonElement) ||
+    !(zoomInButton instanceof HTMLButtonElement) ||
+    !(zoomIndicator instanceof HTMLElement) ||
+    !(pages instanceof HTMLElement) ||
+    !(stage instanceof HTMLElement) ||
+    !(status instanceof HTMLElement)
+  ) {
+    return;
+  }
+
+  downloadLink.href = RESUME_DOCUMENT_URL;
+  downloadLink.download = RESUME_DOWNLOAD_NAME;
+
+  let lastTrigger = null;
+  let pdfDocument = null;
+  let pageShells = [];
+  let currentPageNumber = 1;
+  let currentZoom = 1;
+  let renderVersion = 0;
+  let isRendering = false;
+  let pendingRender = false;
+  let isPdfLoading = false;
+  let resizeFrameId = 0;
+  let scrollFrameId = 0;
+  const MIN_ZOOM = 0.85;
+  const MAX_ZOOM = 2.4;
+  const ZOOM_STEP = 0.15;
+
+  const setStatus = (message = '', isVisible = false) => {
+    status.textContent = message;
+    status.classList.toggle('is-visible', isVisible);
+  };
+
+  const updateToolbarState = () => {
+    zoomIndicator.textContent = `${Math.round(currentZoom * 100)}%`;
+    zoomOutButton.disabled = currentZoom <= MIN_ZOOM;
+    zoomInButton.disabled = currentZoom >= MAX_ZOOM;
+  };
+
+  const getStageInnerWidth = () => {
+    const stageStyles = window.getComputedStyle(stage);
+    const paddingLeft = parseFloat(stageStyles.paddingLeft || '0');
+    const paddingRight = parseFloat(stageStyles.paddingRight || '0');
+
+    return Math.max(stage.clientWidth - paddingLeft - paddingRight, 1);
+  };
+
+  const ensurePageShells = () => {
+    const pageCount = pdfDocument?.numPages ?? 0;
+
+    if (pageShells.length === pageCount) {
+      return;
+    }
+
+    pages.innerHTML = '';
+    pageShells = Array.from({ length: pageCount }, (_, index) => {
+      const shell = document.createElement('div');
+      shell.className = 'resume-viewer__page-shell';
+      shell.dataset.pageNumber = String(index + 1);
+
+      const canvas = document.createElement('canvas');
+      canvas.className = 'resume-viewer__canvas';
+      canvas.setAttribute('aria-label', `Resume PDF page ${index + 1}`);
+
+      shell.appendChild(canvas);
+      pages.appendChild(shell);
+      return shell;
+    });
+  };
+
+  const syncCurrentPageFromScroll = () => {
+    scrollFrameId = 0;
+
+    if (!pageShells.length) {
+      return;
+    }
+
+    const threshold = stage.scrollTop + (stage.clientHeight * 0.35);
+    let visiblePage = 1;
+
+    for (const shell of pageShells) {
+      const pageNumber = Number(shell.dataset.pageNumber || '1');
+      if (shell.offsetTop <= threshold) {
+        visiblePage = pageNumber;
+      } else {
+        break;
+      }
+    }
+
+    if (visiblePage !== currentPageNumber) {
+      currentPageNumber = visiblePage;
+      updateToolbarState();
+    }
+  };
+
+  const scrollToPage = (pageNumber, behavior = 'smooth') => {
+    const targetShell = pageShells[pageNumber - 1];
+
+    if (!targetShell) {
+      return;
+    }
+
+    stage.scrollTo({
+      top: Math.max(targetShell.offsetTop - 8, 0),
+      left: 0,
+      behavior
+    });
+  };
+
+  const renderAllPages = async () => {
+    if (!pdfDocument) {
+      return;
+    }
+
+    if (isRendering) {
+      pendingRender = true;
+      return;
+    }
+
+    isRendering = true;
+    const activeRenderVersion = ++renderVersion;
+    const pageToRestore = currentPageNumber;
+    setStatus('Rendering page…', true);
+    viewer.classList.add('is-loading');
+    ensurePageShells();
+    updateToolbarState();
+
+    try {
+      const availableWidth = getStageInnerWidth();
+
+      for (let pageNumber = 1; pageNumber <= pdfDocument.numPages; pageNumber += 1) {
+        if (activeRenderVersion !== renderVersion) {
+          return;
+        }
+
+        const page = await pdfDocument.getPage(pageNumber);
+        const shell = pageShells[pageNumber - 1];
+        const canvas = shell?.querySelector('canvas');
+        const context = canvas instanceof HTMLCanvasElement ? canvas.getContext('2d') : null;
+
+        if (!(canvas instanceof HTMLCanvasElement) || !context) {
+          continue;
+        }
+
+        const baseViewport = page.getViewport({ scale: 1 });
+        const fitScale = availableWidth / baseViewport.width;
+        const viewport = page.getViewport({ scale: fitScale * currentZoom });
+        const outputScale = Math.min(window.devicePixelRatio || 1, 2);
+
+        canvas.width = Math.floor(viewport.width * outputScale);
+        canvas.height = Math.floor(viewport.height * outputScale);
+        canvas.style.width = `${viewport.width}px`;
+        canvas.style.height = `${viewport.height}px`;
+
+        context.setTransform(outputScale, 0, 0, outputScale, 0, 0);
+        context.clearRect(0, 0, viewport.width, viewport.height);
+
+        const renderTask = page.render({
+          canvasContext: context,
+          viewport
+        });
+
+        await renderTask.promise;
+      }
+
+      currentPageNumber = Math.min(pageToRestore, pdfDocument.numPages);
+      updateToolbarState();
+      scrollToPage(currentPageNumber, 'auto');
+      setStatus('', false);
+      viewer.classList.remove('is-loading');
+    } catch (error) {
+      if (activeRenderVersion === renderVersion && error?.name !== 'RenderingCancelledException') {
+        setStatus('Preview unavailable. Please use download.', true);
+        viewer.classList.remove('is-loading');
+      }
+    } finally {
+      isRendering = false;
+
+      if (pendingRender) {
+        pendingRender = false;
+        renderAllPages();
+      }
+    }
+  };
+
+  const ensurePdfDocument = async () => {
+    if (pdfDocument || isPdfLoading) {
+      return;
+    }
+
+    isPdfLoading = true;
+    setStatus('Loading resume…', true);
+    viewer.classList.add('is-loading');
+
+    try {
+      const pdfjsLib = await loadPdfjs();
+      pdfDocument = await pdfjsLib.getDocument(RESUME_DOCUMENT_URL).promise;
+      currentPageNumber = 1;
+      currentZoom = 1;
+      updateToolbarState();
+      await renderAllPages();
+    } catch {
+      setStatus('Unable to load the resume preview. Please use download.', true);
+      viewer.classList.remove('is-loading');
+    } finally {
+      isPdfLoading = false;
+    }
+  };
+
+  const lockResumeViewer = () => {
+    document.documentElement.classList.add('has-resume-open');
+    document.body.classList.add('has-resume-open');
+  };
+
+  const unlockResumeViewer = () => {
+    document.documentElement.classList.remove('has-resume-open');
+    document.body.classList.remove('has-resume-open');
+  };
+
+  const openViewer = (trigger) => {
+    lastTrigger = trigger;
+    viewer.classList.add('is-open');
+    viewer.setAttribute('aria-hidden', 'false');
+    lockResumeViewer();
+    ensurePdfDocument();
+
+    if (pdfDocument) {
+      currentPageNumber = 1;
+      updateToolbarState();
+      scrollToPage(1, 'auto');
+    }
+
+    window.requestAnimationFrame(() => {
+      closeButton.focus({ preventScroll: true });
+    });
+  };
+
+  const closeViewer = () => {
+    if (!viewer.classList.contains('is-open')) {
+      return;
+    }
+
+    viewer.classList.remove('is-open');
+    viewer.setAttribute('aria-hidden', 'true');
+    unlockResumeViewer();
+
+    if (lastTrigger instanceof HTMLElement) {
+      window.setTimeout(() => {
+        lastTrigger.focus({ preventScroll: true });
+      }, 180);
+    }
+  };
+
+  triggers.forEach((trigger) => {
+    if (trigger instanceof HTMLAnchorElement) {
+      trigger.href = RESUME_DOCUMENT_URL;
+    }
+
+    trigger.addEventListener('click', (event) => {
+      if (
+        event.defaultPrevented ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      openViewer(trigger);
+    });
+  });
+
+  backdrop.addEventListener('click', closeViewer);
+  closeButton.addEventListener('click', closeViewer);
+  zoomOutButton.addEventListener('click', () => {
+    if (currentZoom <= MIN_ZOOM) {
+      return;
+    }
+
+    currentZoom = Math.max(MIN_ZOOM, Number((currentZoom - ZOOM_STEP).toFixed(2)));
+    renderAllPages();
+  });
+  zoomInButton.addEventListener('click', () => {
+    if (currentZoom >= MAX_ZOOM) {
+      return;
+    }
+
+    currentZoom = Math.min(MAX_ZOOM, Number((currentZoom + ZOOM_STEP).toFixed(2)));
+    renderAllPages();
+  });
+
+  stage.addEventListener('scroll', () => {
+    if (scrollFrameId) {
+      return;
+    }
+
+    scrollFrameId = window.requestAnimationFrame(syncCurrentPageFromScroll);
+  }, { passive: true });
+
+  document.addEventListener('keydown', (event) => {
+    if (!viewer.classList.contains('is-open')) {
+      return;
+    }
+
+    if (event.key === 'Escape') {
+      closeViewer();
+      return;
+    }
+
+    if (event.key === '+' || event.key === '=') {
+      zoomInButton.click();
+      return;
+    }
+
+    if (event.key === '-') {
+      zoomOutButton.click();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (!viewer.classList.contains('is-open') || !pdfDocument) {
+      return;
+    }
+
+    if (resizeFrameId) {
+      window.cancelAnimationFrame(resizeFrameId);
+    }
+
+    resizeFrameId = window.requestAnimationFrame(() => {
+      renderAllPages();
+    });
+  }, { passive: true });
+}
+
 function initAboutMarquee() {
   const surface = document.querySelector('.about-marquee__surface');
   const list = surface?.querySelector('.about-marquee__list');
@@ -1619,6 +2132,7 @@ function initAboutMarquee() {
   let offset = 0;
   let itemAdvance = 0;
   let isPaused = false;
+  let isInViewport = true;
   let resizeFrameId = 0;
 
   const getSpeed = () => {
@@ -1677,7 +2191,7 @@ function initAboutMarquee() {
     const deltaSeconds = Math.min((timestamp - lastTimestamp) / 1000, 0.05);
     lastTimestamp = timestamp;
 
-    if (!isPaused && !document.hidden && itemAdvance > 0) {
+    if (!isPaused && isInViewport && !document.hidden && itemAdvance > 0) {
       offset += getSpeed() * deltaSeconds;
 
       while (offset >= itemAdvance) {
@@ -1708,6 +2222,20 @@ function initAboutMarquee() {
 
   window.addEventListener('resize', queueMetricsRefresh, { passive: true });
 
+  if (typeof IntersectionObserver === 'function') {
+    const visibilityObserver = new IntersectionObserver((entries) => {
+      isInViewport = entries.some((entry) => entry.isIntersecting);
+
+      if (isInViewport) {
+        lastTimestamp = 0;
+      }
+    }, {
+      threshold: 0.06,
+    });
+
+    visibilityObserver.observe(surface);
+  }
+
   if (typeof ResizeObserver === 'function') {
     const resizeObserver = new ResizeObserver(queueMetricsRefresh);
     resizeObserver.observe(surface);
@@ -1718,28 +2246,96 @@ function initAboutMarquee() {
   window.requestAnimationFrame(tick);
 }
 
+function initSmoothScroll() {
+  const finePointerQuery = window.matchMedia('(min-width: 769px) and (hover: hover) and (pointer: fine)');
+  let pendingInitPromise = null;
+
+  const destroyLenis = () => {
+    if (smoothScrollController) {
+      smoothScrollController.destroy();
+      smoothScrollController = null;
+    }
+  };
+
+  const ensureLenis = () => {
+    if (
+      isReducedMotion() ||
+      !finePointerQuery.matches ||
+      smoothScrollController ||
+      pendingInitPromise
+    ) {
+      return;
+    }
+
+    pendingInitPromise = import('lenis')
+      .then(({ default: Lenis }) => {
+        if (isReducedMotion() || !finePointerQuery.matches || smoothScrollController) {
+          return;
+        }
+
+        smoothScrollController = new Lenis({
+          autoRaf: true,
+          lerp: 0.075,
+          smoothWheel: true,
+          prevent: (node) => Boolean(node?.closest?.('[data-lenis-prevent]')),
+        });
+      })
+      .finally(() => {
+        pendingInitPromise = null;
+      });
+  };
+
+  const syncSmoothScrollMode = () => {
+    if (isReducedMotion() || !finePointerQuery.matches) {
+      destroyLenis();
+      return;
+    }
+
+    ensureLenis();
+  };
+
+  syncSmoothScrollMode();
+  addMediaQueryChangeListener(finePointerQuery, syncSmoothScrollMode);
+  addMediaQueryChangeListener(motionQuery, syncSmoothScrollMode);
+}
+
 primeThemePageTransition();
 releaseInitialPaintHold();
-initProjectPage();
-initMotionMode();
-initThemePageTransitions();
-initScrollReveal();
-initHeroGalleryPeek();
-initProjectCardParallax();
-initGalleryGridParallax();
-initProjectDetailVisualParallax();
-initExperienceCardTransitions();
-initManchesterTime();
-initHomeHangingNav();
-initStatCounters();
-initAboutMarquee();
-initBackToTopLinks();
 
-// Only initialize the dock on pages that render the dock markup.
-if (document.querySelector('.tool-dock')) {
-  initDock();
-  initDockHoverSounds();
+async function bootstrap() {
+  if (document.querySelector('.project-detail')) {
+    const { initProjectPage } = await import('./project-page.js');
+    initProjectPage();
+  }
+
+  initMotionMode();
+  initThemePageTransitions();
+  initScrollReveal();
+  initHeroGalleryPeek();
+  initProjectCardParallax();
+  initGalleryGridParallax();
+  initProjectDetailVisualParallax();
+  initExperienceCardTransitions();
+  initProjectTimelines();
+  initManchesterTime();
+  initDeferredMediaHints();
+  initResumeViewer();
+  initHomeHangingNav();
+  initStatCounters();
+  initAboutMarquee();
+  initBackToTopLinks();
+  initSmoothScroll();
+
+  if (document.querySelector('.tool-dock')) {
+    queueNonCriticalTask(async () => {
+      const { initDock } = await import('./dock.js');
+      initDock();
+      initDockHoverSounds();
+    });
+  }
 }
+
+void bootstrap();
 
 // ---- Hamburger Nav ----
 const hamburger = document.getElementById('nav-hamburger');

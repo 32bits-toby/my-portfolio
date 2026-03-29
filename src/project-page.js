@@ -1,3 +1,5 @@
+import { PROJECT_TIMELINES } from './project-timelines.js';
+
 const projectImageUrls = import.meta.glob('../images/Project_image_*.webp', {
   eager: true,
   import: 'default'
@@ -17,8 +19,8 @@ const PROJECTS = {
       'I joined the team as lead designer and got to shape the product from the ground up, working across onboarding, digital identity, job discovery, and application management. It was a genuine team effort, and the goal throughout was simple: make hiring in Web3 feel as natural as the community itself.'
     ],
     meta: [
-      { label: 'Timeline', values: ['2022 - 2023'] },
-      { label: 'Links', values: [{ label: 'www.rethinkable.xyz', href: 'https://www.rethinkable.xyz' }] },
+      { label: 'Timeline', values: [PROJECT_TIMELINES.rethinkable] },
+      { label: 'Links', values: [{ label: 'rethinkable.xyz', href: 'https://rethinkable.xyz/' }] },
       { label: 'Role', values: ['Lead Designer'] },
       { label: 'Tools', values: ['Figma', 'Cross functional team', 'Illustrator'] }
     ],
@@ -70,8 +72,8 @@ const PROJECTS = {
       'I came on as lead designer and worked on shaping an experience that feels as quick and dependable as the product promises. The focus throughout was on keeping things clean and intuitive, because when speed is the whole point, the interface has to get out of the way.'
     ],
     meta: [
-      { label: 'Timeline', values: ['2025'] },
-      { label: 'Links', values: [{ label: 'Figma preview', href: '#contact' }] },
+      { label: 'Timeline', values: [PROJECT_TIMELINES.quicksave] },
+      { label: 'Links', values: [{ label: 'Figma design', href: 'https://www.figma.com/design/V8LU49EGyV9O5hloZc7qq5/File-Storage-App?node-id=2862-81096&t=eR3SmCeBn1mOo6qq-1' }] },
       { label: 'Role', values: ['Lead Designer'] },
       { label: 'Tools', values: ['Figma', 'Illustrator'] }
     ],
@@ -143,8 +145,8 @@ const PROJECTS = {
       'I worked on this as lead designer, taking the product from initial concept through to a complete set of high-fidelity designs in Figma. The goal throughout was to make NFT trading feel approachable and rewarding, so that creators and collectors could focus on what they actually love about the space.'
     ],
     meta: [
-      { label: 'Timeline', values: ['2023'] },
-      { label: 'Links', values: [{ label: 'Aardvark.sh', href: '#contact' }] },
+      { label: 'Timeline', values: [PROJECT_TIMELINES.croart] },
+      { label: 'Links', values: [{ label: 'Figma design', href: 'https://www.figma.com/design/gIXXPX6em6JkLhwIR3A8ld/CroArt-NFT-Market-Place?node-id=640-7789&t=ZarWt5cQvjBiEdti-1' }] },
       { label: 'Role', values: ['Lead Designer'] },
       { label: 'Tools', values: ['Figma', 'Cross functional team', 'Illustrator', 'Spline'] }
     ],
@@ -191,8 +193,8 @@ const PROJECTS = {
       'I came on as lead designer and worked on bringing together two things that don\'t usually sit in the same place: the comfort of a familiar messaging experience and the power of blockchain functionality. The challenge was making something that feels natural to use even when what\'s happening under the hood is genuinely new.'
     ],
     meta: [
-      { label: 'Timeline', values: ['2022'] },
-      { label: 'Links', values: [{ label: 'Aardvark.sh', href: 'https://aardvark.sh' }] },
+      { label: 'Timeline', values: [PROJECT_TIMELINES.aardvark] },
+      { label: 'Links', values: [{ label: 'Figma design', href: 'https://www.figma.com/design/dTcDwDEPbDTOA6tpA0L8c3/Aardvark?node-id=0-1&t=2HJde4fS9dOpLaQB-1' }] },
       { label: 'Role', values: ['Lead Designer'] },
       { label: 'Tools', values: ['Figma', 'Illustrator'] }
     ],

@@ -63,7 +63,7 @@
               <li><a href="./ai.html">AI Experiments</a></li>
               <li><a href="./about.html" aria-current="page">About</a></li>
             </ul>
-            <a href="#contact" class="nav__cta">Resume</a>
+            <button type="button" class="nav__cta" data-resume-trigger aria-haspopup="dialog">Resume</button>
           </div>
           <button class="nav__hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
             <span class="nav__hamburger-bar"></span>
@@ -147,7 +147,7 @@
                 <article class="about-page__story-block">
                   <p class="about-page__story-label">About me</p>
                   <div class="about-page__story-copy">
-                    <p>Hi, I’m Toby. I’m a product designer with a background in software engineering and more than five years of experience working across startups, SaaS, and Web3 products.</p>
+                    <p>Hi, I’m Toby. I’m a product designer with a bachelor’s degree and background in software engineering, plus more than five years of experience working across startups, SaaS, and Web3 products.</p>
                     <p>My work usually lives where product thinking, interface craft, and implementation reality meet. I like turning messy ideas into systems and flows that feel clear to users and practical for teams to build.</p>
                   </div>
                 </article>
@@ -161,14 +161,14 @@
                 </article>
 
                 <div class="about-page__actions">
-                  <a href="#contact" class="about-page__action about-page__action--primary">
+                  <button type="button" class="about-page__action about-page__action--primary" data-resume-trigger aria-haspopup="dialog">
                     <span>Read my resume</span>
                     <span class="about-page__action-icon" aria-hidden="true">
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                       </svg>
                     </span>
-                  </a>
+                  </button>
 
                   <a href="mailto:nameistobi@gmail.com" class="about-page__action about-page__action--secondary">
                     <span class="about-page__action-icon" aria-hidden="true">
@@ -254,7 +254,7 @@
               <details class="experience-card">
                 <summary class="experience-card__toggle">
                   <div class="experience-card__meta">
-                    <p class="experience-card__period">2023</p>
+                    <p class="experience-card__period" data-project-timeline="rethinkable">2023</p>
                     <div class="experience-card__role-line">
                       <p class="experience-card__company">Rethinkable</p>
                       <span class="experience-card__dot" aria-hidden="true"></span>
@@ -271,7 +271,7 @@
               <details class="experience-card">
                 <summary class="experience-card__toggle">
                   <div class="experience-card__meta">
-                    <p class="experience-card__period">2023</p>
+                    <p class="experience-card__period" data-project-timeline="aardvark">2023</p>
                     <div class="experience-card__role-line">
                       <p class="experience-card__company">Aardvark Messenger</p>
                       <span class="experience-card__dot" aria-hidden="true"></span>
@@ -288,7 +288,7 @@
               <details class="experience-card">
                 <summary class="experience-card__toggle">
                   <div class="experience-card__meta">
-                    <p class="experience-card__period">2022</p>
+                    <p class="experience-card__period" data-project-timeline="quicksave">2022</p>
                     <div class="experience-card__role-line">
                       <p class="experience-card__company">QuickSave</p>
                       <span class="experience-card__dot" aria-hidden="true"></span>
@@ -305,7 +305,7 @@
               <details class="experience-card">
                 <summary class="experience-card__toggle">
                   <div class="experience-card__meta">
-                    <p class="experience-card__period">2022</p>
+                    <p class="experience-card__period" data-project-timeline="croart">2022</p>
                     <div class="experience-card__role-line">
                       <p class="experience-card__company">Cro.Art</p>
                       <span class="experience-card__dot" aria-hidden="true"></span>
@@ -381,7 +381,7 @@
 
         <div class="footer__bottom">
           <div class="footer__actions">
-            <a href="#contact" class="footer__action footer__action--primary">Read my resume</a>
+            <button type="button" class="footer__action footer__action--primary" data-resume-trigger aria-haspopup="dialog">Read my resume</button>
             <a href="mailto:nameistobi@gmail.com" class="footer__action footer__action--secondary">
               <span>nameistobi@gmail.com</span>
               <span class="footer__action-icon" aria-hidden="true">

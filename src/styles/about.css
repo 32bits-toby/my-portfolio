@@ -456,14 +456,17 @@ html:not(.is-motion-ready) .page--about .footer {
 }
 
 .about-page__action {
+  appearance: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   min-height: var(--pill-height);
   padding-inline: var(--pill-padding-inline);
+  font-family: inherit;
   border-radius: var(--radius-full);
   border: 1px solid transparent;
+  cursor: pointer;
   font-size: var(--text-body-sm);
   font-weight: 500;
   letter-spacing: var(--tracking-base);
@@ -850,6 +853,74 @@ html:not(.is-motion-ready) .page--about .footer {
 .page--about .footer__action--primary:hover {
   background-color: #ffffff;
   border-color: #ffffff;
+}
+
+.page--about .resume-viewer__backdrop {
+  background: rgba(6, 6, 6, 0.52);
+}
+
+.page--about .resume-viewer__panel {
+  border-color: rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(180deg, rgba(17, 17, 17, 0.92) 0%, rgba(13, 13, 13, 0.88) 100%);
+  box-shadow:
+    0 28px 90px rgba(0, 0, 0, 0.46),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.page--about .resume-viewer__header {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.page--about .resume-viewer__eyebrow {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.page--about .resume-viewer__title {
+  color: rgba(255, 255, 255, 0.96);
+}
+
+.page--about .resume-viewer__action {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.page--about .resume-viewer__action--primary {
+  border-color: #ffffff;
+  background: #ffffff;
+  color: #111111;
+}
+
+.page--about .resume-viewer__action--primary:hover {
+  border-color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.page--about .resume-viewer__tool,
+.page--about .resume-viewer__zoom-indicator {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.page--about .resume-viewer__toolbar-group {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(18, 18, 18, 0.74);
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.page--about .resume-viewer__status {
+  background: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.96);
+}
+
+@media (max-width: 768px) {
+  .page--about .resume-viewer__header {
+    background: rgba(15, 15, 15, 0.9);
+  }
 }
 
 .page--about .footer__credit-label {
