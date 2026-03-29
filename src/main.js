@@ -84,6 +84,8 @@ const unlockSharedAudioEngine = (event) => {
 };
 
 if (typeof window !== 'undefined') {
+  const audioPromptDesktopQuery = window.matchMedia('(min-width: 769px) and (hover: hover) and (pointer: fine)');
+
   // Bind an aggressive suite of listeners. Even if 'wheel' is ignored
   // by some browsers for audio unlock, 'click'/'pointerdown' guarantees
   // the entire site logic uses a unified, single unlockable context.
@@ -95,7 +97,11 @@ if (typeof window !== 'undefined') {
   const promptEl = document.getElementById('audio-prompt');
   const heroEl = document.querySelector('.hero');
 
-  if (promptEl && heroEl) {
+  if (promptEl && !audioPromptDesktopQuery.matches) {
+    promptEl.remove();
+  }
+
+  if (promptEl && heroEl && audioPromptDesktopQuery.matches) {
     let mouseX = -100;
     let mouseY = -100;
     let targetX = -100;
@@ -1697,26 +1703,42 @@ const drawer = document.getElementById('nav-drawer');
 
 if (hamburger && drawer) {
   const mobileNavQuery = window.matchMedia('(max-width: 768px)');
-  let lockedScrollY = 0;
+  let touchScrollLockActive = false;
 
-  const lockMobileNavScroll = () => {
-    if (!mobileNavQuery.matches || document.body.dataset.navScrollLocked === 'true') {
+  const preventBackgroundTouchScroll = (event) => {
+    if (!drawer.classList.contains('is-open')) {
       return;
     }
 
-    lockedScrollY = window.scrollY;
+    if (drawer.contains(event.target)) {
+      return;
+    }
+
+    event.preventDefault();
+  };
+
+  const lockMobileNavScroll = () => {
+    if (!mobileNavQuery.matches || touchScrollLockActive) {
+      return;
+    }
+
+    touchScrollLockActive = true;
     document.body.dataset.navScrollLocked = 'true';
-    document.body.style.setProperty('--nav-scroll-lock-top', `-${lockedScrollY}px`);
+    document.documentElement.classList.add('has-nav-open');
+    document.body.classList.add('has-nav-open');
+    document.addEventListener('touchmove', preventBackgroundTouchScroll, { passive: false });
   };
 
   const unlockMobileNavScroll = () => {
-    if (document.body.dataset.navScrollLocked !== 'true') {
+    if (!touchScrollLockActive) {
       return;
     }
 
+    touchScrollLockActive = false;
     document.body.removeAttribute('data-nav-scroll-locked');
-    document.body.style.removeProperty('--nav-scroll-lock-top');
-    window.scrollTo(0, lockedScrollY);
+    document.documentElement.classList.remove('has-nav-open');
+    document.body.classList.remove('has-nav-open');
+    document.removeEventListener('touchmove', preventBackgroundTouchScroll, { passive: false });
   };
 
   const setNavState = (isOpen) => {
@@ -1724,7 +1746,6 @@ if (hamburger && drawer) {
     hamburger.setAttribute('aria-expanded', String(isOpen));
     hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
     drawer.setAttribute('aria-hidden', String(!isOpen));
-    document.body.classList.toggle('has-nav-open', isOpen);
 
     if (isOpen) {
       lockMobileNavScroll();
