@@ -566,12 +566,10 @@ body.has-nav-open {
   width: min(360px, calc(100vw - 32px));
   max-height: min(720px, calc(100svh - 48px));
   overflow: auto;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(245, 245, 245, 0.95));
+  background: #f7f7f7;
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--surface-radius-lg);
   box-shadow: var(--shadow-lg);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
   opacity: 0;
   transform: translateY(-8px) scale(0.985);
   transform-origin: top right;
@@ -636,7 +634,7 @@ body.has-nav-open {
   padding: 18px;
   text-decoration: none;
   color: var(--color-text-primary);
-  background: rgba(255, 255, 255, 0.76);
+  background: #ffffff;
   border: 1px solid var(--color-border-subtle);
   border-radius: var(--radius-lg);
   min-height: 96px;
@@ -701,7 +699,7 @@ body.has-nav-open {
 }
 
 .nav__drawer-link:hover {
-  background: rgba(255, 255, 255, 0.98);
+  background: #ffffff;
   border-color: var(--color-border);
   transform: translateY(-1px);
   box-shadow: var(--shadow-interactive-hover);
@@ -745,7 +743,7 @@ body.has-nav-open {
   font-size: var(--text-body-sm);
   font-weight: 500;
   color: #111111;
-  background: rgba(255, 255, 255, 0.82);
+  background: #ffffff;
   box-shadow: var(--shadow-interactive-rest);
   transition:
     transform var(--transition-base),
@@ -2675,16 +2673,13 @@ html.is-motion-ready .hero__gallery-peek {
   margin-left: auto;
   border-radius: calc(var(--radius-lg) + 2px);
   border: 1px solid rgba(17, 17, 17, 0.08);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(249, 249, 249, 0.9) 100%);
+  background: #f7f7f7;
   box-shadow:
     0 24px 80px rgba(17, 17, 17, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.7);
   overflow: hidden;
   transform: translate3d(32px, 0, 0);
   opacity: 0.98;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
   transition:
     transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
     opacity 320ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -2750,9 +2745,7 @@ html.is-motion-ready .hero__gallery-peek {
   padding: 6px;
   border-radius: calc(var(--radius-full) + 6px);
   border: 1px solid rgba(17, 17, 17, 0.08);
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: #f7f7f7;
   box-shadow:
     0 12px 28px rgba(17, 17, 17, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.58);
@@ -2763,7 +2756,7 @@ html.is-motion-ready .hero__gallery-peek {
   min-height: 38px;
   border-radius: var(--radius-full);
   border: 1px solid rgba(17, 17, 17, 0.1);
-  background: rgba(255, 255, 255, 0.78);
+  background: #ffffff;
   color: #111111;
   font-size: var(--text-body-sm);
   font-weight: 500;
@@ -2816,7 +2809,7 @@ html.is-motion-ready .hero__gallery-peek {
   appearance: none;
   border-radius: var(--radius-full);
   border: 1px solid rgba(17, 17, 17, 0.12);
-  background: rgba(255, 255, 255, 0.8);
+  background: #ffffff;
   color: #111111;
   font-size: var(--text-body-sm);
   font-weight: 500;
@@ -2984,9 +2977,7 @@ body {
     flex-direction: column;
     align-items: stretch;
     padding: 18px 18px 14px;
-    background: rgba(247, 247, 247, 0.9);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: #f7f7f7;
   }
 
   .resume-viewer__controls {

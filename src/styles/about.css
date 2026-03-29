@@ -216,7 +216,7 @@ html:not(.is-motion-ready) .page--about .footer {
 }
 
 .page--about .nav__drawer {
-  background: linear-gradient(180deg, rgba(20, 20, 20, 0.98), rgba(12, 12, 12, 0.96));
+  background: #0f0f0f;
   border-color: var(--about-border);
   box-shadow: 0 24px 52px rgba(0, 0, 0, 0.34);
 }
@@ -231,12 +231,12 @@ html:not(.is-motion-ready) .page--about .footer {
 
 .page--about .nav__drawer-link {
   color: var(--about-text);
-  background: rgba(255, 255, 255, 0.04);
+  background: #171717;
   border-color: var(--about-border);
 }
 
 .page--about .nav__drawer-link:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: #1b1b1b;
   border-color: var(--about-border-strong);
 }
 
@@ -272,7 +272,7 @@ html:not(.is-motion-ready) .page--about .footer {
 }
 
 .page--about .nav__drawer-action--secondary {
-  background: rgba(255, 255, 255, 0.04);
+  background: #171717;
   border-color: var(--about-border);
   color: var(--about-text);
 }
@@ -861,8 +861,7 @@ html:not(.is-motion-ready) .page--about .footer {
 
 .page--about .resume-viewer__panel {
   border-color: rgba(255, 255, 255, 0.08);
-  background:
-    linear-gradient(180deg, rgba(17, 17, 17, 0.92) 0%, rgba(13, 13, 13, 0.88) 100%);
+  background: #0f0f0f;
   box-shadow:
     0 28px 90px rgba(0, 0, 0, 0.46),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
@@ -882,7 +881,7 @@ html:not(.is-motion-ready) .page--about .footer {
 
 .page--about .resume-viewer__action {
   border-color: rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
+  background: #171717;
   color: rgba(255, 255, 255, 0.92);
 }
 
@@ -900,13 +899,13 @@ html:not(.is-motion-ready) .page--about .footer {
 .page--about .resume-viewer__tool,
 .page--about .resume-viewer__zoom-indicator {
   border-color: rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
+  background: #171717;
   color: rgba(255, 255, 255, 0.92);
 }
 
 .page--about .resume-viewer__toolbar-group {
   border-color: rgba(255, 255, 255, 0.08);
-  background: rgba(18, 18, 18, 0.74);
+  background: #0f0f0f;
   box-shadow:
     0 14px 30px rgba(0, 0, 0, 0.34),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -919,7 +918,7 @@ html:not(.is-motion-ready) .page--about .footer {
 
 @media (max-width: 768px) {
   .page--about .resume-viewer__header {
-    background: rgba(15, 15, 15, 0.9);
+    background: #0f0f0f;
   }
 }
 
