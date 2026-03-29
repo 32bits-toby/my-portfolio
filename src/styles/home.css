@@ -2648,6 +2648,10 @@ html.is-motion-ready .hero__gallery-peek {
   transition: opacity 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.resume-viewer[hidden] {
+  display: none !important;
+}
+
 .resume-viewer.is-open {
   opacity: 1;
   pointer-events: auto;

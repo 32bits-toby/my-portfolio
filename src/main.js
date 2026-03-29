@@ -1769,8 +1769,6 @@ function initResumeViewer() {
     </section>
   `;
 
-  document.body.appendChild(viewer);
-
   const backdrop = viewer.querySelector('[data-resume-backdrop]');
   const closeButton = viewer.querySelector('[data-resume-close]');
   const downloadLink = viewer.querySelector('[data-resume-download]');
@@ -1810,9 +1808,19 @@ function initResumeViewer() {
   let resizeFrameId = 0;
   let scrollFrameId = 0;
   let hideViewerTimeoutId = 0;
+  let hasMountedViewer = false;
   const MIN_ZOOM = 0.85;
   const MAX_ZOOM = 2.4;
   const ZOOM_STEP = 0.15;
+
+  const mountViewer = () => {
+    if (hasMountedViewer) {
+      return;
+    }
+
+    document.body.appendChild(viewer);
+    hasMountedViewer = true;
+  };
 
   const setStatus = (message = '', isVisible = false) => {
     status.textContent = message;
@@ -2012,6 +2020,7 @@ function initResumeViewer() {
       hideViewerTimeoutId = 0;
     }
 
+    mountViewer();
     viewer.hidden = false;
     viewer.setAttribute('aria-hidden', 'false');
     lockResumeViewer();
