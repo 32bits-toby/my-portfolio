@@ -13,6 +13,143 @@ const THEME_TRANSITION_MAX_AGE = 1800;
 const THEME_TRANSITION_NAVIGATE_DELAY = 480;
 const THEME_TRANSITION_SETTLE_DURATION = 900;
 
+// --- Shared Global Audio Engine ---
+let sharedAudioCtx = null;
+let audioEngineUnlocked = false;
+
+const getSharedAudioCtx = () => {
+  if (sharedAudioCtx) return sharedAudioCtx;
+  const Ctor = window.AudioContext || window.webkitAudioContext;
+  if (!Ctor) return null;
+  try { sharedAudioCtx = new Ctor(); } catch (e) { return null; }
+  return sharedAudioCtx;
+};
+
+const unlockSharedAudioEngine = (event) => {
+  if (audioEngineUnlocked) return;
+  const ctx = getSharedAudioCtx();
+  if (!ctx) return;
+
+  const handleUnlockSuccess = () => {
+    if (audioEngineUnlocked) return;
+    audioEngineUnlocked = true;
+
+    // 1. Merge tooltip seamlessly into the click ripple
+    const prompt = document.getElementById('audio-prompt');
+    if (prompt) {
+      prompt.classList.add('is-merging');
+      setTimeout(() => prompt.remove(), 400);
+    }
+
+    // 2. Play ripple animation if it was a pointer/mouse/touch event
+    if (event && (event.type === 'click' || event.type === 'pointerdown' || event.type === 'touchstart')) {
+      let x = 0; let y = 0;
+      if (event.touches && event.touches.length) {
+        x = event.touches[0].clientX;
+        y = event.touches[0].clientY;
+      } else if (event.clientX !== undefined) {
+        x = event.clientX;
+        y = event.clientY;
+      }
+
+      if (x > 0 && y > 0) {
+        const ripple = document.createElement('div');
+        ripple.className = 'click-ripple';
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        document.body.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      }
+    }
+
+    // 3. Cleanup listeners
+    ['click', 'touchstart', 'keydown', 'pointerdown', 'wheel', 'scroll', 'pointerover'].forEach((evt) => {
+      window.removeEventListener(evt, unlockSharedAudioEngine, { capture: true });
+    });
+  };
+
+  if (ctx.state === 'suspended') {
+    ctx.resume().then(handleUnlockSuccess).catch(() => {});
+  } else if (ctx.state === 'running') {
+    handleUnlockSuccess();
+  }
+
+  try {
+    const buffer = ctx.createBuffer(1, 1, 22050);
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(ctx.destination);
+    source.start(0);
+  } catch (e) {}
+};
+
+if (typeof window !== 'undefined') {
+  // Bind an aggressive suite of listeners. Even if 'wheel' is ignored
+  // by some browsers for audio unlock, 'click'/'pointerdown' guarantees
+  // the entire site logic uses a unified, single unlockable context.
+  ['click', 'touchstart', 'keydown', 'pointerdown', 'wheel', 'scroll', 'pointerover'].forEach((evt) => {
+    window.addEventListener(evt, unlockSharedAudioEngine, { capture: true, passive: true });
+  });
+
+  // Setup cursor following logic for the audio onboarding prompt
+  const promptEl = document.getElementById('audio-prompt');
+  const heroEl = document.querySelector('.hero');
+
+  if (promptEl && heroEl) {
+    let mouseX = -100;
+    let mouseY = -100;
+    let targetX = -100;
+    let targetY = -100;
+    let isTracking = false;
+
+    const updateCursor = () => {
+      // Lerp for smooth magnetic trailing
+      mouseX += (targetX - mouseX) * 0.2;
+      mouseY += (targetY - mouseY) * 0.2;
+      
+      // Update CSS variables mapped to the translate3d transform
+      promptEl.style.setProperty('--mouse-x', `${mouseX}px`);
+      promptEl.style.setProperty('--mouse-y', `${mouseY}px`);
+
+      // Keep ticking until the element visually catches up
+      if (Math.abs(targetX - mouseX) > 0.1 || Math.abs(targetY - mouseY) > 0.1) {
+        requestAnimationFrame(updateCursor);
+      } else {
+        isTracking = false;
+      }
+    };
+
+    window.addEventListener('pointermove', (e) => {
+      // If audio is already working, don't bother tracking
+      if (audioEngineUnlocked) return;
+      
+      // Only show when comfortably inside the bounds of the hero section
+      const heroRect = heroEl.getBoundingClientRect();
+      const inHero = e.clientY >= heroRect.top && 
+                     e.clientY <= heroRect.bottom && 
+                     e.clientX >= heroRect.left && 
+                     e.clientX <= heroRect.right;
+      
+      if (inHero) {
+        targetX = e.clientX;
+        targetY = e.clientY;
+        
+        if (!promptEl.classList.contains('is-visible')) {
+          promptEl.classList.add('is-visible');
+        }
+        
+        if (!isTracking) {
+          isTracking = true;
+          requestAnimationFrame(updateCursor);
+        }
+      } else {
+        promptEl.classList.remove('is-visible');
+      }
+    });
+  }
+}
+// ----------------------------------
+
 const getPageTheme = (pathname = window.location.pathname) => (
   pathname.endsWith('/about.html') || pathname === '/about.html' ? 'dark' : 'light'
 );
@@ -166,46 +303,20 @@ function initDockHoverSounds() {
     return;
   }
 
-  // Lazily create a shared AudioContext (created on first hover to
-  // comply with browser autoplay policies — user gesture required).
-  let audioCtx = null;
-
-  const ensureAudioCtx = () => {
-    if (audioCtx) {
-      // Resume if the browser suspended it.
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      return audioCtx;
-    }
-
-    try {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    } catch {
-      return null;
-    }
-
-    return audioCtx;
-  };
-
-  // Base frequency and per-item step so each icon has its own pitch.
-  // Range: 1 000 Hz → ~1 420 Hz across 7 items — subtle but perceptible.
   const BASE_FREQ = 1000;
   const FREQ_STEP = 60;
 
-  /**
-   * Synthesise and play a single pop at a given frequency:
-   *  – Very short sine-wave burst (~55 ms)
-   *  – Quick frequency dip gives a satisfying "tick" feel
-   *  – Fast exponential gain decay → clean, non-ringy tail
-   *  – Low master volume (0.09) so it's an unobtrusive UI cue
-   */
   const playPop = (freq) => {
-    const ctx = ensureAudioCtx();
+    const ctx = getSharedAudioCtx();
+    if (!ctx) return;
 
-    if (!ctx) {
-      return;
+    // Eagerly try to resume just in case the browser allows MEI skips
+    if (ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
     }
+
+    // If still suspended after our best efforts, we can't play sound yet
+    if (ctx.state !== 'running') return;
 
     const now = ctx.currentTime;
     const osc = ctx.createOscillator();
@@ -227,7 +338,6 @@ function initDockHoverSounds() {
 
   items.forEach((item, index) => {
     const freq = BASE_FREQ + index * FREQ_STEP;
-
     item.addEventListener('pointerenter', () => {
       playPop(freq);
     });
@@ -944,33 +1054,14 @@ function initHomeHangingNav() {
   let hasBroken = false;
   let hasRepaired = false;
   let lastRepairFeedbackStep = 0;
-  let navAudioContext = null;
   let navNoiseBuffer = null;
   const initTimestamp = performance.now();
   const canVibrate = typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function';
 
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
-  const getNavAudioContext = () => {
-    if (typeof window === 'undefined') {
-      return null;
-    }
-
-    const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
-
-    if (!AudioContextCtor) {
-      return null;
-    }
-
-    if (!navAudioContext) {
-      navAudioContext = new AudioContextCtor();
-    }
-
-    return navAudioContext;
-  };
-
   const primeNavAudio = () => {
-    const context = getNavAudioContext();
+    const context = getSharedAudioCtx();
 
     if (!context || context.state === 'running') {
       return;
@@ -1012,49 +1103,69 @@ function initHomeHangingNav() {
   };
 
   const playNavSnapSound = () => {
-    const context = getNavAudioContext();
+    const context = getSharedAudioCtx();
 
     if (!context || context.state !== 'running') {
       return;
     }
 
-    const now = context.currentTime + 0.004;
-    const output = context.createGain();
-    output.gain.setValueAtTime(0.0001, now);
-    output.gain.exponentialRampToValueAtTime(0.065, now + 0.006);
-    output.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
-    output.connect(context.destination);
+    const now = context.currentTime + 0.005;
+    const masterGain = context.createGain();
+    masterGain.gain.value = 0.15; // Lowered from 0.5 for a more subtle, tactile sound
+    masterGain.connect(context.destination);
 
-    const tone = context.createOscillator();
-    tone.type = 'triangle';
-    tone.frequency.setValueAtTime(1580, now);
-    tone.frequency.exponentialRampToValueAtTime(260, now + 0.09);
-
-    const toneGain = context.createGain();
-    toneGain.gain.setValueAtTime(0.9, now);
-    toneGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-    tone.connect(toneGain);
-    toneGain.connect(output);
-
+    // 1. Snip/Friction noise (high frequency burst)
     const noise = context.createBufferSource();
     noise.buffer = getNavNoiseBuffer(context);
 
-    const filter = context.createBiquadFilter();
-    filter.type = 'highpass';
-    filter.frequency.setValueAtTime(1450, now);
+    const noiseFilter = context.createBiquadFilter();
+    noiseFilter.type = 'bandpass';
+    noiseFilter.frequency.setValueAtTime(4000, now);
+    noiseFilter.Q.setValueAtTime(1.0, now);
 
     const noiseGain = context.createGain();
-    noiseGain.gain.setValueAtTime(0.26, now);
-    noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+    noiseGain.gain.setValueAtTime(0.001, now);
+    noiseGain.gain.exponentialRampToValueAtTime(2.0, now + 0.015);
+    noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
 
-    noise.connect(filter);
-    filter.connect(noiseGain);
-    noiseGain.connect(output);
+    noise.connect(noiseFilter);
+    noiseFilter.connect(noiseGain);
+    noiseGain.connect(masterGain);
 
-    tone.start(now);
-    tone.stop(now + 0.11);
+    // 2. Sharp string "twang"/snap (high-pitched tension breaking)
+    const twang = context.createOscillator();
+    twang.type = 'sine';
+    twang.frequency.setValueAtTime(2500, now);
+    twang.frequency.exponentialRampToValueAtTime(600, now + 0.03);
+
+    const twangGain = context.createGain();
+    twangGain.gain.setValueAtTime(1.2, now);
+    twangGain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+
+    twang.connect(twangGain);
+    twangGain.connect(masterGain);
+
+    // 3. Low-end "thud" for the physical break impact
+    const thud = context.createOscillator();
+    thud.type = 'triangle';
+    thud.frequency.setValueAtTime(200, now);
+    thud.frequency.exponentialRampToValueAtTime(40, now + 0.05);
+
+    const thudGain = context.createGain();
+    thudGain.gain.setValueAtTime(0.8, now);
+    thudGain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+
+    thud.connect(thudGain);
+    thudGain.connect(masterGain);
+
     noise.start(now);
-    noise.stop(now + 0.07);
+    noise.stop(now + 0.1);
+
+    twang.start(now);
+    twang.stop(now + 0.05);
+
+    thud.start(now);
+    thud.stop(now + 0.07);
   };
 
   const emitRepairFeedback = (progress) => {
@@ -1341,6 +1452,112 @@ function initBackToTopLinks() {
   });
 }
 
+function initExperienceCardTransitions() {
+  if (isReducedMotion()) {
+    return;
+  }
+
+  const cards = Array.from(document.querySelectorAll('.experience-card'));
+
+  if (!cards.length) {
+    return;
+  }
+
+  cards.forEach((card) => {
+    const summary = card.querySelector('.experience-card__toggle');
+    const body = card.querySelector('.experience-card__body');
+
+    if (!summary || !body) {
+      return;
+    }
+
+    let isAnimating = false;
+
+    const finishOpen = () => {
+      card.classList.remove('is-expanding');
+      body.style.height = 'auto';
+      isAnimating = false;
+    };
+
+    const finishClose = () => {
+      card.classList.remove('is-collapsing');
+      card.open = false;
+      body.style.height = '0px';
+      isAnimating = false;
+    };
+
+    const animateOpen = () => {
+      isAnimating = true;
+      card.classList.remove('is-collapsing');
+      card.classList.add('is-expanding');
+      card.open = true;
+
+      body.style.height = '0px';
+      void body.offsetHeight;
+
+      const endHeight = body.scrollHeight;
+
+      const handleOpenEnd = (event) => {
+        if (event.target !== body || event.propertyName !== 'height') {
+          return;
+        }
+
+        body.removeEventListener('transitionend', handleOpenEnd);
+        finishOpen();
+      };
+
+      body.addEventListener('transitionend', handleOpenEnd);
+
+      window.requestAnimationFrame(() => {
+        body.style.height = `${endHeight}px`;
+      });
+    };
+
+    const animateClose = () => {
+      isAnimating = true;
+      card.classList.remove('is-expanding');
+      card.classList.add('is-collapsing');
+
+      const startHeight = body.scrollHeight;
+      body.style.height = `${startHeight}px`;
+      void body.offsetHeight;
+
+      const handleCloseEnd = (event) => {
+        if (event.target !== body || event.propertyName !== 'height') {
+          return;
+        }
+
+        body.removeEventListener('transitionend', handleCloseEnd);
+        finishClose();
+      };
+
+      body.addEventListener('transitionend', handleCloseEnd);
+
+      window.requestAnimationFrame(() => {
+        body.style.height = '0px';
+      });
+    };
+
+    card.classList.add('is-animated');
+    body.style.height = card.open ? 'auto' : '0px';
+
+    summary.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      if (isAnimating) {
+        return;
+      }
+
+      if (card.open) {
+        animateClose();
+        return;
+      }
+
+      animateOpen();
+    });
+  });
+}
+
 function initAboutMarquee() {
   const surface = document.querySelector('.about-marquee__surface');
   const list = surface?.querySelector('.about-marquee__list');
@@ -1462,6 +1679,7 @@ initHeroGalleryPeek();
 initProjectCardParallax();
 initGalleryGridParallax();
 initProjectDetailVisualParallax();
+initExperienceCardTransitions();
 initHomeHangingNav();
 initStatCounters();
 initAboutMarquee();

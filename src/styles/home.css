@@ -1129,6 +1129,90 @@ html.is-motion-enabled [data-reveal].is-revealed {
   max-width: 680px;
 }
 
+/* ---- AUDIO PROMPT & RIPPLE ---- */
+.audio-prompt {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+
+  /* Cursor tracking setup */
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform, opacity;
+  
+  /* Base transform using JS variables, with a small offset to not block the pure cursor */
+  transform: translate3d(var(--mouse-x, -100px), var(--mouse-y, -100px), 0) translate(20px, 20px) scale(0.9);
+  
+  opacity: 0;
+  filter: blur(4px);
+  transition: opacity 600ms ease, filter 600ms ease, transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.dark .audio-prompt {
+  background: rgba(30, 30, 30, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #eee;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Shown when moving the cursor inside the hero area */
+.audio-prompt.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(var(--mouse-x), var(--mouse-y), 0) translate(20px, 20px) scale(1);
+  /* Remove transition on transform so perfectly tracking JS updates don't lag due to CSS */
+  transition: opacity 400ms ease, filter 400ms ease;
+}
+
+/* Sucks inwards to combine with the expanding click ripple */
+.audio-prompt.is-merging {
+  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1), opacity 300ms ease, filter 300ms ease;
+  transform: translate3d(var(--mouse-x), var(--mouse-y), 0) scale(0.1) !important;
+  opacity: 0;
+  filter: blur(4px);
+}
+
+.audio-prompt__icon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.8;
+}
+
+.click-ripple {
+  position: fixed; /* Use fixed so coords exactly match clientX/Y */
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%) scale(0.2);
+  pointer-events: none;
+  z-index: 9999;
+  animation: click-ripple-anim 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+html.dark .click-ripple {
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+}
+
+@keyframes click-ripple-anim {
+  0% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+}
+
 /* ---- TOOL DOCK ---- */
 .tool-dock {
   display: inline-flex;

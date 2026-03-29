@@ -322,15 +322,26 @@ html:not(.is-motion-ready) .page--about .footer {
   border-radius: var(--surface-radius-lg);
   overflow: hidden;
   border: 1px solid var(--about-border);
-  background: linear-gradient(145deg, #202a35 0%, #2a3b4d 42%, #5b7790 100%);
+  background: #121822;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.24);
+  isolation: isolate;
   transition: transform var(--transition-slow), box-shadow var(--transition-shadow);
+}
+
+.about-page__portrait::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(8, 12, 18, 0.02) 26%, rgba(8, 12, 18, 0.18) 62%, rgba(8, 12, 18, 0.72) 100%);
+  pointer-events: none;
+  z-index: 2;
 }
 
 .about-page__portrait-glow {
   position: absolute;
   border-radius: 999px;
   opacity: 0.8;
+  z-index: 1;
   animation: about-portrait-float 10s ease-in-out infinite;
 }
 
@@ -354,17 +365,18 @@ html:not(.is-motion-ready) .page--about .footer {
 .about-page__portrait-grid {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent 88%);
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 72%;
 }
 
 .about-page__portrait-badge {
   position: absolute;
   top: 24px;
   left: 24px;
+  z-index: 3;
   display: inline-flex;
   align-items: center;
   padding: 8px 14px;
@@ -384,6 +396,7 @@ html:not(.is-motion-ready) .page--about .footer {
   left: 24px;
   right: 24px;
   bottom: 24px;
+  z-index: 3;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -705,6 +718,31 @@ html:not(.is-motion-ready) .page--about .footer {
   padding-top: 16px;
 }
 
+.experience-card.is-animated .experience-card__body {
+  display: block;
+  height: 0;
+  overflow: hidden;
+  grid-template-rows: none;
+  padding-top: 0;
+  opacity: 0;
+  will-change: height;
+  transition:
+    height 460ms var(--ease-smooth),
+    padding-top 360ms var(--ease-smooth),
+    opacity 260ms ease;
+}
+
+.experience-card.is-animated[open] .experience-card__body,
+.experience-card.is-animated.is-expanding .experience-card__body {
+  padding-top: 16px;
+  opacity: 1;
+}
+
+.experience-card.is-animated.is-collapsing .experience-card__body {
+  padding-top: 0;
+  opacity: 0;
+}
+
 .experience-card__description {
   color: var(--about-text-muted);
   font-size: var(--text-body-sm);
@@ -714,6 +752,25 @@ html:not(.is-motion-ready) .page--about .footer {
   max-width: none;
   margin: 0;
   overflow: hidden;
+}
+
+.experience-card.is-animated .experience-card__description {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    transform 460ms var(--ease-smooth),
+    opacity 260ms ease;
+}
+
+.experience-card.is-animated[open] .experience-card__description,
+.experience-card.is-animated.is-expanding .experience-card__description {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.experience-card.is-animated.is-collapsing .experience-card__description {
+  opacity: 0;
+  transform: translateY(6px);
 }
 
 .page--about .contact-header__badge-text,
