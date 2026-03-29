@@ -1564,6 +1564,49 @@ function initExperienceCardTransitions() {
   });
 }
 
+function initManchesterTime() {
+  const timeNodes = Array.from(document.querySelectorAll('.contact-header__time'));
+
+  if (!timeNodes.length || typeof Intl === 'undefined') {
+    return;
+  }
+
+  const timeFormatter = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/London',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  });
+
+  const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/London',
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric'
+  });
+
+  const formatTimeLabel = () => {
+    const now = new Date();
+    const time = timeFormatter.format(now).replace(/\b(am|pm)\b/i, (match) => match.toUpperCase());
+    const parts = dateFormatter.formatToParts(now);
+    const weekday = parts.find((part) => part.type === 'weekday')?.value ?? '';
+    const month = parts.find((part) => part.type === 'month')?.value ?? '';
+    const day = parts.find((part) => part.type === 'day')?.value ?? '';
+
+    return `${time} ${weekday}, ${month} ${day}`.trim();
+  };
+
+  const updateTime = () => {
+    const label = formatTimeLabel();
+    timeNodes.forEach((node) => {
+      node.textContent = label;
+    });
+  };
+
+  updateTime();
+  window.setInterval(updateTime, 60 * 1000);
+}
+
 function initAboutMarquee() {
   const surface = document.querySelector('.about-marquee__surface');
   const list = surface?.querySelector('.about-marquee__list');
@@ -1686,6 +1729,7 @@ initProjectCardParallax();
 initGalleryGridParallax();
 initProjectDetailVisualParallax();
 initExperienceCardTransitions();
+initManchesterTime();
 initHomeHangingNav();
 initStatCounters();
 initAboutMarquee();

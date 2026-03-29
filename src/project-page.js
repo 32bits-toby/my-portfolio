@@ -327,6 +327,114 @@ function applyAccordionDefaults(root, isMobile) {
   });
 }
 
+function initProjectAccordionTransitions(root) {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (prefersReducedMotion) {
+    return;
+  }
+
+  const accordions = Array.from(root.querySelectorAll('[data-project-accordion]'));
+
+  if (!accordions.length) {
+    return;
+  }
+
+  accordions.forEach((accordion) => {
+    const summary = accordion.querySelector('.project-detail__accordion-summary');
+    const content = accordion.querySelector('.project-detail__accordion-content');
+
+    if (!summary || !content) {
+      return;
+    }
+
+    let isAnimating = false;
+
+    const finishOpen = () => {
+      accordion.classList.remove('is-expanding');
+      content.style.height = 'auto';
+      isAnimating = false;
+    };
+
+    const finishClose = () => {
+      accordion.classList.remove('is-collapsing');
+      accordion.open = false;
+      content.style.height = '0px';
+      isAnimating = false;
+    };
+
+    const animateOpen = () => {
+      isAnimating = true;
+      accordion.classList.remove('is-collapsing');
+      accordion.classList.add('is-expanding');
+      accordion.open = true;
+
+      content.style.height = '0px';
+      void content.offsetHeight;
+
+      const endHeight = content.scrollHeight;
+
+      const handleOpenEnd = (event) => {
+        if (event.target !== content || event.propertyName !== 'height') {
+          return;
+        }
+
+        content.removeEventListener('transitionend', handleOpenEnd);
+        finishOpen();
+      };
+
+      content.addEventListener('transitionend', handleOpenEnd);
+
+      window.requestAnimationFrame(() => {
+        content.style.height = `${endHeight}px`;
+      });
+    };
+
+    const animateClose = () => {
+      isAnimating = true;
+      accordion.classList.remove('is-expanding');
+      accordion.classList.add('is-collapsing');
+
+      const startHeight = content.scrollHeight;
+      content.style.height = `${startHeight}px`;
+      void content.offsetHeight;
+
+      const handleCloseEnd = (event) => {
+        if (event.target !== content || event.propertyName !== 'height') {
+          return;
+        }
+
+        content.removeEventListener('transitionend', handleCloseEnd);
+        finishClose();
+      };
+
+      content.addEventListener('transitionend', handleCloseEnd);
+
+      window.requestAnimationFrame(() => {
+        content.style.height = '0px';
+      });
+    };
+
+    accordion.classList.add('is-animated');
+    content.style.height = accordion.open ? 'auto' : '0px';
+
+    summary.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      if (isAnimating) {
+        return;
+      }
+
+      if (accordion.open) {
+        animateClose();
+        return;
+      }
+
+      animateOpen();
+    });
+  });
+}
+
 export function initProjectPage() {
   const root = document.querySelector('[data-project-page]');
 
@@ -368,9 +476,21 @@ export function initProjectPage() {
   const mobileQuery = window.matchMedia(MOBILE_PROJECT_LAYOUT_QUERY);
   const syncAccordionState = (event) => {
     applyAccordionDefaults(root, event.matches);
+
+    root.querySelectorAll('[data-project-accordion]').forEach((accordion) => {
+      const content = accordion.querySelector('.project-detail__accordion-content');
+
+      if (!content) {
+        return;
+      }
+
+      accordion.classList.remove('is-expanding', 'is-collapsing');
+      content.style.height = accordion.open ? 'auto' : '0px';
+    });
   };
 
   syncAccordionState(mobileQuery);
+  initProjectAccordionTransitions(root);
 
   if (typeof mobileQuery.addEventListener === 'function') {
     mobileQuery.addEventListener('change', syncAccordionState);
