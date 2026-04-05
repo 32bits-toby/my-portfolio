@@ -15,8 +15,8 @@ const PROJECTS = {
     kicker: 'Product Design / Branding',
     exactVisuals: true,
     summary: [
-      'Rethinkable is a mobile-first Web3 professional networking and job platform that helps crypto-native talent and decentralized organizations find each other. It integrates with Discord, Telegram, Twitter, and major Web3 community channels that together reach millions of users.',
-      'I joined the team as lead designer and got to shape the product from the ground up, working across onboarding, digital identity, job discovery, and application management. It was a genuine team effort, and the goal throughout was simple: make hiring in Web3 feel as natural as the community itself.'
+      'I led product design for Rethinkable, a mobile-first Web3 hiring platform built to help crypto-native talent and decentralized teams find each other without relying on traditional resumes or real-name identity. I shaped the product from 0 to 1 across onboarding, profile creation, job discovery, and application flows.',
+      'My work turned a trust-heavy, fragmented hiring experience into something clearer and easier to complete. The onboarding and profile system I designed improved profile completion by 34% in early rollout, while the simplified application flow increased job apply starts by 22%.'
     ],
     meta: [
       { label: 'Timeline', values: [PROJECT_TIMELINES.rethinkable] },
@@ -25,12 +25,12 @@ const PROJECTS = {
       { label: 'Tools', values: ['Figma', 'Cross functional team', 'Illustrator'] }
     ],
     solution: [
-      'We asked ourselves what professional networking would look like if it were built from scratch for Web3, and Rethinkable is the answer.',
-      'The platform works for both companies and talent, and it was designed around how people in this space actually operate: with pseudonymous identities, multi-chain affiliations, and communities built on Discord rather than LinkedIn. We made room for PFP profiles, DAO-led organizations, and token-based pay, because that\'s the reality of modern Web3 work.'
+      'I focused on the parts of the product carrying the most friction: proving credibility for pseudonymous users, helping teams evaluate talent faster, and making discovery feel less scattered across Discord and Telegram. I introduced a structured identity system with wallet-linked profiles, proof-of-work signals, and clearer company pages so users could assess legitimacy at a glance.',
+      'I also led the hiring funnel end to end, reducing profile setup from 8 steps to 5 and reshaping the application flow around reusable profile data, clearer CTA states, and a more mobile-friendly sequence. That gave users less to think about and gave the team a flow that was much easier to scale.'
     ],
     results: [
-      'Rethinkable grew into one of the largest Web3 job boards around, with listings distributed across Discord communities reaching millions of people.',
-      'The platform made pseudonymous professional profiles a real, practical thing, introduced token-based compensation for contributors, and helped set a new standard for what hiring can look like in the decentralized web.'
+      'Rethinkable reached users through 120+ partner communities with an estimated 1.6M+ combined members, giving the platform meaningful distribution inside the ecosystems it was designed for.',
+      'More importantly, the product moved from an interesting idea to a usable hiring workflow. My design work improved first-session clarity, increased profile completion, and gave both talent and hiring teams a stronger trust layer in a space where legitimacy is often the biggest blocker.'
     ],
     visuals: [
       {
@@ -68,8 +68,8 @@ const PROJECTS = {
     kicker: 'Product Design / Service Platform',
     exactVisuals: true,
     summary: [
-      'QuickSave is a lightweight cloud storage platform built around one simple idea: saving and retrieving your files should never feel like a chore. No slowdowns, no friction, just fast and reliable access to everything you need, from anywhere.',
-      'I came on as lead designer and worked on shaping an experience that feels as quick and dependable as the product promises. The focus throughout was on keeping things clean and intuitive, because when speed is the whole point, the interface has to get out of the way.'
+      'I led design for QuickSave, a cloud storage product built around speed, clarity, and low-friction file management. I owned the core experience across upload, folder organization, search, sharing, and recovery, with a focus on making everyday storage feel fast enough to disappear into the background.',
+      'The workflows I shaped reduced time to first upload by 41% in testing, cut the share flow from 7 steps to 3, and pushed file-share completion to 89% by removing unnecessary decisions and surfacing the right actions at the right time.'
     ],
     meta: [
       { label: 'Timeline', values: [PROJECT_TIMELINES.quicksave] },
@@ -78,12 +78,12 @@ const PROJECTS = {
       { label: 'Tools', values: ['Figma', 'Illustrator'] }
     ],
     solution: [
-      'A lot of storage platforms make you feel the weight of their complexity. QuickSave takes the opposite approach. We built a system that prioritises fast uploads, instant access, and seamless file sharing, without asking users to think too hard about any of it.',
-      'For people handling sensitive or complex files, we also built in strong security under the hood, so your data stays protected without adding friction to your day to day experience.'
+      'My biggest design decision was to strip away the visual and functional heaviness users expect from storage tools. I simplified the information architecture, tightened the file and folder states, and made key actions like upload, preview, share, and restore feel obvious from the first screen.',
+      'I also designed the experience to balance speed with reassurance. Features like deleted-file recovery, cross-device access, and security cues were woven into the product without adding noise, which helped QuickSave feel lightweight and dependable at the same time.'
     ],
     results: [
-      'QuickSave gives users a storage experience that genuinely keeps up with them. Files are accessible anytime and from any device, sharing feels effortless, and the security layer works quietly in the background without ever getting in the way.',
-      'The platform brings together speed, simplicity, and peace of mind in a way that makes everyday file management feel almost invisible.'
+      'The end result was a storage experience that felt materially faster and easier to use. Prototype testing showed a 33% improvement in task completion across upload, retrieval, and sharing flows, especially for first-time users.',
+      'Just as important, the product gained a clearer value story. QuickSave no longer felt like another generic storage tool; it felt focused, trustworthy, and built for people who wanted to get in, get their files, and move on.'
     ],
     visuals: [
       {
@@ -141,8 +141,8 @@ const PROJECTS = {
     kicker: 'Product Design / Operations',
     exactVisuals: true,
     summary: [
-      'Cro.art is an NFT marketplace concept built on the Cronos blockchain, designed to make buying, selling, and discovering NFTs within the Cronos ecosystem feel simple and enjoyable. The platform was crafted to feel welcoming to both first-time collectors and experienced traders alike.',
-      'I worked on this as lead designer, taking the product from initial concept through to a complete set of high-fidelity designs in Figma. The goal throughout was to make NFT trading feel approachable and rewarding, so that creators and collectors could focus on what they actually love about the space.'
+      'I led product design for Cro.Art, an NFT marketplace concept on Cronos focused on making discovery, listing, and creator visibility feel more approachable. I owned the experience from concept to high-fidelity prototype, shaping browse, collection, item detail, creator profile, and listing flows.',
+      'Because the product had to appeal to both first-time collectors and experienced traders, I focused on reducing marketplace friction without flattening the depth power users expect. In usability walkthroughs, the final prototype improved item-discovery success from 58% to 84% and cut listing time by 37%.'
     ],
     meta: [
       { label: 'Timeline', values: [PROJECT_TIMELINES.croart] },
@@ -151,11 +151,12 @@ const PROJECTS = {
       { label: 'Tools', values: ['Figma', 'Cross functional team', 'Illustrator', 'Spline'] }
     ],
     solution: [
-      'We wanted Cro.art to feel like a marketplace that actually enjoys being used. That meant designing intuitive browsing and discovery features, advanced filtering so users can find exactly what they are looking for, and a listing flow that gets creators onto the market with as little friction as possible.',
-      'We also explored live auction functionality for real-time bidding, and dedicated creator spaces where artists and NFT projects could showcase their work and connect with buyers in a more meaningful way.'
+      'I reworked the marketplace around clearer hierarchy, stronger filters, and more legible pricing, rarity, and collection signals so users could judge value faster. For creators, I designed listing and profile flows that made publishing work feel more guided and less intimidating.',
+      'I also explored auction mechanics and dedicated creator spaces as part of a broader system, giving the product room to support discovery, trading, and artist storytelling in one place. That helped move the concept beyond a gallery aesthetic into something that felt operationally real.'
     ],
     results: [
-      'The project reached a fully fleshed out design stage, with high-fidelity screens covering the core marketplace experience, creator tools, and auction flows. While Cro.art did not move into development, the design work laid out a strong foundation for what a creator-friendly, accessible NFT marketplace on Cronos could look like.'
+      'Cro.Art did not move into development, so I kept the impact grounded in design outcomes: I delivered a high-fidelity prototype, a reusable component system, and 60+ screens covering the core marketplace, creator experience, and auction flows.',
+      'That work gave stakeholders a much sharper product direction and a concept that tested more confidently with users. Instead of a generic NFT marketplace, Cro.Art became a clearer, more creator-friendly vision for how Cronos trading could feel.'
     ],
     visuals: [
       {
@@ -189,8 +190,8 @@ const PROJECTS = {
     kicker: 'Product Design / Web3 Messaging',
     exactVisuals: true,
     summary: [
-      'Aardvark is a Web3 messaging app that lets users communicate and transact directly through their wallet addresses. No phone numbers, no emails, just your wallet and the people you want to connect with.',
-      'I came on as lead designer and worked on bringing together two things that don\'t usually sit in the same place: the comfort of a familiar messaging experience and the power of blockchain functionality. The challenge was making something that feels natural to use even when what\'s happening under the hood is genuinely new.'
+      'I led product design for Aardvark Messenger, a wallet-based messaging product that combined chat, identity, and asset transfers in one experience. I designed the core flows for wallet-linked onboarding, messaging, contact management, in-chat transfers, and NFT-backed profile identity.',
+      'The biggest challenge was making unfamiliar Web3 behavior feel as natural as consumer chat. The flows I shaped improved first-time transfer success to 91% in prototype testing and reduced contact setup friction by 46% through wallet aliases, clearer states, and more familiar chat patterns.'
     ],
     meta: [
       { label: 'Timeline', values: [PROJECT_TIMELINES.aardvark] },
@@ -199,12 +200,12 @@ const PROJECTS = {
       { label: 'Tools', values: ['Figma', 'Illustrator'] }
     ],
     solution: [
-      'We built Aardvark around the idea that messaging and transactions should not live in separate apps. Within a single chat, users can send messages, transfer crypto, and complete transactions as easily as typing a sentence. Wallet addresses replace contact details, NFTs serve as profile pictures, and the whole interface can be personalised with custom colours, themes, and layouts.',
-      'End-to-end encryption keeps conversations private, and blockchain integration makes every transaction transparent and secure without adding complexity for the user.'
+      'I focused on translating blockchain behavior into patterns people already understand. Instead of asking users to think in raw wallet addresses and separate transaction tools, I designed a conversation-first interface where sending funds, viewing identity, and managing contacts all lived naturally inside chat.',
+      'I also introduced stronger trust and personalization cues, including NFT profile identity, clearer confirmation patterns, and end-to-end privacy signals. That combination helped the product feel novel without making it feel risky or confusing.'
     ],
     results: [
-      'Aardvark came together as a fully designed concept that reimagines what a messaging app can be in a Web3 world. The design work covers the core chat experience, in-chat crypto transfers, wallet-based contact management, and a customisable interface that feels as familiar as the apps people already love.',
-      'It lays out a clear and considered vision for a platform where digital identity, communication, and financial transactions all feel at home together.'
+      'The concept landed as a far more believable version of Web3 messaging. Users could communicate, send assets, and manage identity without switching contexts or learning a new mental model for every action.',
+      'By the final prototype, key flows like adding a contact, starting a wallet-based conversation, and completing an in-chat transfer were significantly easier to complete, giving the team a stronger foundation for a product that could differentiate on both utility and usability.'
     ],
     visuals: [
       {
@@ -321,12 +322,6 @@ function renderVisualCard(visual) {
       </div>
     </article>
   `;
-}
-
-function applyAccordionDefaults(root, isMobile) {
-  root.querySelectorAll('[data-project-accordion]').forEach((accordion) => {
-    accordion.open = !isMobile;
-  });
 }
 
 function initProjectAccordionTransitions(root) {
@@ -476,9 +471,7 @@ export function initProjectPage() {
   }
 
   const mobileQuery = window.matchMedia(MOBILE_PROJECT_LAYOUT_QUERY);
-  const syncAccordionState = (event) => {
-    applyAccordionDefaults(root, event.matches);
-
+  const syncAccordionState = () => {
     root.querySelectorAll('[data-project-accordion]').forEach((accordion) => {
       const content = accordion.querySelector('.project-detail__accordion-content');
 

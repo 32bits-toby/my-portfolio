@@ -69,7 +69,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px 28px;
-  padding: 28px 0 24px;
+  padding: 28px 0 12px;
 }
 
 .project-detail__meta-item {
@@ -111,6 +111,7 @@
 
 .project-detail__accordion-list {
   display: grid;
+  margin-top: -16px;
 }
 
 .project-detail__accordion {
@@ -485,6 +486,10 @@
   .project-detail__meta-grid {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+
+  .project-detail__accordion-list {
+    margin-top: -10px;
   }
 
   .project-detail__visual-card {
